@@ -83,21 +83,11 @@
                           
                     
                             <ul class="list-unstyled components accordion" id="accordionExample">
-                                    <li><a  href="{{ url('/users') }}"><i class="fas fa-users"></i> Users</a></li>
-                                    <li><a  href="{{ url('/role') }}" ><i class="fab fa-critical-role"></i>Roles</a></li> 
-                                    <li><a  href="{{ url('/organisation') }}" ><i class="fas fa-sitemap"></i>Organisations</a></li> 
-                                    <li><a  class="active"  href='#' data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Master Tables</a>
-                                        <ul class="list-unstyled components collapse show" data-parent="#accordionExample"  id="collapseOne" >
-                                                <li><a  href="{{ url('/district') }}" ><i class="fas fa-sitemap"> </i>   Districts</a></li>
-                                                 <li><a  href="{{ url('/taluka') }}" ><i class="fas fa-sitemap"> </i>    Talukas</a></li>
-                                                <li><a  href="{{ url('/cluster') }}" ><i class="fas fa-sitemap"> </i>    Clusters</a></li>
-                                                <li><a  href="{{ url('/village') }}" ><i class="fas fa-sitemap"> </i>    Villages</a></li>
-                                         </ul>
-                                   </li>
-                                    <li><a  href="{{ url('/state') }}" ><i class="fas fa-map-marker-alt"> </i>   State</a> </li>
-                                    <li><a  href="{{ url('/jurisdiction') }}" ><i class="fas fa-sitemap"> </i>   Jurisdictions</a></li>
-                                    <li><a href="{{ route('settings') }}">Settings</a></li> 
-
+                                @forelse($modules as $module)
+                            <li><a href="/{{$orgId}}/{{$module->id}}">{{$module->name}}</a></li>
+                                @empty
+                                    <li>   No Modules</li>
+                                @endforelse
                             </ul>
                         </nav>
                     
@@ -109,6 +99,6 @@
     </div>
      <!-- Scripts -->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{ asset('js/index.js') }}"></script> 
+    <script src="{{ asset('js/index.js') }}"></script>
 </body>
 </html>

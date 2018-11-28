@@ -8,7 +8,7 @@ use App\Role;
 use App\Organisation;
 use App\RoleJurisdiction;
 use App\State;
-use App\userDet;
+use App\UserDetails;
 use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
@@ -118,7 +118,7 @@ class UserController extends Controller
         DB::insert('insert into role_user (user_id,role_id) values(?,?)',[$user[0]->id,$data['role_id']]);
        
 
-        userDet::create([
+        UserDetails::create([
             'user_id' => $user[0]->id,
             'state_id' => implode(',', $states),
             'district_id' =>implode(',', $districts),
@@ -205,7 +205,7 @@ class UserController extends Controller
 
        $states= $request->state_id;
 
-       userDet::create([
+       UserDetails::create([
         'user_id' => $id,
         'state_id' => implode(',', $states),
         'district_id' =>implode(',', $districts),

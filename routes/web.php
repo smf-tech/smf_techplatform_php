@@ -44,6 +44,7 @@ Route::group(
    Route::resource('cluster','ClusterController');
    Route::resource('village','VillageController');
    Route::resource('orgManager','orgManager');
+   Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
    });
 
 

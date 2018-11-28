@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Organisation;
 class HomeController extends Controller
 {
     /**
@@ -22,7 +24,29 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('home');
+    {   
+       
+        $id = Auth::id();
+        $user =Auth::user();
+       if($user->hasRole('ADMIN'))   
+           return view('home');
+        else 
+        {
+            $orgId=$user->org_id;
+            $organisation=Organisation::find($orgId);
+            $dbName=$organisation->name.'_'.$organisation->id;
+            //$dbName = 'smf_6';
+            \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+                'driver'    => 'mysql',
+                'host'      => '127.0.0.1',
+                'database'  => $dbName,
+                'username'  => 'root',
+                'password'  => '',  
+            )); 
+            $modules =    DB::connection($dbName)->select('select * from modules ');      
+            return view('layouts.userBased',compact(['orgId','modules']));
+
+        }
+      
     }
 }
