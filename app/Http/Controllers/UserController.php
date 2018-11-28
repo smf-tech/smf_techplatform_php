@@ -16,7 +16,7 @@ class UserController extends Controller
      * addition of middleware for restricting access
      */
     function __construct(){
-        $this->middleware('role:ADMIN')->only(['create','edit','store','destroy']);
+        $this->middleware('role:ROOTORGADMIN')->only(['create','edit','store','destroy']);
     }
 
 

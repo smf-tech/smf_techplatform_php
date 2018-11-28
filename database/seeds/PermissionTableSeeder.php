@@ -3,6 +3,9 @@
 use Illuminate\Database\Seeder;
 use App\Permission;
 use App\Jurisdiction;
+use App\Organisation;
+use App\Role;
+use App\User;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -13,7 +16,7 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
-        /*$permissions=[
+        $permissions=[
         [
         'name'=>'role-read',
         'display_name'=>'Display Role Listing',
@@ -43,7 +46,7 @@ class PermissionTableSeeder extends Seeder
 
         foreach($permissions as $key=>$value){
             Permission::create($value);
-        }*/
+        }
 
         $level=[
                  [
@@ -64,6 +67,19 @@ class PermissionTableSeeder extends Seeder
         foreach($level as $key=>$value){
             Jurisdiction::create($value);
         }
+        $orgdata = ['name'=>'rootorg','service'=>'test'];
+        Organisation::create($orgdata);
+        $org=Organisation::where('name', 'rootorg')->get()->first();
+        $roledata = ['name'=>'ROOTORGADMIN','display_name'=>'RootOrgAdmin','description'=>'','org_id'=> $org->id];
+        Role::create($roledata);
+        $role= Role::where('name', 'ROOTORGADMIN')->get()->first();
+        $user_data = ['name'=>'rootorgadmin','email'=>'rootadmin@gmail.com','password'=>bcrypt('123456'),'org_id'=> $org->id,'role_id'=>$role->id,'gender'=>'male','phone'=>'9876543210'];
+        User::create($user_data);
+        $user= User::where('email', 'rootadmin@gmail.com')->get()->first();
 
+        DB::table('role_user')->insert([
+            'user_id' => $role->id,
+            'role_id' => $user->id
+        ]);
     }
 }
