@@ -47,12 +47,13 @@ Route::group(
    Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
    });
 
-
-Route::get('/getRoles','RoleController@getOrgRoles');
-Route::get('/getJurisdiction','StateController@getJurisdiction');
-Route::get('/getLevel','UserController@getLevel');
-Route::get('/getJidandLevel','TalukaController@getJidandLevel');
-Route::get('/populateData','TalukaController@populateData');
+Route::group(['middleware' => [CheckAuth::class]], function () { 
+    Route::get('/getRoles','RoleController@getOrgRoles');
+    Route::get('/getJurisdiction','StateController@getJurisdiction');
+    Route::get('/getLevel','UserController@getLevel');
+    Route::get('/getJidandLevel','TalukaController@getJidandLevel');
+    Route::get('/populateData','TalukaController@populateData');
+});
 
 Route::get('/settings', 'SettingsController@index')->name('settings');
 
