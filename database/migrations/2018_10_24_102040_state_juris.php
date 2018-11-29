@@ -15,7 +15,7 @@ class StateJuris extends Migration
     {
         Schema::create('states', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('stateName')->unique();
+            $table->string('Name')->unique();
             $table->timestamps();
         });
         Schema::create('jurisdictions', function (Blueprint $table) {
@@ -26,6 +26,7 @@ class StateJuris extends Migration
         Schema::create('state_jurisdictions', function (Blueprint $table) {
             $table->integer('state_id')->unsigned();
             $table->integer('jurisdiction_id')->unsigned();
+            $table->integer('level')->unsigned();
             $table->timestamps();
             
             $table->foreign('state_id')->references('id')->on('states')

@@ -13,13 +13,14 @@ class CreateUserDetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_dets', function (Blueprint $table) {
+        Schema::create('user_details', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
             $table->string('state_id')->nullable();
             $table->string('district_id')->nullable();
             $table->string('taluka_id')->nullable();
             $table->string('cluster_id')->nullable();
             $table->string('village_id')->nullable();
+            $table->timestamps();
     
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });

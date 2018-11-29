@@ -42,15 +42,22 @@ class OrganisationController extends Controller
      
         $org=Organisation::create($request->except(['_token']));
         $dbName=$org->name.'_'.$org->id;
+        /*\Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => 'root',
+            'password'  => '',  
+        ));*/
+        #DB::setDefaultConnection($dbName); 
+        DB::statement("create database ".$dbName);
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mysql',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
             'username'  => 'root',
             'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName); 
-        DB::statement("create database ".$dbName);
+        ));       
 
         Schema::connection($dbName)->create('modules', function($table)
         {
@@ -59,21 +66,19 @@ class OrganisationController extends Controller
        });
        Schema::connection($dbName)->create('surveys', function($table)
        {
-        $table->increments('id');
-        $table->string('name');
-        $table->string('slug');
-        $table->json('json');
-        $table->timestamps();
-        $table->softDeletes();
+            $table->increments('id');
+            $table->string('name');
+            $table->text('json');
+            $table->integer('creator_id')->unsigned();
+            $table->timestamps();
       });
       Schema::connection($dbName)->create('survey_results', function($table)
       {
-        $table->increments('id');
-        $table->unsignedInteger('survey_id');
-        $table->unsignedInteger('user_id')->nullable();
-        $table->string('ip_address')->nullable();
-        $table->json('json');
-        $table->timestamps();
+            $table->increments('id');
+            $table->unsignedInteger('survey_id');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->text('json');
+            $table->timestamps();
      });
         return redirect()->route('organisation.index')->withMessage('Oganisation Created');
 

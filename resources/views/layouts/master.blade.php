@@ -7,10 +7,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Create Form') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -20,6 +20,24 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous"> 
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    <script src="https://surveyjs.azureedge.net/1.0.56/survey.ko.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+    
+    <link href="https://surveyjs.azureedge.net/1.0.56/surveyeditor.css" type="text/css" rel="stylesheet"/>
+    <script src="https://surveyjs.azureedge.net/1.0.56/surveyeditor.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+
+
 </head>
 <body>
     <div id="app">
@@ -86,8 +104,8 @@
                                     <li><a  href="{{ url('/users') }}"><i class="fas fa-users"></i> Users</a></li>
                                     <li><a  href="{{ url('/role') }}" ><i class="fab fa-critical-role"></i>Roles</a></li> 
                                     <li><a  href="{{ url('/organisation') }}" ><i class="fas fa-sitemap"></i>Organisations</a></li> 
-                                    <li><a  class="active"  href='#' data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Master Tables</a>
-                                        <ul class="list-unstyled components collapse show" data-parent="#accordionExample"  id="collapseOne" >
+                                    <li><a   href='#' data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Master Tables</a>
+                                        <ul class="list-unstyled components collapse " data-parent="#accordionExample"  id="collapseOne" >
                                                 <li><a  href="{{ url('/district') }}" ><i class="fas fa-sitemap"> </i>   Districts</a></li>
                                                  <li><a  href="{{ url('/taluka') }}" ><i class="fas fa-sitemap"> </i>    Talukas</a></li>
                                                 <li><a  href="{{ url('/cluster') }}" ><i class="fas fa-sitemap"> </i>    Clusters</a></li>
@@ -97,19 +115,17 @@
                                     <li><a  href="{{ url('/state') }}" ><i class="fas fa-map-marker-alt"> </i>   State</a> </li>
                                     <li><a  href="{{ url('/jurisdiction') }}" ><i class="fas fa-sitemap"> </i>   Jurisdictions</a></li>
                                     <li><a  href="{{ url('/survey') }}" > Surveys</a></li>
-                                    <li><a href="{{ route('settings') }}">Settings</a></li> 
-
                             </ul>
                         </nav>
                     
                     </div>
-                    <div class="container card" id="content">
-                        @yield('content')
+                    <div id="surveyContainer">
+                        <div id="editorElement"></div>
                     </div>
         </div>
     </div>
      <!-- Scripts -->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{ asset('js/index.js') }}"></script> 
+    <script src="{{ asset('js/create_survey.js') }}" class="{{ Auth::user()->id }}" id="id"></script>
 </body>
 </html>

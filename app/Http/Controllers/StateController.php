@@ -98,18 +98,20 @@ class StateController extends Controller
     {
         $state=State::find($id);
         $state->id=$request->id;
-        $state->stateName=$request->stateName;
+        $state->Name=$request->stateName;
         $state->save();
 
         if ($request->jurisdiction!=null)
         {
             $sj = StateJurisdiction::where('state_id',$state->id)->delete();
-
+            $level = 1;
             foreach($request->jurisdiction as $key=>$value){
 
                 $s = new StateJurisdiction;
                 $s->state_id = $state->id;
                 $s->jurisdiction_id = (integer)$value;
+                $s->level=$level;
+                $level++;
                 $s->save();
             }
         }

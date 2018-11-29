@@ -34,17 +34,29 @@ Route::group(
         return view('admin.index');
     }
    ]);
-   Route::resource('role','RoleController');
-   Route::resource('organisation','OrganisationController');
-   Route::resource('users','UserController');
-   Route::resource('state','StateController');
-   Route::resource('jurisdiction','JurisdictionController');
-   Route::resource('district','DistrictController');
-   Route::resource('taluka','TalukaController');
-   Route::resource('cluster','ClusterController');
-   Route::resource('village','VillageController');
-   Route::resource('orgManager','orgManager');
-   Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
+    Route::resource('role','RoleController');
+    Route::resource('organisation','OrganisationController');
+    Route::resource('users','UserController');
+    Route::resource('state','StateController');
+    Route::resource('jurisdiction','JurisdictionController');
+    Route::resource('district','DistrictController');
+    Route::resource('taluka','TalukaController');
+    Route::resource('cluster','ClusterController');
+    Route::resource('village','VillageController');
+    Route::resource('orgManager','orgManager');
+    Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
+
+    Route::resource('survey','SurveyController');
+
+    Route::get('/createForm', function () {
+        return view('index');
+    });
+    Route::post('/getJSON','SurveyController@getJSON');
+
+    Route::post('/getSurvey','SurveyController@display');
+
+    Route::get('/getReply','SurveyController@getReply');
+
    });
 
 Route::group(['middleware' => [CheckAuth::class]], function () { 

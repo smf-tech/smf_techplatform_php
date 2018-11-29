@@ -16,7 +16,7 @@ class AllJurisdictionTables extends Migration
         Schema::create('districts', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('districtName')->unique();
+            $table->string('Name')->unique();
             $table->integer('state_id')->unsigned();
             $table->timestamps();
             
@@ -29,7 +29,7 @@ class AllJurisdictionTables extends Migration
         Schema::create('talukas', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('talukaName')->unique();
+            $table->string('Name')->unique();
             $table->integer('state_id')->unsigned();
             $table->integer('district_id')->unsigned();
             $table->timestamps();
@@ -46,7 +46,7 @@ class AllJurisdictionTables extends Migration
         Schema::create('clusters', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('clusterName')->unique();
+            $table->string('Name')->unique();
             $table->integer('state_id')->unsigned();
             $table->integer('district_id')->unsigned();            
             $table->integer('taluka_id')->unsigned();
@@ -66,11 +66,11 @@ class AllJurisdictionTables extends Migration
         Schema::create('villages', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('villageName')->unique();
+            $table->string('Name')->unique();
             $table->integer('state_id')->unsigned();
             $table->integer('district_id')->unsigned();        
             $table->integer('taluka_id')->unsigned();
-            $table->integer('cluster_id')->unsigned();
+            $table->integer('cluster_id')->unsigned()->nullable();
             $table->timestamps();
             
             $table->foreign('state_id')->references('id')->on('states')
