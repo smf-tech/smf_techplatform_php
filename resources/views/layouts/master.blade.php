@@ -35,7 +35,6 @@
     
     <link href="https://surveyjs.azureedge.net/1.0.56/surveyeditor.css" type="text/css" rel="stylesheet"/>
     <script src="https://surveyjs.azureedge.net/1.0.56/surveyeditor.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">
 
 
 </head>

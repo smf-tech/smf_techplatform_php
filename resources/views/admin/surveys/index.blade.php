@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
 
 @section('content')
 <div class="container">
@@ -16,6 +16,8 @@
 
                     <div class="row">
                             <h3 class="col-md-9">Surveys</h3>
+                            <a class ="btn btn-success" href="/{{$orgId}}/surveys/create">Surveys<i class="fas fa-plus"></i></a>
+
                                     {{-- <a class ="btn btn-success"href="{{route('role.create')}}">survey   <i class="fas fa-plus"></i></a> --}}
                     </div>
                        
@@ -28,32 +30,24 @@
                                 <tr>
                                     <td>
                                         {{$survey->name}}
-                                        <div>
-                                        {{-- <div id="survey_id" class = "{{ $survey->json }}"> --}}
-                                            {{-- <a class ="btn btn-success"href="{{ route('take_survey') }}">Take Survey</a> --}}
-
-                                            {{-- <form action="/getSurvey" method="post">
-                                                    <input type="submit" name="upvote" value="Take Survey" />
-                                            </form> --}}
-                                        {{-- <a class ="btn btn-success"href="{{url('/getSurvey',[$survey->json])}}">Take Survey</a> --}}
-                                        <form method="post">
+                                    </td>
+                                    <td>
+                                           <form method="post">
                                             @csrf           
                                             <input type="hidden" name="surveyID" value="{{$survey->id}}" id="survey_id">                                 
                                             <input type="hidden" name="json" value="{{$survey->json}}" id="json_value">
-                                            <input type="submit" id="submit" formaction="/getSurvey" value="Take Survey" />
-                                        </form>
-                                        {{-- <a class ="btn btn-success"href="{{url('/getSurvey')}}">Take Survey</a> --}}
-                                        </div>
+                                            <input  class="btn btn-primary" type="submit" id="submit" formaction="/{{$orgId}}/{{$survey->id}}/getSurvey" value="Take Survey" />
+                                           </form>
                                     </td>
                                     <td>
-                                            {{-- <div class="actions">
-                                                    <a class="btn btn-primary" href={{route('role.edit',$survey->id)}}><i class="fas fa-pen"></i></a>
-                                                {!!Form::open(['action'=>['RoleController@destroy',$survey->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
-                                            
-                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                                {!!Form::close()!!}
-                                            </div> --}}
+                                            <form method="post">
+                                              @csrf           
+                                             <input type="hidden" name="surveyID" value="{{$survey->id}}" id="survey_id">                                 
+                                             <input  class="btn btn-success" type="submit" id="submit" formaction="/{{$orgId}}/{{$survey->id}}/results" value="View Survey Results" />
+                                             </form>
+
                                     </td>
+                                          
                                 </tr>
                                 @empty
                                 <tr><td>no Surveys</td></tr>

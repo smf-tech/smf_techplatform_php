@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Survey;
+use App\Organisation;
 use Illuminate\Support\Facades\DB;
-
+use App\SurveyResult;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
@@ -11,25 +12,36 @@ class SurveyController extends Controller
 
     public function getJSON(Request $request)
     {
-        // return $request;
         $r = json_decode($request->json,true);
-        $k = null;
+        //Set default Form title
+        $k = 'Untitled';
 
         foreach($r as $key=>$value)
         {
             if($key == 'title')
                 $k = $value;
         }    
-        $survey = new Survey;
-        $survey->name = $k;
-        $survey->json = $request->json;
-        $survey->creator_id = $request->creator_id;
-        $survey->save();
-        // DB::insert('insert into surveys (name,json,creator_id) values(?,?,?)',[$k,$request->json,$request->creator_id]);
+      
+        //form the connection string to the DB
+        $organisation=Organisation::find($request->orgId);
+        $dbName=$organisation->name.'_'.$organisation->id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => 'root',
+            'password'  => '',  
+        ));       
+        DB::setDefaultConnection($dbName); 
+       
+         DB::table('surveys')->insert(
+            ['name'=>$k ,'json'=>$request->json,'creator_id'=> $request->creator_id]
+        );
 
-        return view('admin.surveys.index',compact('surveys'));
+        return json_encode('success');
+     
     }
-    public function getReply(Request $request)
+    public function sendResponse(Request $request)
     {
         // $survey = new SurveyResult;
         // $survey->survey_id = $request->surveyId;
@@ -43,16 +55,44 @@ class SurveyController extends Controller
         // {
 
         // }
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+        $organisation=Organisation::find($uri[1]);
+        $orgId=$organisation->id;
+        $dbName=$organisation->name.'_'.$organisation->id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => 'root',
+            'password'  => '',  
+        ));       
+        DB::setDefaultConnection($dbName); 
+       
+
         DB::insert('insert into survey_results (survey_id,user_id,json) values(?,?,?)',[$request->surveyId,$request->userId,$request->jsonString]);
 
         return null;
     }
     public function display(Request $request)
-    {
+    {     $uri = explode("/",$_SERVER['REQUEST_URI']);
+
+        $organisation=Organisation::find($uri[1]);
+        $orgId=$organisation->id;
+        $dbName=$organisation->name.'_'.$organisation->id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => 'root',
+            'password'  => '',  
+        ));       
+        DB::setDefaultConnection($dbName); 
+        $modules= DB::connection($dbName)-> select('select * from modules');
+
         $json = $request->json;
         $survey_id = $request->surveyID;
         // return $json;
-        return view('layouts.survey',compact('json','survey_id'));
+        return view('layouts.survey',compact('json','survey_id','orgId','modules'));
     }
     /**
      * Display a listing of the resource.
@@ -60,11 +100,65 @@ class SurveyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   //getOranisation
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+
+        $organisation=Organisation::find($uri[1]);
+        $orgId=$organisation->id;
+        $dbName=$organisation->name.'_'.$organisation->id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => 'root',
+            'password'  => '',  
+        ));       
+        DB::setDefaultConnection($dbName); 
+        $modules= DB::connection($dbName)-> select('select * from modules');
+
+
         $surveys=Survey::paginate(5);
         // return $survey;
-        return view('admin.surveys.index',compact('surveys'));
+        return view('admin.surveys.index',compact('surveys','orgId','modules'));
         // print_r(DB::select('select * from surveys'));
+    }
+    public function viewResults(Request $request){
+        $survey_id=$request->surveyID;
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+
+        $organisation=Organisation::find($uri[1]);
+        $orgId=$organisation->id;
+        $dbName=$organisation->name.'_'.$organisation->id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => 'root',
+            'password'  => '',  
+        ));       
+        DB::setDefaultConnection($dbName);
+        $modules= DB::connection($dbName)-> select('select * from modules');
+
+        $survey_results=SurveyResult::where('survey_id',$survey_id)->get();
+        return view('user.formResults',compact('survey_results','orgId','modules'));
+    }
+    public function showCreateForm(){
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+
+        $organisation=Organisation::find($uri[1]);
+        $orgId=$organisation->id;
+        $dbName=$organisation->name.'_'.$organisation->id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => 'root',
+            'password'  => '',  
+        ));       
+        DB::setDefaultConnection($dbName); 
+        $modules= DB::connection($dbName)-> select('select * from modules');
+
+        return view('index',compact(['orgId','modules']));
     }
 
     /**

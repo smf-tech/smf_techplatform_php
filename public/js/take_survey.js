@@ -30,11 +30,13 @@ $.ajaxSetup({
   function sendDataToServer(survey) {
     //send Ajax request to your web server.
     var survey_result = JSON.stringify(survey.data);
-
+    console.log('sending data to the server');
+    var orgId=window.location.pathname.split('/')[1];
+    var surveyId=window.location.pathname.split('/')[2];
     jQuery.ajax({
       type: "GET",
      
-      url: "/getReply",
+      url: "/"+orgId+"/"+surveyId+"/sendResponse",
       data: { jsonString:JSON.stringify(survey.data), userId:u_id, surveyId:s_id }
       });
   

@@ -53,7 +53,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {  
-        $role=Role::create($request->except(['permission','_token','level_id']));
+        $role=Role::create([
+            'name'=>$request->name.'_'.$request->org_id,
+            'display_name'=>$request->display_name,
+            'description'=>$request->description,
+            'org_id'=>$request->org_id,
+        ]);
 
             $s = new RoleJurisdiction;
             $s->role_id = $role->id;

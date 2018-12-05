@@ -46,16 +46,16 @@ Route::group(
     Route::resource('orgManager','orgManager');
     Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
 
-    Route::resource('survey','SurveyController');
 
-    Route::get('/createForm', function () {
-        return view('index');
-    });
+    Route::get('{orgId}/surveys/create', 'SurveyController@showCreateForm');
+
     Route::post('/getJSON','SurveyController@getJSON');
+    Route::get('{orgId}/surveys','SurveyController@index');
 
-    Route::post('/getSurvey','SurveyController@display');
+    Route::post('{orgId}/{id}/getSurvey','SurveyController@display');
+    Route::post('{orgId}/{id}/results','SurveyController@viewResults');
 
-    Route::get('/getReply','SurveyController@getReply');
+    Route::get('/{orgId}/{surveyId}/sendResponse','SurveyController@sendResponse');
 
    });
 
@@ -65,6 +65,7 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
     Route::get('/getLevel','UserController@getLevel');
     Route::get('/getJidandLevel','TalukaController@getJidandLevel');
     Route::get('/populateData','TalukaController@populateData');
+
 });
 
 Route::get('/settings', 'SettingsController@index')->name('settings');

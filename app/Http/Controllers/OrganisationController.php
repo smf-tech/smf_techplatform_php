@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Organisation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\QueryException;
 
 class OrganisationController extends Controller
 {
@@ -15,7 +16,7 @@ class OrganisationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {    $orgs=Organisation::all();
+    {    $orgs=Organisation::where('id','<>','1')->get();
         return view('admin.Organisation.organisation_index',compact('orgs'));
         
     }
@@ -39,7 +40,7 @@ class OrganisationController extends Controller
      */
     public function store(Request $request)
     {  
-     
+        
         $org=Organisation::create($request->except(['_token']));
         $dbName=$org->name.'_'.$org->id;
         /*\Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
@@ -50,7 +51,14 @@ class OrganisationController extends Controller
             'password'  => '',  
         ));*/
         #DB::setDefaultConnection($dbName); 
+       try{
         DB::statement("create database ".$dbName);
+        }
+        catch(QueryException  $e){
+            $this->destroy($org->id);
+            return redirect()->route('organisation.index')->withMessage('Oganisation Not Created');
+ 
+        }
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mysql',
             'host'      => '127.0.0.1',
@@ -80,6 +88,9 @@ class OrganisationController extends Controller
             $table->text('json');
             $table->timestamps();
      });
+       
+      
+       
         return redirect()->route('organisation.index')->withMessage('Oganisation Created');
 
     }

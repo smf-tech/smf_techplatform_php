@@ -15,7 +15,7 @@
                         <div class="row">
                         <h3 class="col-md-9">{{$module_name[0]->name}}</h3>
                         <div class="col">
-                                <a class ="btn btn-success"href="{{route('district.create')}}">{{$module_name[0]->name}}   <i class="fas fa-plus"></i></a>
+                            <a class ="btn btn-success" href="/{{$orgId}}/{{$module_name[0]->name}}/create">{{$module_name[0]->name}}   <i class="fas fa-plus"></i></a>
                         </div>
                         
                         </div>
