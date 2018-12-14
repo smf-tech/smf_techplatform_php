@@ -48,7 +48,7 @@ class StateController extends Controller
             
             $s = new StateJurisdiction;
             $s->state_id = $state->id;
-            $s->jurisdiction_id = (integer)$value;
+            $s->jurisdiction_id =$value;
             $s->level=$level;
             $level++;
             $s->save();
@@ -109,7 +109,7 @@ class StateController extends Controller
 
                 $s = new StateJurisdiction;
                 $s->state_id = $state->id;
-                $s->jurisdiction_id = (integer)$value;
+                $s->jurisdiction_id = $value;
                 $s->level=$level;
                 $level++;
                 $s->save();

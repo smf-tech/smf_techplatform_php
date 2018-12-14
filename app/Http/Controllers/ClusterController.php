@@ -30,10 +30,15 @@ class ClusterController extends Controller
      */
     public function create()
     {
-        $levelId=Jurisdiction::where('LevelName','Cluster')->get(['id']);
-   
-        $stateIds=StateJurisdiction::where('jurisdiction_id',$levelId[0]->id)->get(['state_id']);
-        $states=State::whereIn('id',$stateIds)->get();
+        $levelId=Jurisdiction::where('levelName','Cluster')->first();
+        
+        $stateIds=StateJurisdiction::where('jurisdiction_id',$levelId->id)->get(['state_id']);
+        $id=array();
+        foreach($stateIds as $stateId){
+            $id[]=$stateId->state_id;
+        }
+        
+        $states=State::whereIn('_id',$id)->get();
         return view('admin.clusters.create_cluster',compact('states'));   
     }
 

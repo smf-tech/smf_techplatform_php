@@ -151,6 +151,9 @@ return [
          * Package Service Providers...
          */
         Collective\Html\HtmlServiceProvider::class,
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Nexmo\Laravel\NexmoServiceProvider::class,
+
 
         /*
          * Application Service Providers...

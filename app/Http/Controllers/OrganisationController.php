@@ -49,30 +49,43 @@ class OrganisationController extends Controller
             'database'  => $dbName,
             'username'  => 'root',
             'password'  => '',  
-        ));*/
+        ));
         #DB::setDefaultConnection($dbName); 
+        */
        try{
-        DB::statement("create database ".$dbName);
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName); 
+      
+
         }
         catch(QueryException  $e){
+            var_dump($e);
+            exit;
+            DB::setDefaultConnection('mongodb');
             $this->destroy($org->id);
             return redirect()->route('organisation.index')->withMessage('Oganisation Not Created');
  
         }
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName.'1', array(
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
-        ));       
+        ));
 
-        Schema::connection($dbName)->create('modules', function($table)
+        Schema::connection($dbName.'1')->create('modules', function($table)
         {
             $table->increments('id');
             $table->string('name');
        });
-       Schema::connection($dbName)->create('surveys', function($table)
+       Schema::connection($dbName.'1')->create('surveys', function($table)
        {
             $table->increments('id');
             $table->string('name');
@@ -80,7 +93,7 @@ class OrganisationController extends Controller
             $table->integer('creator_id')->unsigned();
             $table->timestamps();
       });
-      Schema::connection($dbName)->create('survey_results', function($table)
+      Schema::connection($dbName.'1')->create('survey_results', function($table)
       {
             $table->increments('id');
             $table->unsignedInteger('survey_id');
@@ -88,12 +101,9 @@ class OrganisationController extends Controller
             $table->text('json');
             $table->timestamps();
      });
-       
-      
-       
+    
         return redirect()->route('organisation.index')->withMessage('Oganisation Created');
-
-    }
+}
 
     /**
      * Display the specified resource.

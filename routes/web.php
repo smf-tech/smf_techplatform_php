@@ -47,10 +47,10 @@ Route::group(
     Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
 
 
-    Route::get('{orgId}/surveys/create', 'SurveyController@showCreateForm');
+    Route::get('{orgId}/forms/create', 'SurveyController@showCreateForm');
 
     Route::post('/getJSON','SurveyController@getJSON');
-    Route::get('{orgId}/surveys','SurveyController@index');
+    Route::get('{orgId}/forms','SurveyController@index');
 
     Route::post('{orgId}/{id}/getSurvey','SurveyController@display');
     Route::post('{orgId}/{id}/results','SurveyController@viewResults');
@@ -72,3 +72,6 @@ Route::get('/settings', 'SettingsController@index')->name('settings');
 
 
 
+Route::get('/sendOTP','smsAuthController@sendOTP');
+Route::get('/verifyOTP','smsAuthController@verifyOTP');
+Route::get('/getTestEndpoint','smsAuthController@getTestEndpoint');

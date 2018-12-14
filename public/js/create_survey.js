@@ -8,7 +8,7 @@ $.ajaxSetup({
       .StylesManager
       .applyTheme("bootstrap");
   
-  var editorOptions = {};
+  var editorOptions = {showTranslationTab: true,showJSONEditorTab: false,showTestSurveyTab: false };
   var editor = new SurveyEditor.SurveyEditor("editorElement", editorOptions);
   var c_id = $('#id').attr('class');
 
@@ -24,9 +24,9 @@ $.ajaxSetup({
      
   //Setting this callback will make visible the "Save" button
   editor.saveSurveyFunc = function () {
-    //save the survey JSON
-    var jsonEl = document.getElementById('surveyContainer');
-    jsonEl.value = editor.text;
+      //save the survey JSON
+      var jsonEl = document.getElementById('surveyContainer');
+      jsonEl.value = editor.text;
     //   surveyJSON = jsonEl.value; 
     var orgId=window.location.pathname.split('/')[1];
     console.log(orgId)
@@ -34,11 +34,12 @@ $.ajaxSetup({
 
     jQuery.ajax({
         type: "POST",
+       
         url: "/getJSON",
         data: { json:jsonEl.value, creator_id:c_id ,orgId:orgId},
         success:function(res){
             console.log(res)
-            window.location.href = '/'+orgId+"/surveys";
+            window.location.href = "http://127.0.0.1:8000/"+orgId+"/forms";
         }
       });
     

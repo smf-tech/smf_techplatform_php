@@ -30,7 +30,7 @@
                             @foreach($survey_results as $result)
                                 <tr>
                                     <td>{{$result->user_id}}</td>
-                                    <td><code>{{($result->json)}}</code></td>
+                                    <td><code>{{($result->json_response)}}</code></td>
                                 </tr>
                             @endforeach
                         </table>                           

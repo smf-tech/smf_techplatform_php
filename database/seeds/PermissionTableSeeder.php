@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Permission;
 use App\Jurisdiction;
 use App\Organisation;
-use App\Role;
 use App\User;
+use Maklad\Permission\Models\Role;
+use Maklad\Permission\Models\Permission;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -76,10 +76,7 @@ class PermissionTableSeeder extends Seeder
         $user_data = ['name'=>'rootorgadmin','email'=>'rootadmin@gmail.com','password'=>bcrypt('123456'),'org_id'=> $org->id,'role_id'=>$role->id,'gender'=>'male','phone'=>'9876543210'];
         User::create($user_data);
         $user= User::where('email', 'rootadmin@gmail.com')->get()->first();
+        $user->assignRole($role->name);
 
-        DB::table('role_user')->insert([
-            'user_id' => $role->id,
-            'role_id' => $user->id
-        ]);
     }
 }

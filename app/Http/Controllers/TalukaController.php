@@ -24,12 +24,11 @@ class TalukaController extends Controller
     }
     public function getJidandLevel(Request $request){
         $jIdsAndLevel=StateJurisdiction::where('state_id',$request->stateId)->orderBy('level', 'ASC')->get(['jurisdiction_id','level']);
-     
         $levelNames=array();
         if($request->flevel!='')
         foreach ( $jIdsAndLevel as $item){
           
-            $jurisdictionName=Jurisdiction::where('id',$item->jurisdiction_id )->get(['levelName']);
+            $jurisdictionName=Jurisdiction::where('_id',$item->jurisdiction_id )->get(['levelName']);
          
            
             if($jurisdictionName[0]->levelName==$request->flevel) return json_encode($levelNames);
@@ -42,7 +41,7 @@ class TalukaController extends Controller
         if($request->roleLevel!=""){
             foreach ( $jIdsAndLevel as $item){
           
-                $jurisdictionName=Jurisdiction::where('id',$item->jurisdiction_id )->get(['levelName']);
+                $jurisdictionName=Jurisdiction::where('_id',$item->jurisdiction_id )->get(['levelName']);
              
                
                 if($jurisdictionName[0]->levelName==$request->roleLevel) {
@@ -58,7 +57,7 @@ class TalukaController extends Controller
         {
             foreach ( $jIdsAndLevel as $item){
           
-                $jurisdictionName=Jurisdiction::where('id',$item->jurisdiction_id )->get(['levelName']);
+                $jurisdictionName=Jurisdiction::where('_id',$item->jurisdiction_id )->get(['levelName']);
              
                
                 if($jurisdictionName[0]->levelName==$request->flevel)  {
@@ -82,25 +81,26 @@ class TalukaController extends Controller
             case 'Village':$tableName='villages';break;
             case 'Cluster':$tableName='clusters';break;
         }
-        
+
       
         if($request->district!=''){
-           // return json_encode('district : '+$request->district+"\n taluka  : "+$request->taluka+'  State : '+$request->state);
-            $res=DB::table($tableName)->where('district_id',$request->district)->get();
+          // return json_encode('district : '+$request->district+"\n taluka  : "+$request->taluka+'  State  1 : '+$request->state);
+            $res=DB::collection($tableName)->where('district_id',$request->district)->get();
         }
         else
         if($request->taluka!=''){
-            //  return json_encode('district : '+$request->district+"\n taluka  : "+$request->taluka+'  State : '+$request->state);
-            $res=DB::table($tableName)->where('taluka_id',$request->taluka)->get();
+             // return json_encode('district : '+$request->district+"\n taluka  : "+$request->taluka+'  State  2 : '+$request->state);
+            $res=DB::collection($tableName)->where('taluka_id',$request->taluka)->get();
         }
         else 
         if($request->cluster!=''){
            // return json_encode($tableName);
-          // return json_encode('cluster : '+$request->cluster+'  State : '+$request->state);
-            $res=DB::table($tableName)->where('cluster_id',$request->cluster)->get();
+           // return json_encode('cluster : '+$request->cluster+'  State  3 : '+$request->state);
+            $res=DB::collection($tableName)->where('cluster_id',$request->cluster)->get();
         }
        else
-        $res=DB::table($tableName)->where('state_id',$request->state)->get();
+
+        $res=DB::collection($tableName)->where('state_id',$request->state)->get();
         return json_encode($res);
     }
 
@@ -115,11 +115,16 @@ class TalukaController extends Controller
     public function create()
     {
        //to get only those states that have taluka as the jurisdiction level
-       $levelId=Jurisdiction::where('LevelName','Taluka')->get(['id']);
-   
-        $stateIds=StateJurisdiction::where('jurisdiction_id',$levelId[0]->id)->get(['state_id']);
-        $states=State::whereIn('id',$stateIds)->get();
-        
+       $levelId=Jurisdiction::where('levelName','Taluka')->first();
+
+        $stateIds=StateJurisdiction::where('jurisdiction_id',$levelId->id)->get(['state_id']);
+        $id=array();
+        foreach($stateIds as $stateId){
+            $id[]=$stateId->state_id;
+        }
+    
+        $states=State::whereIn('_id',$id)->get();
+      
         return view('admin.talukas.create_taluka',compact('states'));   
     }
 

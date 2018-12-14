@@ -48,3 +48,9 @@ $("#surveyContainer").Survey({
     model: survey,
     onComplete: sendDataToServer
 });
+
+$('#language').on('change', '', function (e) {
+console.log(this.value)
+survey.locale = this.value;
+survey.render();
+});

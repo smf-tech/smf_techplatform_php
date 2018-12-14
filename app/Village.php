@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Village extends Model
+class Village  extends \Jenssegers\Mongodb\Eloquent\Model
 {
     protected $fillable=['Name','state_id','district_id','taluka_id'];
 

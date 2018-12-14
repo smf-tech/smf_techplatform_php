@@ -39,13 +39,16 @@ class orgManager extends Controller
         $dbName=$org->name.'_'.$org->id;
      
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
         ));
-        DB::connection($dbName)-> select('insert into modules (name) values("'. $request->mName .'" ) ' );
+        DB::setDefaultConnection($dbName); 
+        
+        $obj['name']=$request->mName;
+        DB::collection('modules')->insert($obj);
         return redirect()->route('orgManager.show',$org->id);
     }
 
@@ -62,14 +65,18 @@ class orgManager extends Controller
         $dbName=$org->name.'_'.$org->id;
      
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
         ));
-       $modules= DB::connection($dbName)-> select('select * from modules');
-       return view('admin.orgManager.index',compact(['modules','id']));
+
+
+        DB::setDefaultConnection($dbName); 
+
+        $modules =    DB::collection('modules')->get();      
+        return view('admin.orgManager.index',compact(['modules','id']));
     }
 
     public function addModule(){

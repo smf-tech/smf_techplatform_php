@@ -22,11 +22,11 @@ class ModuleManagerController extends Controller
                 'password'  => '',  
             )); 
             DB::setDefaultConnection($dbName); 
-            $modules =    DB::select('select * from modules ');      
-            $module_name =    DB::select('select name from modules where id ='.$module_id); 
-            $module_content=  DB::select('select * from '.$module_name[0]->name.' limit 1') ;
+            $modules =    DB::collection('modules')->get();      
+            $module_name =   DB::collection('modules')->where('_id',$module_id); 
+            $module_content=  DB::collection($module_name[0]->name);
             //get the structure of the table 
-            $structure=DB::select('SHOW  COLUMNS FROM '.$module_name[0]->name);
+            $structure=DB::collection('SHOW  COLUMNS FROM '.$module_name[0]->name);
              foreach ($structure as $x){
                 $fields[] = $x->Field;
               }

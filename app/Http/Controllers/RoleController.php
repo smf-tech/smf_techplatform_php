@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Role;
-use App\Permission;
+#use App\Role;
+#use App\Permission;
 use App\Organisation;
 use App\Jurisdiction;
 use App\RoleJurisdiction;
 use Illuminate\Support\Facades\DB;
+
+use Maklad\Permission\Models\Role;
+use Maklad\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -59,17 +62,16 @@ class RoleController extends Controller
             'description'=>$request->description,
             'org_id'=>$request->org_id,
         ]);
-
             $s = new RoleJurisdiction;
-            $s->role_id = $role->id;
+            $s->role_id = $role->_id;
             $s->jurisdiction_id = $request->level_id;
             $s->save();
 
-            if(count($request->permission)> 0){
+            /*if(count($request->permission)> 0){
                 foreach($request->permission as $key=>$value){
                     $role->attachPermission($value);
                 }
-            } 
+            } */
 
       
         return redirect()->route('role.index')->withMessage('Role Created');
@@ -121,11 +123,11 @@ class RoleController extends Controller
         $role->save();
         DB::table('permission_role')->where('role_id',$id)->delete();
 
-        if(count($request->permission)> 0){
+        /*if(count($request->permission)> 0){
             foreach($request->permission as $key=>$value){
                 $role->attachPermission($value);
             }
-        } 
+        }*/ 
 
         $sj = RoleJurisdiction::where('role_id',$role->id)->delete();
 

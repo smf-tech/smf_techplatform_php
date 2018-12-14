@@ -37,8 +37,8 @@
                             </tr>
                             @forelse($modules as $module)
                             <tr>
-                                <td>{{$module->id}}</td>
-                                <td>{{$module->name}}</td>
+                                <td>{{$module['_id']}}</td>
+                                <td>{{$module['name']}}</td>
                             </tr>
                             @empty
                             <tr><td>no modules</td></tr>

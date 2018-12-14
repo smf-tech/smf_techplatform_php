@@ -30,9 +30,10 @@ $(document).on('change','#org_id',function(){
             $('#role_id') .find('option')
             .remove()
             .end()
+            $('#role_id').append('<option value=0 ></option>')
             obj.forEach(element => {
-                console.log(element.name+' '+element.id)
-                $('#role_id').append('<option value="'+ element.id +'">'+element.name+'</option>');
+                console.log(element.name+' '+element._id)
+                $('#role_id').append('<option value="'+ element._id +'">'+element.name+'</option>');
             });
          }
        
@@ -68,7 +69,7 @@ $(document).on('change','#org_id',function(){
           //  console.log(levelId)
            
             obj.forEach(element => {
-                $(levelId).append('<option value="'+ element.id +'">'+element.levelName+'</option>')
+                $(levelId).append('<option value="'+ element._id +'">'+element.levelName+'</option>')
                 
             });
             //console.log($(levelId))
@@ -104,14 +105,13 @@ $(document).on('change','#role_id',function(){
       $('#jurisdiction').find('select').remove()
       $('#state_id2').append('<option value=0"> </option>');
         var obj = JSON.parse(result);
-        console.log(obj)
+        console.log(obj[0])
         roleLevel=obj[0];
         var states=obj[1];
         states.forEach((element)=>{
-          $('#state_id2').append('<option value="'+element.id+'">'+element.Name+'</option>');
+          $('#state_id2').append('<option value="'+element['_id']['$oid']+'">'+element.Name+'</option>');
         })
-       $('#jurisdiction').append('<label id="levelName" class="col-md-4">'+obj[0]+'</label>')
-       $('#jurisdiction').append('<select class="form-control col-md-8" name="levelSelection" > <option value="0"> </option></select>')
+      
      }
    
   });
@@ -131,7 +131,7 @@ $(document).on('change','#state_id',function(){
     url: "/getJidandLevel",
     data: { stateId:this.value,flevel:levelPage},
      success:function(result){
-       
+         console.log(result);
         var obj = JSON.parse(result);
      
        obj.forEach((item)=>{
@@ -149,7 +149,8 @@ $(document).on('change','#state_id',function(){
             var obj = JSON.parse(result);
              // console.log(obj)
              obj.forEach((item)=>{
-              $(selectTagId).append('<option class="form-control" value="'+item.id+'">'+item.Name+'</option>')
+               console.log(item['_id']['$oid'])
+              $(selectTagId).append('<option class="form-control" value="'+item['_id']['$oid']+'">'+item.Name+'</option>')
              })
            }
          
@@ -164,7 +165,6 @@ $(document).on('change','#state_id',function(){
 })
 
 $(document).on('change','#District',function(){
-  console.log('here')
   var district=this.value;
   console.log(district)
   jQuery.ajax({
@@ -177,7 +177,7 @@ $(document).on('change','#District',function(){
         var obj = JSON.parse(result);
         console.log(obj)
         obj.forEach((item)=>{
-          $('#Taluka').append('<option class="form-control" value="'+item.id+'">'+item.Name+'</option>')
+          $('#Taluka').append('<option class="form-control" value="'+item['_id']['$oid']+'">'+item.Name+'</option>')
          })
         
      }
@@ -204,7 +204,7 @@ $(document).on('change','#Taluka',function(){
         $(itemId).append('<option class="form-control value="0"></option>')
         var obj = JSON.parse(result);
         obj.forEach((item)=>{
-          $(itemId).append('<option class="form-control" value="'+item.id+'">'+item.Name+'</option>')
+          $(itemId).append('<option class="form-control" value="'+item['_id']['$oid']+'">'+item.Name+'</option>')
          })
         
      }
@@ -231,7 +231,7 @@ $(document).on('change','#Cluster',function(){
         $(itemId).append('<option class="form-control value="0"></option>')
         var obj = JSON.parse(result);
         obj.forEach((item)=>{
-          $(itemId).append('<option class="form-control" value="'+item.id+'">'+item.Name+'</option>')
+          $(itemId).append('<option class="form-control" value="'+item['_id']['$oid']+'">'+item.Name+'</option>')
          })
         
      }
@@ -246,7 +246,7 @@ $(document).on('change','#state_id2',function(){
   console.log(this.value)
   state_id=this.value;
 
-  $('#levelContainer').find('div').remove().end();
+  $('#jurisdiction').find('div').remove().end();
  // $('#levelContainer').find('h4').remove().end();
  // $('#levelContainer').find('br').remove().end();
   jQuery.ajax({
@@ -262,10 +262,10 @@ $(document).on('change','#state_id2',function(){
          if(item=='Cluster'){stateHasCluster=true; console.log('state has cluster '+stateHasCluster)}
          if(item==obj[obj.length-1]) {
 
-              $('#levelContainer').append('<div class="row"><h5 class="col-md-3">'+item+'</h5><select multiple size=4 class="form-control col-md-6" id="'+item+'" name="'+ item +'[]" ></select><br/><br/></div>')
+              $('#jurisdiction').append('<div class="row"><h5 class="col-md-3">'+item+'</h5><select multiple size=4 class="form-control col-md-6" id="'+item+'" name="'+ item +'[]" ></select><br/><br/></div>')
           }
          else
-        $('#levelContainer').append('<div class="row"><h5 class="col-md-3">'+item+'</h5><select class="form-control col-md-6" id="'+item+'" name="'+ item +'" ></select><br/><br/></div>')
+        $('#jurisdiction').append('<div class="row"><h5 class="col-md-3">'+item+'</h5><select class="form-control col-md-6" id="'+item+'" name="'+ item +'" ></select><br/><br/></div>')
         //ajax call to populate each select tag 
         var selectTagId='#'+item;
         $(selectTagId).find('option').remove().end();
@@ -278,7 +278,7 @@ $(document).on('change','#state_id2',function(){
             var obj = JSON.parse(result);
              // console.log(obj)
              obj.forEach((item)=>{
-              $(selectTagId).append('<option class="form-control" value="'+item.id+'">'+item.Name+'</option>')
+              $(selectTagId).append('<option class="form-control" value="'+item['_id']['$oid']+'">'+item.Name+'</option>')
              })
            }
          

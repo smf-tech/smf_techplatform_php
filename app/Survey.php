@@ -3,7 +3,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 // use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Survey extends Model
+class Survey  extends \Jenssegers\Mongodb\Eloquent\Model
 {
     // use SoftDeletes; //Sluggable, 
     // protected $table = 'surveys';

@@ -15,8 +15,8 @@
                     @endif
 
                     <div class="row">
-                            <h3 class="col-md-9">Surveys</h3>
-                            <a class ="btn btn-success" href="/{{$orgId}}/surveys/create">Surveys<i class="fas fa-plus"></i></a>
+                            <h3 class="col-md-9">Forms</h3>
+                            <a class ="btn btn-success" href="/{{$orgId}}/forms/create">Forms<i class="fas fa-plus"></i></a>
 
                                     {{-- <a class ="btn btn-success"href="{{route('role.create')}}">survey   <i class="fas fa-plus"></i></a> --}}
                     </div>

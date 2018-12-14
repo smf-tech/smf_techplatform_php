@@ -12,9 +12,9 @@ class SurveyController extends Controller
 
     public function getJSON(Request $request)
     {
+        // return $request;
         $r = json_decode($request->json,true);
-        //Set default Form title
-        $k = 'Untitled';
+        $k = null;
 
         foreach($r as $key=>$value)
         {
@@ -26,15 +26,16 @@ class SurveyController extends Controller
         $organisation=Organisation::find($request->orgId);
         $dbName=$organisation->name.'_'.$organisation->id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
-        ));       
-        DB::setDefaultConnection($dbName); 
+        ));
+        DB::setDefaultConnection($dbName);
+ 
        
-         DB::table('surveys')->insert(
+         DB::collection('surveys')->insert(
             ['name'=>$k ,'json'=>$request->json,'creator_id'=> $request->creator_id]
         );
 
@@ -60,36 +61,38 @@ class SurveyController extends Controller
         $orgId=$organisation->id;
         $dbName=$organisation->name.'_'.$organisation->id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
-        ));       
-        DB::setDefaultConnection($dbName); 
+        ));
+        DB::setDefaultConnection($dbName);
        
 
-        DB::insert('insert into survey_results (survey_id,user_id,json) values(?,?,?)',[$request->surveyId,$request->userId,$request->jsonString]);
+        DB::collection('survey_results')->insert([ 'survey_id'=>$request->surveyId,'user_id'=>$request->userId,'json_response'=>$request->jsonString]);
 
         return null;
     }
     public function display(Request $request)
     {     $uri = explode("/",$_SERVER['REQUEST_URI']);
-
+        
         $organisation=Organisation::find($uri[1]);
         $orgId=$organisation->id;
         $dbName=$organisation->name.'_'.$organisation->id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
-        ));       
-        DB::setDefaultConnection($dbName); 
-        $modules= DB::connection($dbName)-> select('select * from modules');
+        ));
+        DB::setDefaultConnection($dbName);
+        $modules= DB::collection('modules')->get();
 
         $json = $request->json;
+        $json=json_decode($json);
+        $json=json_encode($json);
         $survey_id = $request->surveyID;
         // return $json;
         return view('layouts.survey',compact('json','survey_id','orgId','modules'));
@@ -107,14 +110,14 @@ class SurveyController extends Controller
         $orgId=$organisation->id;
         $dbName=$organisation->name.'_'.$organisation->id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
-        ));       
-        DB::setDefaultConnection($dbName); 
-        $modules= DB::connection($dbName)-> select('select * from modules');
+        ));
+        DB::setDefaultConnection($dbName);
+        $modules= DB::collection('modules')->get();
 
 
         $surveys=Survey::paginate(5);
@@ -130,15 +133,14 @@ class SurveyController extends Controller
         $orgId=$organisation->id;
         $dbName=$organisation->name.'_'.$organisation->id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
-        ));       
+        ));
         DB::setDefaultConnection($dbName);
-        $modules= DB::connection($dbName)-> select('select * from modules');
-
+        $modules= DB::collection('modules')->get();
         $survey_results=SurveyResult::where('survey_id',$survey_id)->get();
         return view('user.formResults',compact('survey_results','orgId','modules'));
     }
@@ -149,14 +151,14 @@ class SurveyController extends Controller
         $orgId=$organisation->id;
         $dbName=$organisation->name.'_'.$organisation->id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
+            'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
             'database'  => $dbName,
-            'username'  => 'root',
+            'username'  => '',
             'password'  => '',  
-        ));       
-        DB::setDefaultConnection($dbName); 
-        $modules= DB::connection($dbName)-> select('select * from modules');
+        ));
+        DB::setDefaultConnection($dbName);
+        $modules= DB::collection('modules')->get();
 
         return view('index',compact(['orgId','modules']));
     }

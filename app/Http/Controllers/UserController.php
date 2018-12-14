@@ -30,21 +30,15 @@ class UserController extends Controller
         //get the level for a particular role and based on that level populate the states selection
         $level= RoleJurisdiction::where('role_id',$request->role_id)->get();
         
-        $states=DB::table('state_jurisdictions')->where('jurisdiction_id',$level[0]->jurisdiction_id)->get();
-        
-    
+        $states=DB::collection('state_jurisdictions')->where('jurisdiction_id',$level[0]->jurisdiction_id)->get();
         $stateNames=array();
         foreach ($states as $state){
-           
-            $stateName=DB::table('states')->where('id',$state->state_id )->get();
-         
+            $stateName=DB::collection('states')->where('_id',$state['state_id'] )->get();
             array_push($stateNames,$stateName[0]);
         }
        
-       
-        $levelName=DB::table('jurisdictions')->where('id',$level[0]->jurisdiction_id)->get();
-      //  return json_encode($levelName);
-        $response=array($levelName[0]->levelName,$stateNames);
+        $levelName=DB::table('jurisdictions')->where('_id',$level[0]->jurisdiction_id)->get();
+        $response=array($levelName[0]['levelName'],$stateNames);
         return json_encode($response);
     }
     /**
@@ -112,14 +106,12 @@ class UserController extends Controller
             'role_id'=>$data['role_id']
         ]);
    
-        $user=DB::select('select * from users where email = ?', [$data['email']]);
       
         //make an entry in the roles users table
-        DB::insert('insert into role_user (user_id,role_id) values(?,?)',[$user[0]->id,$data['role_id']]);
-       
-
+         $role=DB::collection('roles')->where('_id',$data['role_id'])->get();
+        $user->assignRole($role[0]['name']);
         UserDetails::create([
-            'user_id' => $user[0]->id,
+            'user_id' => $user['_id'],
             'state_id' => implode(',', $states),
             'district_id' =>implode(',', $districts),
             'taluka_id' => implode(',', $talukas),

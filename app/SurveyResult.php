@@ -3,7 +3,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 
-class SurveyResult extends Model
+class SurveyResult  extends \Jenssegers\Mongodb\Eloquent\Model
 {
     protected $table = 'survey_results';
     protected $fillable = [

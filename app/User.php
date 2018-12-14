@@ -3,15 +3,17 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+/*use Illuminate\Foundation\Auth\User as Authenticatable;*/
+/*use Jenssegers\Mongodb\Auth\User as Authenticatable;*/
+/*use Zizaco\Entrust\Traits\EntrustUserTrait;*/
 use Laravel\Passport\HasApiTokens;
+use Maklad\Permission\Traits\HasRoles;
+use DesignMyNight\Mongodb\Auth\User as Authenticatable;
 
-
-class User extends Authenticatable
+class User  extends Authenticatable
 {
     use Notifiable;
-    use EntrustUserTrait; // add this trait to your user model
+    use HasRoles;
     use HasApiTokens;
 
 
@@ -32,4 +34,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+	
+	    /**
+     * Find the user identified by the given $identifier.
+     *
+     * @param $identifier email|phone
+     * @return mixed
+     */
+    public function findForPassport($identifier) {
+        return User::orWhere('email', $identifier)->orWhere('phone', $identifier)->first();
+    }
 }
