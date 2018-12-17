@@ -49,7 +49,7 @@ Route::group(
 
     Route::get('{orgId}/forms/create', 'SurveyController@showCreateForm');
 
-    Route::post('/getJSON','SurveyController@getJSON');
+    Route::post('/savebuiltform','SurveyController@saveSurveyForm');
     Route::get('{orgId}/forms','SurveyController@index');
 
     Route::post('{orgId}/{id}/getSurvey','SurveyController@display');
@@ -75,3 +75,4 @@ Route::get('/settings', 'SettingsController@index')->name('settings');
 Route::get('/sendOTP','smsAuthController@sendOTP');
 Route::get('/verifyOTP','smsAuthController@verifyOTP');
 Route::get('/getTestEndpoint','smsAuthController@getTestEndpoint');
+Route::get('/projects','OrganisationController@getProjects');

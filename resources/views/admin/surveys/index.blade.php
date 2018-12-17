@@ -25,32 +25,40 @@
                         <table class="table">
                             <tr>
                                 <th>Name</th>
+                                <th>Project</th>
+                                <th>Category</th>
                             </tr>
                             @forelse($surveys as $survey)
                                 <tr>
                                     <td>
                                         {{$survey->name}}
                                     </td>
+                                     <td>
+                                            {{$survey->project_id}}
+                                    </td>
+                                    <td>
+                                            {{$survey->category_id}}
+                                    </td>                                   
                                     <td>
                                            <form method="post">
                                             @csrf           
                                             <input type="hidden" name="surveyID" value="{{$survey->id}}" id="survey_id">                                 
                                             <input type="hidden" name="json" value="{{$survey->json}}" id="json_value">
-                                            <input  class="btn btn-primary" type="submit" id="submit" formaction="/{{$orgId}}/{{$survey->id}}/getSurvey" value="Take Survey" />
+                                            <!--input  class="btn btn-primary" type="submit" id="submit" formaction="/{{$orgId}}/{{$survey->id}}/getSurvey" value="Take Survey" /-->
                                            </form>
                                     </td>
                                     <td>
                                             <form method="post">
                                               @csrf           
                                              <input type="hidden" name="surveyID" value="{{$survey->id}}" id="survey_id">                                 
-                                             <input  class="btn btn-success" type="submit" id="submit" formaction="/{{$orgId}}/{{$survey->id}}/results" value="View Survey Results" />
+                                             <!--input  class="btn btn-success" type="submit" id="submit" formaction="/{{$orgId}}/{{$survey->id}}/results" value="View Survey Results" /-->
                                              </form>
 
                                     </td>
                                           
                                 </tr>
                                 @empty
-                                <tr><td>no Surveys</td></tr>
+                                <tr><td>no Forms</td></tr>
                             @endforelse
                         </table>                           
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Survey;
 use App\Organisation;
+use Maklad\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use App\SurveyResult;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 class SurveyController extends Controller
 {
 
-    public function getJSON(Request $request)
+    public function saveSurveyForm(Request $request)
     {
         // return $request;
         $r = json_decode($request->json,true);
@@ -36,7 +37,10 @@ class SurveyController extends Controller
  
        
          DB::collection('surveys')->insert(
-            ['name'=>$k ,'json'=>$request->json,'creator_id'=> $request->creator_id]
+            ['name'=>$k ,'json'=>$request->json,'creator_id'=> $request->creator_id,
+            'active'=>$request->active,'editable'=>$request->editable,
+            'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
+			'category_id'=>$request->category_id,'project_id'=>$request->project_id]
         );
 
         return json_encode('success');
@@ -144,12 +148,15 @@ class SurveyController extends Controller
         $survey_results=SurveyResult::where('survey_id',$survey_id)->get();
         return view('user.formResults',compact('survey_results','orgId','modules'));
     }
+
     public function showCreateForm(){
         $uri = explode("/",$_SERVER['REQUEST_URI']);
 
         $organisation=Organisation::find($uri[1]);
         $orgId=$organisation->id;
         $dbName=$organisation->name.'_'.$organisation->id;
+        $org_roles = $this->getOrganisationRoles($orgId);
+
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
@@ -160,8 +167,15 @@ class SurveyController extends Controller
         DB::setDefaultConnection($dbName);
         $modules= DB::collection('modules')->get();
 
-        return view('index',compact(['orgId','modules']));
+		$projects = DB::collection('projects')->get(); 
+        $categories = DB::collection('categories')->get(); 
+        return view('index',compact(['orgId','modules','org_roles','projects','categories']));
     }
+
+    public function getOrganisationRoles($orgId){
+        $roles= Role::where('org_id','=',$orgId)->get();
+        return $roles;
+    }   
 
     /**
      * Show the form for creating a new resource.
