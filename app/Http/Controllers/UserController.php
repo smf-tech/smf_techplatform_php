@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use App\Role;
+#use App\Role;
 use App\Organisation;
 use App\RoleJurisdiction;
 use App\State;
 use App\UserDetails;
 use Illuminate\Support\Facades\DB;
+use Maklad\Permission\Models\Role;
+use Maklad\Permission\Models\Permission;
 class UserController extends Controller
 {
     /**
@@ -103,7 +105,8 @@ class UserController extends Controller
             'dob' => $data['dob'],
             'gender' => $data['gender'],
             'org_id'=>$data['org_id'],
-            'role_id'=>$data['role_id']
+            'role_id'=>$data['role_id'],
+            'approved'=> false
         ]);
    
       
@@ -147,7 +150,7 @@ class UserController extends Controller
         $orgs=Organisation::all();
         $orgId=$user['org_id'];
         $roleId=$user['role_id'];
-        $userDet=userDet::where('user_id',$id)->get();
+        $userDet=UserDetails::where('user_id',$id)->get();
         $stateId=$userDet[0]->state_id;
         
         $role=Role::find($roleId);

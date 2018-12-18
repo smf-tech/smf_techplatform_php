@@ -97,13 +97,13 @@ class RoleController extends Controller
     public function edit($id)
     {
          $role=Role::find($id);
-         $permissions=Permission::all();
-         $role_permissions=$role->perms()->pluck('id','id')->toArray();
+         //$permissions=Permission::all();
+         //$role_permissions=$role->perms()->pluck('id','id')->toArray();
          $orgs=Organisation::all();
          $levels = Jurisdiction::all();
          $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
 
-         return view('admin.roles.edit',compact(['role','role_permissions','permissions','orgs','levels','role_jurisdictions']));
+         return view('admin.roles.edit',compact(['role','orgs','levels','role_jurisdictions']));
     }
 
     /**
