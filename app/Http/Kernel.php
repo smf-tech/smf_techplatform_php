@@ -63,9 +63,8 @@ class Kernel extends HttpKernel
         //'jwt-auth' => \App\Http\Middleware\authJWT::class,
         'auth.jwt' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
         'refresh.jwt' => \Tymon\JWTAuth\Http\Middleware\RefreshToken::class,
-        'role' => \Zizaco\Entrust\Middleware\EntrustRole::class,
-        'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
-        'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
+        'role' => \Maklad\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Maklad\Permission\Middlewares\PermissionMiddleware::class,
         'CheckAuth'=>\App\Http\Middleware\CheckAuth::class,
     ];
 }
