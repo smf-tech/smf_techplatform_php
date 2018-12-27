@@ -23,6 +23,7 @@
                 </div>
                 <div class="pull-xs-right">
                         <a class="btn btn-success" href="{{ url('/users') }}" role="button">
+
                           Manage Users
                         </a>
                     </div>
