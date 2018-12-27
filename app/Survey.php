@@ -9,7 +9,7 @@ class Survey  extends \Jenssegers\Mongodb\Eloquent\Model
     // protected $table = 'surveys';
     // protected $primaryKey = 'id';
     protected $fillable = [
-        'name', 'json', 'creator_id',//'slug',
+        'name', 'json', 'project_id','category_id','creator_id','microservice_id',//slug',
     ];
     // protected $casts = [
     //     'json'  =>  'array',
@@ -35,5 +35,17 @@ class Survey  extends \Jenssegers\Mongodb\Eloquent\Model
     public function results()
     {
         return $this->hasMany('App\SurveyResult', 'survey_id');
+    }
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
+    }
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
+    public function microservice()
+    {
+        return $this->belongsTo('App\Microservices');
     }
 }

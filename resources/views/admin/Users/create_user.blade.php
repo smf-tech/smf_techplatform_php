@@ -121,7 +121,10 @@
                                               
                                                 <div class="form-group col-md-8">
                                                     <select id="role_id"  class="form-control" name="role_id" required>
-                                                          <option value="0"></option>
+                                                    @foreach($roles as $role)
+                                                          <!-- <option value="0"></option> -->
+                                                          <option value={{$role->id}}>{{$role->name}}</option>
+                                                    @endforeach
                                                     </select>
                     
                                                     @if ($errors->has('role_id'))
