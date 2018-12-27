@@ -24,7 +24,7 @@ class OrganisationController extends Controller
      */
     public function index()
     {    
-        $orgs=Organisation::where('id','<>','1')->get();
+        $orgs=Organisation::where('orgshow','<>',0)->get();
         return view('admin.Organisation.organisation_index',compact('orgs'));
         
     }

@@ -42,7 +42,7 @@ class RoleController extends Controller
     public function create()
     {   
         $permissions=Permission::all();
-        $orgs=Organisation::all();
+        $orgs=Organisation::where('orgshow','<>',0)->get();
         $levels = Jurisdiction::all();
         
         return view('admin.roles.create_role',compact(['permissions','orgs','levels']));

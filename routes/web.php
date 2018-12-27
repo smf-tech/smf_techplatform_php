@@ -59,6 +59,11 @@ Route::group(
     Route::post('{orgId}/{id}/results','SurveyController@viewResults');
 
     Route::get('/{orgId}/{surveyId}/sendResponse','SurveyController@sendResponse');
+    Route::get('/projects','OrganisationController@getProjects');
+
+    Route::get('/{orgID}/editForm/{surveyID}','SurveyController@editForm');
+    Route::resource('form','SurveyController');
+    Route::post('/saveEditedform','SurveyController@saveEditedForm');
 
    });
 
@@ -78,4 +83,3 @@ Route::get('/settings', 'SettingsController@index')->name('settings');
 Route::get('/sendOTP','smsAuthController@sendOTP');
 Route::get('/verifyOTP','smsAuthController@verifyOTP');
 Route::get('/getTestEndpoint','smsAuthController@getTestEndpoint');
-Route::get('/projects','OrganisationController@getProjects');

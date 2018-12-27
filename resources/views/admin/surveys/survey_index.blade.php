@@ -27,6 +27,7 @@
                                 <th>Name</th>
                                 <th>Project</th>
                                 <th>Category</th>
+                                <th>Microservice</th>
                             </tr>
                             @forelse($surveys as $survey)
                                 <tr>
@@ -34,12 +35,28 @@
                                         {{$survey->name}}
                                     </td>
                                      <td>
-                                            {{$survey->project_id}}
+                                            {{App\Survey::find($survey->id)->project['name']}}
+                                            {{-- {{$survey->project_id}} --}}
                                     </td>
                                     <td>
-                                            {{$survey->category_id}}
-                                    </td>                                   
+                                            {{App\Survey::find($survey->id)->category['name']}}
+                                            {{-- {{$survey->category_id}} --}}
+                                    </td>
                                     <td>
+                                            {{App\Survey::find($survey->id)->microservice['name']}}
+                                            {{-- {{$survey->category_id}} --}}
+                                    </td>
+                                    <td><div class="actions">
+                                            {{-- {!!Form::open(['action'=>['SurveyController@editForm',$survey->id],'method'=>'EDIT','class'=>'pull-right' ])!!}
+                                            <button type="submit" class="btn btn-primary"><i class="fas fa-pen"></i></button> --}}
+                                    <a class="btn btn-primary"  href="/{{$orgId}}/editForm/{{$survey->id}}"><i class="fas fa-pen"></i></a>
+                                {!!Form::open(['action'=>array('SurveyController@destroy',$survey->id.' '.$orgId),'method'=>'DELETE','class'=>'pull-right' ])!!}
+                            
+                                    <button type="submit" class="btn btn-danger"{{-- id="id" value="{{$orgId}}"--}}><i class="fas fa-trash-alt"></i></button>
+                                {!!Form::close()!!}
+                                </div>
+                                </td>                                   
+                                    {{-- <td>
                                            <form method="post">
                                             @csrf           
                                             <input type="hidden" name="surveyID" value="{{$survey->id}}" id="survey_id">                                 
@@ -54,7 +71,7 @@
                                              <!--input  class="btn btn-success" type="submit" id="submit" formaction="/{{$orgId}}/{{$survey->id}}/results" value="View Survey Results" /-->
                                              </form>
 
-                                    </td>
+                                    </td> --}}
                                           
                                 </tr>
                                 @empty
