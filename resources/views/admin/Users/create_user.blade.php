@@ -98,7 +98,6 @@
                     
                                                 <div class="form-group col-md-8">
                                                     <select id="org_id"  class="form-control" name="org_id" required>
-                                                        <option value=0></option>
                                                             @foreach($orgs as $org)
                                                                 <option value={{$org->id}}>{{$org->name}}</option>
                                                                 

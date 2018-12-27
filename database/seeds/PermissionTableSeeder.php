@@ -67,7 +67,7 @@ class PermissionTableSeeder extends Seeder
         foreach($level as $key=>$value){
             Jurisdiction::create($value);
         }
-        $orgdata = ['name'=>'rootorg','service'=>'test'];
+        $orgdata = ['name'=>'rootorg','service'=>'test','orgshow'=>0];
         Organisation::create($orgdata);
         $org=Organisation::where('name', 'rootorg')->get()->first();
         $roledata = ['name'=>'ROOTORGADMIN','display_name'=>'RootOrgAdmin','description'=>'','org_id'=> $org->id];
