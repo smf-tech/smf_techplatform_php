@@ -12,6 +12,8 @@ use App\Project;
 use Jenssegers\Mongodb\Schema\Builder;
 use Illuminate\Database\Schema\Builder as Build;
 use Illuminate\Database\Connection;
+use Maklad\Permission\Models\Role;
+use Maklad\Permission\Models\Permission;
 
 class OrganisationController extends Controller
 {
@@ -231,4 +233,72 @@ public function getCategories()
         DB::table('organisations')->where('_id',$id)->delete();
         return redirect()->route('organisation.index')->withMessage('Oganisation Deleted');
     }
+
+    public function orgroles(Request $request,$org_id){
+        $organisation=Organisation::find($org_id);
+        $dbName=$organisation->name.'_'.$org_id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        $modules= DB::collection('modules')->get();
+        DB::setDefaultConnection('mongodb');
+        $roles=Role::where('org_id', $org_id)->get();
+        $orgId = $org_id;
+        return view('admin.organisation.roles_index',compact('roles','modules','orgId'));
+    }
+
+    public function configureRole(Request $request,$org_id,$role_id){
+        $organisation=Organisation::find($org_id);
+        $role = Role::find($role_id);
+        $dbName=$organisation->name.'_'.$org_id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        $modules= DB::collection('modules')->get();
+        $projects= DB::collection('projects')->get();
+        $roleconfig = DB::collection('role_config')->where('role_id', $role_id)->first();
+        $role_projects = $role_default_modules = $role_onapprove_modules = array();
+        if(isset($roleconfig)){
+            $role_projects =  $roleconfig['projects'];
+            $role_default_modules = $roleconfig['default_modules'];
+            $role_onapprove_modules = $roleconfig['on_approve_modules'];       
+        }     
+        //dd($role_default_modules);  
+        DB::setDefaultConnection('mongodb');
+        $orgId = $org_id;
+        //dd($projects);
+        return view('admin.organisation.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules'));
+    }  
+
+    public function updateroleconfig(Request $request,$role_id){
+        $data = $request->post();
+        $org_id = $data['org_id'];
+        $organisation=Organisation::find($org_id);
+        $dbName=$organisation->name.'_'.$org_id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        $config_data = array('projects' => isset($data['assigned_projects'])?$data['assigned_projects']:[],
+                            'default_modules' =>isset($data['default_modules'])?$data['default_modules']:[],
+                            'on_approve_modules' =>isset($data['on_approve'])?$data['on_approve']:[]
+                            );
+        DB::collection('role_config')->where('role_id', $role_id)
+                        ->update($config_data, ['upsert' => true]);                  
+        return redirect()->route('roleconfig', ['orgId' => $org_id, 'role_id' => $role_id])->with('message', 'RoleConfig Updated Successfuly!!!');;
+    }      
 }

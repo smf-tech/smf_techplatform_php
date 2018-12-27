@@ -51,6 +51,9 @@ Route::group(
 
     Route::post('/savebuiltform','SurveyController@saveSurveyForm');
     Route::get('{orgId}/forms','SurveyController@index');
+    Route::get('{orgId}/roles','OrganisationController@orgroles');
+    Route::get('{orgId}/roles/{role_id}',['as'=>'roleconfig','uses'=>'OrganisationController@configureRole']);
+    Route::post('/updateroleconfig/{role_id}','OrganisationController@updateroleconfig');
 
     Route::post('{orgId}/{id}/getSurvey','SurveyController@display');
     Route::post('{orgId}/{id}/results','SurveyController@viewResults');
