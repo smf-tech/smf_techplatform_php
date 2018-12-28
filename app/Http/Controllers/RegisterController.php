@@ -71,7 +71,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {    
-        $orgs=Organisation::all();
+        $orgs=Organisation::where('orgshow','<>',0)->get();
       
         return view('auth.register',compact('orgs'));
     }

@@ -147,7 +147,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user=User::find($id);
-        $orgs=Organisation::all();
+        $orgs=Organisation::where('orgshow','<>',0)->get();
         $orgId=$user['org_id'];
         $roleId=$user['role_id'];
         $userDet=UserDetails::where('user_id',$id)->get();
