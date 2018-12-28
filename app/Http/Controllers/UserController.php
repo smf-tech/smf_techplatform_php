@@ -64,9 +64,9 @@ class UserController extends Controller
     {
         
         $orgs=Organisation::where('orgshow','<>',0)->get();
-        
+        $roles=Role::all();
         $states=State::all();
-        return view('admin.users.create_user',compact(['orgs','states']));
+        return view('admin.users.create_user',compact(['orgs','states','roles']));
     }
 
     /**
