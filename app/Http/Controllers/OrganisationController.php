@@ -266,7 +266,7 @@ public function getCategories()
         DB::setDefaultConnection($dbName);
         $modules= DB::collection('modules')->get();
         $projects= DB::collection('projects')->get();
-        $roleconfig = DB::collection('role_config')->where('role_id', $role_id)->first();
+        $roleconfig = DB::collection('role_configs')->where('role_id', $role_id)->first();
         $role_projects = $role_default_modules = $role_onapprove_modules = array();
         if(isset($roleconfig)){
             $role_projects =  $roleconfig['projects'];
@@ -297,7 +297,7 @@ public function getCategories()
                             'default_modules' =>isset($data['default_modules'])?$data['default_modules']:[],
                             'on_approve_modules' =>isset($data['on_approve'])?$data['on_approve']:[]
                             );
-        DB::collection('role_config')->where('role_id', $role_id)
+        DB::collection('role_configs')->where('role_id', $role_id)
                         ->update($config_data, ['upsert' => true]);                  
         return redirect()->route('roleconfig', ['orgId' => $org_id, 'role_id' => $role_id])->with('message', 'RoleConfig Updated Successfuly!!!');;
     }      
