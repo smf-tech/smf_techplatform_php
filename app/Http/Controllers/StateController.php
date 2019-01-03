@@ -7,6 +7,8 @@ use App\State;
 use App\Jurisdiction;
 use App\StateJurisdiction;
 use Illuminate\Support\Facades\DB;
+use Validator;
+use Redirect;
 
 class StateController extends Controller
 {
@@ -17,7 +19,6 @@ class StateController extends Controller
      */
     public function index()
     {
-        
         $states = State::all();
         return view('admin.states.state_index',compact('states'));
     }
@@ -30,9 +31,16 @@ class StateController extends Controller
     public function create()
     {
         $jurisdiction=Jurisdiction::all();
-        return view('admin.states.create_state',compact('jurisdiction'));
+        $states = State::all();
+        return view('admin.states.create_state',compact('jurisdiction','states'));
     }
 
+//     public function messages()
+// {
+//     return [
+//         'State already exists'
+//     ];
+// }
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +49,16 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $validator = Validator::make($request->all(), [
+            'Name' => 'unique:states',
+        ]);
+
+        if ($validator->fails()) {
+            // return redirect()->route('state.create')->withMessage("State already exists");
+            // return redirect()->route('state.create')->withErrors($validator)->withInput($request->input);
+            // return redirect()->route('state.create')->messages();
+            return Redirect::back()->withErrors(['State already exists']);
+        }
         $state=State::create($request->except(['jurisdiction','_token']));
         $level=1;
         foreach($request->levels as $key=>$value){

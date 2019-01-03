@@ -20,7 +20,7 @@
                      
                         <table class="table">
                             <tr>
-                                <th>Cluster ID</th>
+                                {{-- <th>Cluster ID</th> --}}
                                 <th>Cluster Name</th>
                                 <th>State Name</th>
                                 <th>District Name</th>
@@ -29,7 +29,7 @@
                             </tr>
                             @forelse($clu as $c)
                                 <tr>
-                                    <td>{{$c->id}}</td>
+                                    {{-- <td>{{$c->id}}</td> --}}
                                     <td>{{$c->Name}}</td>
                                     <td>{{App\Cluster::find($c->id)->state['Name']}}</td>
                                     <td>{{App\Cluster::find($c->id)->district['Name']}}</td>

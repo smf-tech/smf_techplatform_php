@@ -9,6 +9,8 @@ use App\Cluster;
 use App\Taluka;
 use App\District;
 use App\State;
+use Validator;
+use Redirect;
 
 class VillageController extends Controller
 {
@@ -46,6 +48,18 @@ class VillageController extends Controller
      */
     public function store(Request $request)
     { 
+        if($request->cluster_id == null)
+        {
+            $villages = Village::where('Name',$request->villageName)->where('taluka_id',$request->Taluka)->get();
+        }
+        else
+        {
+            $villages = Village::where('Name',$request->villageName)->where('cluster_id',$request->Cluster)->get();
+        }
+        if(!$villages->isEmpty())
+        {
+        return Redirect::back()->withErrors(['Village already exists']);
+        }
         $vil = new Village;
         $vil->Name = $request->villageName;
         $vil->state_id = $request->state_id;
@@ -58,6 +72,27 @@ class VillageController extends Controller
             $vil->save();
 
         return redirect()->route('village.index')->withMessage('Village Created');
+
+        // $validator = Validator::make($request->all(), [
+        //     'Name' => 'unique:villages,cluster_id',
+        // ]);
+
+        // if ($validator->fails()) 
+        // {
+        //     return Redirect::back()->withErrors(['Village already exists']);
+        // }
+        // $vil = new Village;
+        // $vil->Name = $request->villageName;
+        // $vil->state_id = $request->state_id;
+        // $vil->district_id = $request->District;
+        // $vil->taluka_id = $request->Taluka;
+       
+        // if($request->Cluster){
+        //     $vil->cluster_id = $request->Cluster;
+        //  }
+        //     $vil->save();
+
+        // return redirect()->route('village.index')->withMessage('Village Created');
     }
 
     /**

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 use App\Survey;
 use App\Organisation;
+use App\Entity;
 use Maklad\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use App\SurveyResult;
 use Illuminate\Http\Request;
 use Auth;
+use Redirect;
 
 class SurveyController extends Controller
 {
@@ -41,7 +43,8 @@ class SurveyController extends Controller
             'active'=>$request->active,'editable'=>$request->editable,
             'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
             'category_id'=>$request->category_id,'project_id'=>$request->project_id,
-            'microservice_id'=>$request->microservice_id]
+            'microservice_id'=>$request->microservice_id,
+            'entity_id'=>$request->entity_id]
         );
 
         return json_encode('success');
@@ -171,16 +174,18 @@ class SurveyController extends Controller
 		$projects = DB::collection('projects')->get(); 
         $categories = DB::collection('categories')->get();         
         $microservices = DB::collection('microservices')->get(); 
+        $entities = DB::collection('entities')->get();
 
-        return view('index',compact(['orgId','modules','microservices','org_roles','projects','categories']));
+        return view('index',compact(['orgId','modules','microservices','org_roles','projects','categories','entities']));
     }
 
-    public function editForm($org_id,$survey_id)
+    public function editForm($orgId,$survey_id)
     {
-        $organisation=Organisation::find($org_id);
-        $dbName=$organisation->name.'_'.$org_id;
+        $organisation=Organisation::find($orgId);
+        $dbName=$organisation->name.'_'.$orgId;
 
-        $org_roles = $this->getOrganisationRoles($org_id);
+        $org_roles = $this->getOrganisationRoles($orgId);
+        // return $org_id;
 
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
@@ -190,22 +195,23 @@ class SurveyController extends Controller
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
-
+        
         $survey = DB::collection('surveys')->where('_id',$survey_id)->get();
 
         $surveyJson = $survey[0]['json'];
         $surveyID = $survey[0]['_id'];
 
-        $surveys = $survey[0]['project_id'].' '.$survey[0]['category_id'].' '.$survey[0]['microservice_id'].' '.$survey[0]['creator_id'].' '.$survey[0]['active'].' '.$survey[0]['editable'].' '.$survey[0]['multiple_entry'];
+        $surveys = $survey[0]['project_id'].' '.$survey[0]['category_id'].' '.$survey[0]['microservice_id'].' '.$survey[0]['creator_id'].' '.$survey[0]['active'].' '.$survey[0]['editable'].' '.$survey[0]['multiple_entry'].' '.$survey[0]['entity_id'];
         $roles = $survey[0]['assigned_roles'];
      
         $modules= DB::collection('modules')->get();
 
 		$projects = DB::collection('projects')->get(); 
         $categories = DB::collection('categories')->get(); 
-        $microservices = DB::collection('microservices')->get(); 
-        
-        return view('admin.surveys.edit',compact('surveyID','surveys','roles','microservices','surveyJson','org_id','modules','org_roles','projects','categories'));
+        $microservices = DB::collection('microservices')->get();         
+        $entities = DB::collection('entities')->get(); 
+
+        return view('admin.surveys.edit',compact('surveyID','surveys','roles','microservices','entities','surveyJson','orgId','modules','org_roles','projects','categories'));
     }
     public function saveEditedForm(Request $request)
     {
@@ -237,7 +243,9 @@ class SurveyController extends Controller
             'active'=>$request->active,'editable'=>$request->editable,
             'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
             'category_id'=>$request->category_id,'project_id'=>$request->project_id,
-            'microservice_id'=>$request->microservice_id]
+            'microservice_id'=>$request->microservice_id,
+            'entity_id'=>$request->entity_id
+            ]
         );
 
         return json_encode('success');
@@ -310,12 +318,15 @@ class SurveyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($ids)
+    public function destroy($survey_id)
     {
-        // Getting individual ids: id[0] = survey id, id[1] = organisation id
-        $id = explode(" ", $ids);
-        $organisation=Organisation::find($id[1]);
-        $dbName=$organisation->name.'_'.$id[1];
+        $organisation_id = Auth::user()->org_id;
+        $organisation = Organisation::find($organisation_id);
+        $dbName=$organisation->name.'_'.$organisation_id;
+
+        // $id = explode(" ", $ids);
+        // $organisation=Organisation::find($id[1]);
+        // $dbName=$organisation->name.'_'.$id[1];
 
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
@@ -326,16 +337,16 @@ class SurveyController extends Controller
         ));
         DB::setDefaultConnection($dbName);
 
-        DB::collection('surveys')->where('_id',$id[0])->delete();
+        DB::collection('surveys')->where('_id',$survey_id)->delete();
 
         $modules= DB::collection('modules')->get();
-        $orgId = $id[1];
-        $surveys=Survey::paginate(5);
-        DB::setDefaultConnection('mongodb');
+        // $orgId = $id[1];
+        // $surveys=Survey::paginate(5);
+        // DB::setDefaultConnection('mongodb');
        
         // return view('layouts.editSurvey',compact('surveys','orgId','modules'));
         
-        return view('admin.surveys.survey_index',compact('surveys','orgId','modules'));
+        return Redirect::back()->withMessage('Form Deleted');
         
     }
 }

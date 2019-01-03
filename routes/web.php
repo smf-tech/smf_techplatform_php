@@ -64,6 +64,9 @@ Route::group(
     Route::get('/{orgID}/editForm/{surveyID}','SurveyController@editForm');
     Route::resource('form','SurveyController');
     Route::post('/saveEditedform','SurveyController@saveEditedForm');
+    Route::resource('entity','EntityController');
+    Route::get('{orgId}/entities','EntityController@index');
+    Route::get('{orgId}/entity/create','EntityController@create');
 
    });
 

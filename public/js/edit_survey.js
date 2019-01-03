@@ -40,7 +40,7 @@ $.ajaxSetup({
       var categoryId = $('#cat_id').val();  
       var microserviceId = $('#service_id').val();
 
-    
+      var entityId = $('#entity_id').val();    
 
     jQuery.ajax({
         type: "POST",
@@ -55,7 +55,8 @@ $.ajaxSetup({
                 assigned_roles:assigned_roles,
 				category_id:categoryId,
                 project_id:projectId,
-                microservice_id:microserviceId
+                microservice_id:microserviceId,
+                entity_id:entityId
 				},
         success:function(res){
             console.log(res)

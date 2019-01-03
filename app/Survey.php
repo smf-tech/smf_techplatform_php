@@ -2,14 +2,14 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 // use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 class Survey  extends \Jenssegers\Mongodb\Eloquent\Model
 {
     // use SoftDeletes; //Sluggable, 
     // protected $table = 'surveys';
     // protected $primaryKey = 'id';
     protected $fillable = [
-        'name', 'json', 'project_id','category_id','creator_id','microservice_id',//slug',
+        'name', 'json', 'project_id','category_id','creator_id','microservice_id','entity_id',//slug',
     ];
     // protected $casts = [
     //     'json'  =>  'array',
@@ -47,5 +47,9 @@ class Survey  extends \Jenssegers\Mongodb\Eloquent\Model
     public function microservice()
     {
         return $this->belongsTo('App\Microservices');
+    }
+    public function entity()
+    {
+        return $this->belongsTo('App\Entity');
     }
 }

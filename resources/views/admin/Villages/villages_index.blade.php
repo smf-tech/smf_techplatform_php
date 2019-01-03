@@ -21,7 +21,7 @@
                         
                         <table class="table">
                             <tr>
-                                <th>Village ID</th>
+                                {{-- <th>Village ID</th> --}}
                                 <th>Village Name</th>
                                 <th>State Name</th>
                                 <th>District Name</th>
@@ -31,7 +31,7 @@
                             </tr>
                             @forelse($vil as $v)
                                 <tr>
-                                    <td>{{$v->id}}</td>
+                                    {{-- <td>{{$v->id}}</td> --}}
                                     <td>{{$v->Name}}</td>
                                     <td>{{App\Village::find($v->id)->state['Name']}}</td>
                                     <td>{{App\Village::find($v->id)->district['Name']}}</td>

@@ -1,4 +1,5 @@
 @extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
+
 @section('content')
 <div>
         <label><b> Category:</b></label>
@@ -26,6 +27,16 @@
                 <option value='' selected disabled hidden>--Please Select--</option>
                 @foreach($microservices as $microservice)
                     <option value={{$microservice['_id']}}>{{ $microservice['name'] }}</option>
+                @endforeach
+        </select>
+
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    
+        <label><b> Entities: </b></label>
+        <select id='entity_id'>
+                <option value='' selected disabled hidden>--Please Select--</option>
+                @foreach($entities as $entity)
+                    <option value={{$entity['_id']}}>{{ $entity['display_name'] }}</option>
                 @endforeach
         </select>
     
@@ -57,9 +68,16 @@
 @endforeach
 </select>
 </div>
-</br>
+{{-- </br> --}}
 
 <div id="surveyContainer">
     <div id="editorElement"></div>
 </div>
+
 @endsection
+
+@push('scripts')
+     <script src="{{ asset('js/edit_survey.js') }}" value="{{$surveyJson}}" id="id" surveyID="{{ $surveyID }}"></script>
+@endpush
+
+

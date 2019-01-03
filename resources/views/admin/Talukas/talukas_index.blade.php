@@ -19,7 +19,7 @@
                        
                         <table class="table">
                             <tr>
-                                <th>Taluka ID</th>
+                                {{-- <th>Taluka ID</th> --}}
                                 <th>Taluka Name</th>
                                 <th>State Name</th>
                                 <th>District Name</th>
@@ -27,7 +27,7 @@
                             </tr>
                             @forelse($tal as $t)
                                 <tr>
-                                    <td>{{$t->id}}</td>
+                                    {{-- <td>{{$t->id}}</td> --}}
                                     <td>{{$t->Name}}</td>
                                     <td>{{App\Taluka::find($t->id)->state['Name']}}</td>
                                     <td>{{App\Taluka::find($t->id)->district['Name']}}</td>

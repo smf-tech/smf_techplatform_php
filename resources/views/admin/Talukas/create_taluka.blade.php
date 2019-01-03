@@ -19,6 +19,9 @@
                              <div class="form-group">
                                  <label for="talukaName">Taluka Name</label>
                                  <input type="text" name="talukaName" placeholder="name of the taluka" class="form-control"/>
+                                 @if($errors->any())
+                                        <b style="color:red">{{$errors->first()}}</b>
+                                 @endif
                              </div>
                              <div>
                                 <h4>State</h4>

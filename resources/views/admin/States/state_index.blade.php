@@ -22,13 +22,13 @@
                         
                         <table class="table">
                         <tr>
-                            <th>State ID</th>
+                            {{-- <th>State ID</th> --}}
                             <th>State Name</th>
                             <th>Actions</th>
                         </tr>
                         @forelse($states as $state)
                         <tr>
-                            <td>{{$state->id}}</td>
+                            {{-- <td>{{$state->id}}</td> --}}
                             <td>{{$state->Name}}</td>
                             <td><div class="actions">
                                     <a class="btn btn-primary"  href={{route('state.edit',$state->id)}}><i class="fas fa-pen"></i></a>

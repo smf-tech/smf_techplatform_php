@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\District;
 use App\State;
+use Validator;
+use Redirect;
+use Illuminate\Validation\Rule;
 
 class DistrictController extends Controller
 {
@@ -37,12 +40,45 @@ class DistrictController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {        
+        $districts = District::where('Name',$request->districtName)->where('state_id',$request->state_id)->get();
+
+        if(!$districts->isEmpty())
+        {
+            return Redirect::back()->withErrors(['District already exists']);
+        }
+
         $dis = new District;
         $dis->Name = $request->districtName;
         $dis->state_id = $request->state_id;
         $dis->save();
-        return redirect()->route('district.index')->withMessage('District Created');
+        return redirect()->route('district.index')->withMessage('District Created');        
+        // return $districts[1];
+
+        // ->where('state_id',$request->state_id)->get();
+        // ->where(function ($query) {
+        //     $query->where('state_id','=',$request->state_id);
+        // })->get();
+        // $validator = Validator::make($request->all(), [
+            // $validator = $request->validate([
+            // 'Name' => 'unique:districts,state_id',
+            // 'state_id' => 'unique:districts,Name',
+            // 'Name' => 'unique_with:districts,state_id',                 
+            // 'state_id' => 'required',
+
+            // 'Name' => District::where('Name',$request->districtName)->where('state_id',$request->state_id)->get();
+            // Rule::unique('districts')->where(function ($query) {
+            //     return $query->where('state_id','=',$request->state_id);
+            // })
+
+        // ]);
+
+        // if ($validator->fails()) 
+        // {
+        //     return Redirect::back()->withErrors(['District already exists']);
+        // }
+        
+        
     }
 
     /**

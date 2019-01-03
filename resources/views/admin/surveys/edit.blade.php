@@ -1,4 +1,4 @@
-@extends('layouts.editSurvey',compact(['orgId'=>$org_id,'modules'=>$modules,'surveyJson'=>$surveyJson,'surveyID'=>$surveyID]))
+@extends('layouts.editSurvey',compact(['orgId'=>$orgId,'modules'=>$modules,'surveyJson'=>$surveyJson,'surveyID'=>$surveyID]))
 @section('content')
 
 <div>
@@ -41,6 +41,20 @@
                         <option value={{$microservice['_id']}} selected="selected">{{ $microservice['name'] }}</option>
                     @else
                         <option value={{$microservice['_id']}}>{{ $microservice['name'] }}</option>
+                    @endif
+                @endforeach
+        </select>
+
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    
+        <label><b> Entities: </b></label>
+        <select id='entity_id'>
+                <option value='' selected disabled hidden>--Please Select--</option>
+                @foreach($entities as $entity)
+                    @if($survey_details[7] == $microservice['_id'])
+                        <option value={{$entity['_id']}} selected="selected">{{ $entity['display_name'] }}</option>
+                    @else
+                        <option value={{$entity['_id']}}>{{ $entity['display_name'] }}</option>
                     @endif
                 @endforeach
         </select>

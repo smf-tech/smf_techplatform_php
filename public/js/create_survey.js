@@ -71,6 +71,8 @@ $.ajaxSetup({
       var editable = $('#editable').is(":checked");
       var multiple_entry = $('#multiple_entry').is(":checked");
       var assigned_roles = $('#assigned_roles').val();
+      
+
       //console.log(assigned_roles);return;
 
 
@@ -85,6 +87,8 @@ $.ajaxSetup({
     //   var microserviceId = $('#service_id option:selected').attr('value');
     var microserviceId = $('#service_id').val();
 
+    var entityId = $('#entity_id').val();
+
     jQuery.ajax({
         type: "POST",
         url: "/savebuiltform",
@@ -97,7 +101,8 @@ $.ajaxSetup({
                 assigned_roles:assigned_roles,
 				category_id:categoryId,
                 project_id:projectId,                
-				microservice_id:microserviceId
+                microservice_id:microserviceId,
+                entity_id:entityId
 				},
         success:function(res){
             console.log(res)

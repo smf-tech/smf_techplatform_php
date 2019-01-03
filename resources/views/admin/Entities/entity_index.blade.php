@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased')
 
 @section('content')
 <div class="container">
@@ -12,27 +12,27 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    `   <div class="row">
-                        <h3 class="col-md-9">Districts</h3>
+                       <div class="row">
+                        <h3 class="col-md-9">Entities</h3>
                         <div class="col">
-                                <a class ="btn btn-success"href="{{route('district.create')}}">District   <i class="fas fa-plus"></i></a>
+                                <a class ="btn btn-success"href="/{{$orgId}}/entity/create">Entity   <i class="fas fa-plus"></i></a>
                         </div>
                         </div>
                         <table class="table">
                             <tr>
                                 {{-- <th>District ID</th> --}}
-                                <th>District Name</th>
-                                <th>State Name</th>
-                                <th>Action</th>
+                                <th>Entity Name</th>
+                                <th>Display Name</th>
                             </tr>
-                            @forelse($dis as $d)
+                            @forelse($entities as $entity)
                                 <tr>
                                     {{-- <td>{{$d->id}}</td> --}}
-                                    <td>{{$d->Name}}</td>
-                                    <td>{{App\District::find($d->id)->state['Name']}}</td>
+                                    <td>{{$entity->Name}}</td>
+                                    <td>{{$entity->display_name}}</td>
+                                    {{-- <td>{{App\District::find($d->id)->state['Name']}}</td> --}}
                                     <td> <div class="actions">
-                                            <a class="btn btn-primary" href={{route('district.edit',$d->id)}}><i class="fas fa-pen"></i></a>
-                                        {!!Form::open(['action'=>['DistrictController@destroy',$d->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
+                                            <a class="btn btn-primary" href={{route('district.edit',$entity->id)}}><i class="fas fa-pen"></i></a>
+                                        {!!Form::open(['action'=>['EntityController@destroy',$entity->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                          {!!Form::close()!!}
@@ -40,7 +40,7 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <tr><td>no Districts</td></tr>
+                                <tr><td>no Entities</td></tr>
                             @endforelse
                         </table>   
                         

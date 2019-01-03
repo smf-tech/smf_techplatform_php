@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
 
 @section('content')
 <div class="container">
@@ -12,25 +12,24 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Create District</h3>
-                    <form action="{{route('district.store')}}" method="post">
+                        <h3>Create Entity</h3>
+                    <form action="{{route('entity.store')}}" method="post">
                            {{csrf_field()}}     
                         <legend></legend>
                              <div class="form-group">
-                                 <label for="districtName">District Name</label>
-                                 <input type="text" name="districtName" placeholder="name of the district" class="form-control"/>
+                                 <label for="entityName">Entity Name</label>
+                                 <input type="text" name="entityName" placeholder="name of the entity" class="form-control"/>
                                  @if($errors->any())
                                  <b style="color:red">{{$errors->first()}}</b>
                                  @endif
-                             </div>
-                             <div>
-                                <h4>State</h4>
-                                    <select name="state_id" class="form-control">
-                                            @foreach($states as $s)
-                                                <option value={{$s->id}}>{{$s->Name}}</option>
-                                            @endforeach 
-                                    </select>
-                            </div>
+                             </div>    
+                             <div class="form-group">
+                                <label for="displayName">Display Name</label>
+                                <input type="text" name="displayName" placeholder="display name of the entity" class="form-control"/>
+                                @if($errors->any())
+                                <b style="color:red">{{$errors->first()}}</b>
+                                @endif
+                            </div>                          
                             <input type="submit" class="btn btn-success"/>
                          </form>                        
                 </div>

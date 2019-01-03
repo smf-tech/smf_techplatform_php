@@ -19,6 +19,9 @@
                              <div class="form-group">
                                     <label for="stateName">State Name</label>
                                     <input type="text" name="Name" placeholder="Name of the state"class="form-control"/>
+                                    @if($errors->any())
+                                        <b style="color:red">{{$errors->first()}}</b>
+                                    @endif
                             </div>
                             <div class="form-group">
                                 <h4>Jurisdiction</h4>

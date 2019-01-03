@@ -25,32 +25,34 @@
                         <table class="table">
                             <tr>
                                 <th>Name</th>
-                                <th>Project</th>
                                 <th>Category</th>
+                                <th>Project</th>                                
                                 <th>Microservice</th>
+                                <th>Entity</th>
                             </tr>
                             @forelse($surveys as $survey)
                                 <tr>
                                     <td>
                                         {{$survey->name}}
                                     </td>
+                                    <td>
+                                        {{App\Survey::find($survey->id)->category['name']}}
+                                    </td>
                                      <td>
                                             {{App\Survey::find($survey->id)->project['name']}}
                                             {{-- {{$survey->project_id}} --}}
-                                    </td>
-                                    <td>
-                                            {{App\Survey::find($survey->id)->category['name']}}
-                                            {{-- {{$survey->category_id}} --}}
-                                    </td>
+                                    </td>                                    
                                     <td>
                                             {{App\Survey::find($survey->id)->microservice['name']}}
-                                            {{-- {{$survey->category_id}} --}}
+                                    </td>
+                                    <td>
+                                        {{App\Survey::find($survey->id)->entity['display_name']}}
                                     </td>
                                     <td><div class="actions">
                                             {{-- {!!Form::open(['action'=>['SurveyController@editForm',$survey->id],'method'=>'EDIT','class'=>'pull-right' ])!!}
                                             <button type="submit" class="btn btn-primary"><i class="fas fa-pen"></i></button> --}}
                                     <a class="btn btn-primary"  href="/{{$orgId}}/editForm/{{$survey->id}}"><i class="fas fa-pen"></i></a>
-                                {!!Form::open(['action'=>array('SurveyController@destroy',$survey->id.' '.$orgId),'method'=>'DELETE','class'=>'pull-right' ])!!}
+                                {!!Form::open(['action'=>array('SurveyController@destroy',$survey->id),'method'=>'DELETE','class'=>'pull-right' ])!!}
                             
                                     <button type="submit" class="btn btn-danger"{{-- id="id" value="{{$orgId}}"--}}><i class="fas fa-trash-alt"></i></button>
                                 {!!Form::close()!!}

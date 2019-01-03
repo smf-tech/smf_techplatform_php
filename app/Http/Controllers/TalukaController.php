@@ -9,6 +9,9 @@ use App\State;
 use App\Jurisdiction;
 use App\StateJurisdiction;
 use Illuminate\Support\Facades\DB;
+use Validator;
+use Redirect;
+use Illuminate\Validation\Rule;
 
 class TalukaController extends Controller
 {
@@ -136,15 +139,37 @@ class TalukaController extends Controller
      */
     public function store(Request $request)
     {  
+        $talukas = Taluka::where('Name',$request->talukaName)->where('district_id',$request->District)->get();
+
+        if(!$talukas->isEmpty())
+        {
+            return Redirect::back()->withErrors(['Taluka already exists']);
+        }
+
         $tal = new Taluka;
         $tal->Name = $request->talukaName;
         $tal->state_id = $request->state_id;
-        $tal->district_id = $request->District;
-        
-       
-      
+        $tal->district_id = $request->District;      
         $tal->save();
         return redirect()->route('taluka.index')->withMessage('Taluka Created');
+        
+        // $validator = Validator::make($request->all(), [
+        //     'Name' => 'unique:talukas,district_id',
+        //     'district_id' => 'unique:talukas,Name',
+
+        //     // 'Name' => Rule::unique('talukas')->where(['Name','=',$request->Name],['state_id','=',$request->district_id])
+        // ]);
+
+        // if ($validator->fails()) 
+        // {
+        //     return Redirect::back()->withErrors(['Taluka already exists']);
+        // }
+        // $tal = new Taluka;
+        // $tal->Name = $request->talukaName;
+        // $tal->state_id = $request->state_id;
+        // $tal->district_id = $request->District;             
+        // $tal->save();
+        // return redirect()->route('taluka.index')->withMessage('Taluka Created');
     }
 
     /**

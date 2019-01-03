@@ -9,6 +9,8 @@ use App\District;
 use App\State;
 use App\Jurisdiction;
 use App\StateJurisdiction;
+use Validator;
+use Redirect;
 
 class ClusterController extends Controller
 {
@@ -50,6 +52,12 @@ class ClusterController extends Controller
      */
     public function store(Request $request)
     {
+        $clusters = Cluster::where('Name',$request->clusterName)->where('taluka_id',$request->Taluka)->get();
+
+        if(!$clusters->isEmpty())
+        {
+        return Redirect::back()->withErrors(['Cluster already exists']);
+        }
         $clu = new Cluster;
         $clu->Name = $request->clusterName;
         $clu->state_id = $request->state_id;
@@ -57,6 +65,22 @@ class ClusterController extends Controller
         $clu->taluka_id = $request->Taluka;
         $clu->save();
         return redirect()->route('cluster.index')->withMessage('Cluster Created');
+
+        // $validator = Validator::make($request->all(), [
+        //     'Name' => 'unique:clusters,taluka_id',
+        // ]);
+
+        // if ($validator->fails()) 
+        // {
+        //     return Redirect::back()->withErrors(['Cluster already exists']);
+        // }
+        // $clu = new Cluster;
+        // $clu->Name = $request->clusterName;
+        // $clu->state_id = $request->state_id;
+        // $clu->district_id = $request->District;
+        // $clu->taluka_id = $request->Taluka;
+        // $clu->save();
+        // return redirect()->route('cluster.index')->withMessage('Cluster Created');
     }
 
     /**
