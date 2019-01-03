@@ -81,17 +81,19 @@ class EntityController extends Controller
         ));
         DB::setDefaultConnection($dbName); 
       
-                Schema::connection($dbName)->create('entity_'.$request->entityName, function($table)
+        $entity = new Entity;
+        $entity->Name = $request->entityName;
+        $entity->display_name = $request->displayName;
+        $entity->save();
+
+                Schema::connection($dbName)->create('entity_'.$entity->id, function($table)
         {
             $table->increments('id');
             $table->string('User ID');
             $table->timestamps();
        });
        
-       $entity = new Entity;
-        $entity->Name = $request->entityName;
-        $entity->display_name = $request->displayName;
-        $entity->save();
+       
 
         return redirect()->route('entity.index')->withMessage('Entity Created');
     }
@@ -165,7 +167,7 @@ class EntityController extends Controller
 
         $entity = Entity::find($id);
         // return $entity->Name;
-        Schema::drop('entity_'.$entity->Name);   
+        Schema::drop('entity_'.$id);   
         $entity->delete();
         return Redirect::back()->withMessage('Entity Deleted');   
     }
