@@ -15,9 +15,10 @@ class EntityController extends Controller
 {
     public function index()
     {    
+        // $uri = explode("/",$_SERVER['REQUEST_URI']);
         $orgId = Auth::user()->org_id;
         $organisation=Organisation::find($orgId);
-        
+        // $orgId=$organisation->id;
         $dbName=$organisation->name.'_'.$orgId;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
@@ -92,10 +93,11 @@ class EntityController extends Controller
         $entity->display_name = $request->displayName;
         $entity->save();
 
-        return Redirect::back()->withMessage('Entity Created');
+        return redirect()->route('entity.index')->withMessage('Entity Created');
     }
     public function edit($entity_id)
     {
+        // return Entity::find($entity_id);
         $orgId = Auth::user()->org_id;
         $organisation = Organisation::find($orgId);
         $dbName=$organisation->name.'_'.$orgId;
@@ -111,7 +113,7 @@ class EntityController extends Controller
 
         $modules= DB::collection('modules')->get();
         $entity = Entity::find($entity_id);
-
+        // return $entity;
        return view('admin.Entities.edit',compact('orgId','modules','entity'));
     }
 
@@ -162,6 +164,7 @@ class EntityController extends Controller
         DB::setDefaultConnection($dbName); 
 
         $entity = Entity::find($id);
+        // return $entity->Name;
         Schema::drop('entity_'.$entity->Name);   
         $entity->delete();
         return Redirect::back()->withMessage('Entity Deleted');   
