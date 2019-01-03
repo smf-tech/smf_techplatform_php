@@ -12,7 +12,7 @@ class SettingsController extends Controller
     }
 
     public function index()
-{        return view('admin.Settings.settings');
+{        return view('admin.settings.settings');
     }
 
     public function login(Request $req)

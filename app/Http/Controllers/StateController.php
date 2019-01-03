@@ -20,7 +20,7 @@ class StateController extends Controller
     public function index()
     {
         $states = State::all();
-        return view('admin.States.state_index',compact('states'));
+        return view('admin.states.state_index',compact('states'));
     }
 
     /**
@@ -32,7 +32,7 @@ class StateController extends Controller
     {
         $jurisdiction=Jurisdiction::all();
         $states = State::all();
-        return view('admin.States.create_state',compact('jurisdiction','states'));
+        return view('admin.states.create_state',compact('jurisdiction','states'));
     }
 
     /**
@@ -92,7 +92,7 @@ class StateController extends Controller
         $jurisdiction=Jurisdiction::all();
 
         $state_jurisdictions=StateJurisdiction::where('state_id',$id)->get();
-        return view('admin.States.edit',compact(['state','jurisdiction','state_jurisdictions']));
+        return view('admin.states.edit',compact(['state','jurisdiction','state_jurisdictions']));
     }
 
     /**

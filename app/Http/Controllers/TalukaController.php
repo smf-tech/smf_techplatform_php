@@ -23,7 +23,7 @@ class TalukaController extends Controller
     public function index()
     {
         $tal = Taluka::all();
-        return view('admin.Talukas.talukas_index',compact('tal'));
+        return view('admin.talukas.talukas_index',compact('tal'));
     }
     public function getJidandLevel(Request $request){
         $jIdsAndLevel=StateJurisdiction::where('state_id',$request->stateId)->orderBy('level', 'ASC')->get(['jurisdiction_id','level']);
@@ -128,7 +128,7 @@ class TalukaController extends Controller
     
         $states=State::whereIn('_id',$id)->get();
       
-        return view('admin.Talukas.create_taluka',compact('states'));   
+        return view('admin.talukas.create_taluka',compact('states'));   
     }
 
     /**
@@ -195,7 +195,7 @@ class TalukaController extends Controller
         $states = State::all();
         $districts = District::all();
     
-        return view('admin.Talukas.edit',compact('tal','states','districts'));
+        return view('admin.talukas.edit',compact('tal','states','districts'));
     }
 
     /**

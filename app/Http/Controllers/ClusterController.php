@@ -22,7 +22,7 @@ class ClusterController extends Controller
     public function index()
     {
         $clu = Cluster::all();
-        return view('admin.Clusters.clusters_index',compact('clu'));
+        return view('admin.clusters.clusters_index',compact('clu'));
     }
 
     /**
@@ -41,7 +41,7 @@ class ClusterController extends Controller
         }
         
         $states=State::whereIn('_id',$id)->get();
-        return view('admin.Clusters.create_cluster',compact('states'));   
+        return view('admin.clusters.create_cluster',compact('states'));   
     }
 
     /**
@@ -91,7 +91,7 @@ class ClusterController extends Controller
         $districts = District::all();
         $talukas = Taluka::all();
 
-        return view('admin.Clusters.edit',compact('clu','states','districts','talukas'));
+        return view('admin.clusters.edit',compact('clu','states','districts','talukas'));
     }
 
     /**

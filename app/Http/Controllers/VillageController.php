@@ -22,7 +22,7 @@ class VillageController extends Controller
     public function index()
     {
         $vil = Village::all();
-        return view('admin.Villages.villages_index',compact('vil'));
+        return view('admin.villages.villages_index',compact('vil'));
     }
 
     /**
@@ -37,7 +37,7 @@ class VillageController extends Controller
         $talukas = Taluka::all();
         $clusters = Cluster::all();
 
-        return view('admin.Villages.create_village',compact('states','districts','talukas','clusters'));   
+        return view('admin.villages.create_village',compact('states','districts','talukas','clusters'));   
     }
 
     /**
@@ -99,7 +99,7 @@ class VillageController extends Controller
         $talukas = Taluka::all();        
         $clusters = Cluster::all();
 
-        return view('admin.Villages.edit',compact('vil','states','districts','talukas','clusters'));
+        return view('admin.villages.edit',compact('vil','states','districts','talukas','clusters'));
     }
 
     /**

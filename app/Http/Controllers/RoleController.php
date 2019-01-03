@@ -30,7 +30,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles=Role::all();
-        return view('admin.Roles.role_index',compact('roles'));
+        return view('admin.roles.role_index',compact('roles'));
     }
 
     /**
@@ -44,7 +44,7 @@ class RoleController extends Controller
         $orgs=Organisation::where('orgshow','<>',0)->get();
         $levels = Jurisdiction::all();
         
-        return view('admin.Roles.create_role',compact(['permissions','orgs','levels']));
+        return view('admin.roles.create_role',compact(['permissions','orgs','levels']));
     }
 
     /**
@@ -92,7 +92,7 @@ class RoleController extends Controller
          $levels = Jurisdiction::all();
          $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
 
-         return view('admin.Roles.edit',compact(['role','orgs','levels','role_jurisdictions']));
+         return view('admin.roles.edit',compact(['role','orgs','levels','role_jurisdictions']));
     }
 
     /**

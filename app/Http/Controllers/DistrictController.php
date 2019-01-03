@@ -19,7 +19,7 @@ class DistrictController extends Controller
     public function index()
     {
         $dis = District::all();
-        return view('admin.Districts.districts_index',compact('dis'));
+        return view('admin.districts.districts_index',compact('dis'));
     }
 
     /**
@@ -30,7 +30,7 @@ class DistrictController extends Controller
     public function create()
     {
         $states = State::all();
-        return view('admin.Districts.create_district',compact('states'));   
+        return view('admin.districts.create_district',compact('states'));   
     }
 
     /**
@@ -77,7 +77,7 @@ class DistrictController extends Controller
         $dis = District::find($id);
         $states = State::all();
 
-        return view('admin.Districts.edit',compact('dis','states'));
+        return view('admin.districts.edit',compact('dis','states'));
     }
 
     /**

@@ -31,7 +31,7 @@ class EntityController extends Controller
         $modules= DB::collection('modules')->get();
 
         $entities=Entity::all();
-        return view('admin.Entities.entity_index',compact('entities','orgId','modules'));
+        return view('admin.entities.entity_index',compact('entities','orgId','modules'));
         
     }
 
@@ -53,7 +53,7 @@ class EntityController extends Controller
         DB::setDefaultConnection($dbName);
         $modules= DB::collection('modules')->get();
 
-        return view('admin.Entities.create_entity',compact('orgId','modules'));
+        return view('admin.entities.create_entity',compact('orgId','modules'));
       
     }
 
@@ -116,7 +116,7 @@ class EntityController extends Controller
         $modules= DB::collection('modules')->get();
         $entity = Entity::find($entity_id);
         // return $entity;
-       return view('admin.Entities.edit',compact('orgId','modules','entity'));
+       return view('admin.entities.edit',compact('orgId','modules','entity'));
     }
 
     /**
