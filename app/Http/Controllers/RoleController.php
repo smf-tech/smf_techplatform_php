@@ -99,7 +99,7 @@ class RoleController extends Controller
          $role=Role::find($id);
          //$permissions=Permission::all();
          //$role_permissions=$role->perms()->pluck('id','id')->toArray();
-         $orgs=Organisation::all();
+         $orgs=Organisation::where('orgshow','<>',0)->get();
          $levels = Jurisdiction::all();
          $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
 

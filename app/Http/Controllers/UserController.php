@@ -64,9 +64,9 @@ class UserController extends Controller
     {
         
         $orgs=Organisation::where('orgshow','<>',0)->get();
-        
+        $roles=Role::all();
         $states=State::all();
-        return view('admin.users.create_user',compact(['orgs','states']));
+        return view('admin.users.create_user',compact(['orgs','states','roles']));
     }
 
     /**
@@ -147,7 +147,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user=User::find($id);
-        $orgs=Organisation::all();
+        $orgs=Organisation::where('orgshow','<>',0)->get();
         $orgId=$user['org_id'];
         $roleId=$user['role_id'];
         $userDet=UserDetails::where('user_id',$id)->get();
