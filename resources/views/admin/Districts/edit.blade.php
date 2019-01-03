@@ -13,23 +13,19 @@
                         </div>
                     @endif
                         <h3>Edit District</h3>
-                        {!! Form::model($dis, ['route' => [ 'district.update', $dis->id ], 'method'=>'PUT', 'id' => 'district-edit-form']) !!}
+                        {!! Form::model($district, ['route' => [ 'district.update', $district->id ], 'method'=>'PUT', 'id' => 'district-edit-form']) !!}
                         
                         {{csrf_field()}} 
                         <legend></legend>
-                            <div class="form-group">
-                                <label for="id">District ID</label>
-                                <input type="integer" name="id" placeholder="District" class="form-control" value="{{$dis->id}}"/>
-                            </div>
                              <div class="form-group">
                                     <label for="districtName">District Name</label>
-                             <input type="text" name="districtName" placeholder="District name" value="{{$dis->districtName}}" class="form-control"/>
+                             <input type="text" name="districtName" placeholder="District name" value="{{$district->Name}}" class="form-control"/>
                             </div>
                             <div>
                                     <h4>State</h4>
-                                    <select name="state_id" class="form-control">
-                                            @foreach($states as $s)
-                                                <option value={{$s->id}} {{ ($dis->state_id == $s->id) ? "selected":""}}>{{$s->stateName}}</option>
+                                    <select id="state_id2" name="state_id" class="form-control">
+                                            @foreach($states as $state)
+                                                <option value={{$state->id}} {{ ($district->state_id == $state->id) ? "selected":""}}>{{$state->Name}}</option>
                                             @endforeach 
                                     </select>
                             </div>

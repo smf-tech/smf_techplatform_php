@@ -21,8 +21,8 @@ class VillageController extends Controller
      */
     public function index()
     {
-        $vil = Village::all();
-        return view('admin.villages.villages_index',compact('vil'));
+        $villages = Village::paginate(5);       
+        return view('admin.villages.villages_index',compact('villages')); 
     }
 
     /**
@@ -36,7 +36,6 @@ class VillageController extends Controller
         $districts = District::all();
         $talukas = Taluka::all();
         $clusters = Cluster::all();
-
         return view('admin.villages.create_village',compact('states','districts','talukas','clusters'));   
     }
 
@@ -60,16 +59,16 @@ class VillageController extends Controller
         {
         return Redirect::back()->withErrors(['Village already exists']);
         }
-        $vil = new Village;
-        $vil->Name = $request->villageName;
-        $vil->state_id = $request->state_id;
-        $vil->district_id = $request->District;
-        $vil->taluka_id = $request->Taluka;
+        $village = new Village;
+        $village->Name = $request->villageName;
+        $village->state_id = $request->state_id;
+        $village->district_id = $request->District;
+        $village->taluka_id = $request->Taluka;
        
         if($request->Cluster){
-            $vil->cluster_id = $request->Cluster;
+            $village->cluster_id = $request->Cluster;
          }
-            $vil->save();
+            $village->save();
 
         return redirect()->route('village.index')->withMessage('Village Created');
     }
@@ -93,13 +92,14 @@ class VillageController extends Controller
      */
     public function edit($id)
     {
-        $vil = Village::find($id);
+        $village = Village::find($id);
         $states = State::all();
-        $districts = District::all();
-        $talukas = Taluka::all();        
-        $clusters = Cluster::all();
+        $districts = District::where('state_id',$village->state_id)->get();
+        $talukas = Taluka::where('district_id',$village->district_id)->get();    
+        if($village->cluster_id != null)
+            $clusters = Cluster::where('taluka_id',$village->taluka_id)->get();
 
-        return view('admin.villages.edit',compact('vil','states','districts','talukas','clusters'));
+        return view('admin.villages.edit',compact('village','states','districts','talukas','clusters'));
     }
 
     /**
@@ -111,13 +111,21 @@ class VillageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $vil=Village::find($id);
-        $vil->villageName=$request->villageName;
-        $vil->state_id = $request->state_id;
-        $vil->district_id = $request->district_id;
-        $vil->taluka_id = $request->taluka_id;
-        $vil->cluster_id = $request->cluster_id;
-        $vil->save();
+        $village=Village::find($id);
+        $village->Name=$request->villageName;
+        $village->state_id = $request->state_id;
+        $village->district_id = $request->District;
+        $village->taluka_id = $request->Taluka;
+
+            if($request->Cluster)
+            {
+                $village->cluster_id = $request->Cluster;
+            }
+            else
+            {
+                $village->cluster_id = null;
+            }
+        $village->save();
 
         return redirect()->route('village.index')->withMessage('Village Edited');   
     }
@@ -130,7 +138,7 @@ class VillageController extends Controller
      */
     public function destroy($id)
     {
-        $vil=Village::find($id)->delete();
+        $village=Village::find($id)->delete();
         return redirect()->route('village.index')->withMessage('Village Deleted');                
     }
 }

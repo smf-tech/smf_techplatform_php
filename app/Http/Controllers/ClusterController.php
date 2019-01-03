@@ -21,8 +21,8 @@ class ClusterController extends Controller
      */
     public function index()
     {
-        $clu = Cluster::all();
-        return view('admin.clusters.clusters_index',compact('clu'));
+        $clusters = Cluster::paginate(5);   
+        return view('admin.clusters.clusters_index',compact('clusters'));
     }
 
     /**
@@ -58,12 +58,12 @@ class ClusterController extends Controller
         {
         return Redirect::back()->withErrors(['Cluster already exists']);
         }
-        $clu = new Cluster;
-        $clu->Name = $request->clusterName;
-        $clu->state_id = $request->state_id;
-        $clu->district_id = $request->District;
-        $clu->taluka_id = $request->Taluka;
-        $clu->save();
+        $cluster = new Cluster;
+        $cluster->Name = $request->clusterName;
+        $cluster->state_id = $request->state_id;
+        $cluster->district_id = $request->District;
+        $cluster->taluka_id = $request->Taluka;
+        $cluster->save();
         return redirect()->route('cluster.index')->withMessage('Cluster Created');        
     }
 
@@ -86,12 +86,12 @@ class ClusterController extends Controller
      */
     public function edit($id)
     {
-        $clu = Cluster::find($id);
+        $cluster = Cluster::find($id);
         $states = State::all();
-        $districts = District::all();
-        $talukas = Taluka::all();
+        $districts = District::where('state_id',$cluster->state_id)->get();
+        $talukas = Taluka::where('district_id',$cluster->district_id)->get();
 
-        return view('admin.clusters.edit',compact('clu','states','districts','talukas'));
+        return view('admin.clusters.edit',compact('cluster','states','districts','talukas'));
     }
 
     /**
@@ -103,12 +103,19 @@ class ClusterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $clu=Cluster::find($id);
-        $clu->clusterName=$request->clusterName;
-        $clu->state_id = $request->state_id;
-        $clu->district_id = $request->district_id;
-        $clu->taluka_id = $request->taluka_id;
-        $clu->save();
+        $cluster=Cluster::find($id);
+        $cluster->Name=$request->clusterName;
+        $cluster->state_id = $request->state_id;
+        $cluster->district_id = $request->District;
+        $cluster->taluka_id = $request->Taluka;
+
+        $state=State::find( $cluster->state_id);
+        $district=District::find($cluster->district_id);        
+        $taluka=Taluka::find( $cluster->taluka_id);
+
+        Village::where('cluster_id',$id)->update(['state_id'=>$request->state_id,'district_id'=>$request->District,'taluka_id'=>$request->Taluka]);
+
+        $cluster->save();
 
         return redirect()->route('cluster.index')->withMessage('Cluster Edited');   
     }
@@ -121,7 +128,7 @@ class ClusterController extends Controller
      */
     public function destroy($id)
     {
-        $clu=Cluster::find($id)->delete();
+        $cluster=Cluster::find($id)->delete();
         return redirect()->route('cluster.index')->withMessage('Cluster Deleted');                
     }
 }

@@ -27,17 +27,17 @@
                                 <th>Taluka ID</th>
                                 <th>Action</th>
                             </tr>
-                            @forelse($clu as $c)
+                            @forelse($clusters as $cluster)
                                 <tr>
                                     {{-- <td>{{$c->id}}</td> --}}
-                                    <td>{{$c->Name}}</td>
-                                    <td>{{App\Cluster::find($c->id)->state['Name']}}</td>
-                                    <td>{{App\Cluster::find($c->id)->district['Name']}}</td>
-                                    <td>{{App\Cluster::find($c->id)->taluka['Name']}}</td>
+                                    <td>{{$cluster->Name}}</td>
+                                    <td>{{App\Cluster::find($cluster->id)->state['Name']}}</td>
+                                    <td>{{App\Cluster::find($cluster->id)->district['Name']}}</td>
+                                    <td>{{App\Cluster::find($cluster->id)->taluka['Name']}}</td>
                                     <td>
                                             <div class="actions">
-                                                    <a class="btn btn-primary"  href={{route('cluster.edit',$c->id)}}><i class="fas fa-pen"></i></a>
-                                            {!!Form::open(['action'=>['ClusterController@destroy',$c->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
+                                                    <a class="btn btn-primary"  href={{route('cluster.edit',$cluster->id)}}><i class="fas fa-pen"></i></a>
+                                            {!!Form::open(['action'=>['ClusterController@destroy',$cluster->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                             {!!Form::close()!!}

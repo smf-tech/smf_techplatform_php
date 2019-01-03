@@ -29,17 +29,17 @@
                                 <th>Cluster Name</th>
                                 <th>Action</th>
                             </tr>
-                            @forelse($vil as $v)
+                            @forelse($villages as $village)
                                 <tr>
                                     {{-- <td>{{$v->id}}</td> --}}
-                                    <td>{{$v->Name}}</td>
-                                    <td>{{App\Village::find($v->id)->state['Name']}}</td>
-                                    <td>{{App\Village::find($v->id)->district['Name']}}</td>
-                                    <td>{{App\Village::find($v->id)->taluka['Name']}}</td>
-                                    <td>{{App\Village::find($v->id)->cluster['Name']}}</td>
+                                    <td>{{$village->Name}}</td>
+                                    <td>{{App\Village::find($village->id)->state['Name']}}</td>
+                                    <td>{{App\Village::find($village->id)->district['Name']}}</td>
+                                    <td>{{App\Village::find($village->id)->taluka['Name']}}</td>
+                                    <td>{{App\Village::find($village->id)->cluster['Name']}}</td>
                                     <td><div class="actions">
-                                            <a class="btn btn-primary" href={{route('village.edit',$v->id)}}><i class="fas fa-pen"></i></a>
-                                        {!!Form::open(['action'=>['VillageController@destroy',$v->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
+                                            <a class="btn btn-primary" href={{route('village.edit',$village->id)}}><i class="fas fa-pen"></i></a>
+                                        {!!Form::open(['action'=>['VillageController@destroy',$village->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                         {!!Form::close()!!}

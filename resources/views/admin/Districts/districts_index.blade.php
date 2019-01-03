@@ -25,14 +25,14 @@
                                 <th>State Name</th>
                                 <th>Action</th>
                             </tr>
-                            @forelse($dis as $d)
+                            @forelse($districts as $district)
                                 <tr>
                                     {{-- <td>{{$d->id}}</td> --}}
-                                    <td>{{$d->Name}}</td>
-                                    <td>{{App\District::find($d->id)->state['Name']}}</td>
+                                    <td>{{$district->Name}}</td>
+                                    <td>{{App\District::find($district->id)->state['Name']}}</td>
                                     <td> <div class="actions">
-                                            <a class="btn btn-primary" href={{route('district.edit',$d->id)}}><i class="fas fa-pen"></i></a>
-                                        {!!Form::open(['action'=>['DistrictController@destroy',$d->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
+                                            <a class="btn btn-primary" href={{route('district.edit',$district->id)}}><i class="fas fa-pen"></i></a>
+                                        {!!Form::open(['action'=>['DistrictController@destroy',$district->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                          {!!Form::close()!!}

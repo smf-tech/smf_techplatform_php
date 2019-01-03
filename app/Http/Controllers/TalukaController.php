@@ -22,8 +22,8 @@ class TalukaController extends Controller
      */
     public function index()
     {
-        $tal = Taluka::all();
-        return view('admin.talukas.talukas_index',compact('tal'));
+        $talukas = Taluka::paginate(5);        
+        return view('admin.talukas.talukas_index',compact('talukas'));
     }
     public function getJidandLevel(Request $request){
         $jIdsAndLevel=StateJurisdiction::where('state_id',$request->stateId)->orderBy('level', 'ASC')->get(['jurisdiction_id','level']);
@@ -146,11 +146,11 @@ class TalukaController extends Controller
             return Redirect::back()->withErrors(['Taluka already exists']);
         }
 
-        $tal = new Taluka;
-        $tal->Name = $request->talukaName;
-        $tal->state_id = $request->state_id;
-        $tal->district_id = $request->District;      
-        $tal->save();
+        $taluka = new Taluka;
+        $taluka->Name = $request->talukaName;
+        $taluka->state_id = $request->state_id;
+        $taluka->district_id = $request->District;      
+        $taluka->save();
         return redirect()->route('taluka.index')->withMessage('Taluka Created');
         
         // $validator = Validator::make($request->all(), [
@@ -191,11 +191,11 @@ class TalukaController extends Controller
      */
     public function edit($id)
     {
-        $tal = Taluka::find($id);
+        $taluka = Taluka::find($id);
         $states = State::all();
-        $districts = District::all();
-    
-        return view('admin.talukas.edit',compact('tal','states','districts'));
+        $districts = District::where('state_id',$taluka->state_id)->get();
+        
+        return view('admin.talukas.edit',compact('taluka','states','districts'));        
     }
 
     /**
@@ -207,13 +207,25 @@ class TalukaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tal=Taluka::find($id);
-        // $dis->id=$request->id;
-        $tal->talukaName=$request->talukaName;
-        $tal->state_id = $request->state_id;
-        $tal->district_id = $request->district_id;
-        $tal->save();
+        $taluka=Taluka::find($id);
+        $taluka->Name=$request->talukaName;
+        $taluka->state_id = $request->state_id;
+        $taluka->district_id = $request->District;
+        $taluka->save();
 
+        $cluster = Cluster::where('state_id',$request->state_id)->get();
+
+        if($cluster->isEmpty())
+        {
+        Cluster::where('taluka_id',$id)->update(['state_id'=>$request->state_id,'district_id'=>$request->District]); 
+        }
+        else
+        {
+            Cluster::where('taluka_id',$id)->delete();
+        }
+
+        Village::where('taluka_id',$id)->update(['state_id'=>$request->state_id,'district_id'=>$request->District]);
+        
         return redirect()->route('taluka.index')->withMessage('Taluka Edited');   
     }
 
@@ -225,7 +237,7 @@ class TalukaController extends Controller
      */
     public function destroy($id)
     {
-        $tal=Taluka::find($id)->delete();
+        $taluka=Taluka::find($id)->delete();
         return redirect()->route('taluka.index')->withMessage('Taluka Deleted');                
     }
 }

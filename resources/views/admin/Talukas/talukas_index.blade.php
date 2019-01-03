@@ -25,15 +25,15 @@
                                 <th>District Name</th>
                                 <th>Action</th>
                             </tr>
-                            @forelse($tal as $t)
+                            @forelse($talukas as $taluka)
                                 <tr>
                                     {{-- <td>{{$t->id}}</td> --}}
-                                    <td>{{$t->Name}}</td>
-                                    <td>{{App\Taluka::find($t->id)->state['Name']}}</td>
-                                    <td>{{App\Taluka::find($t->id)->district['Name']}}</td>
+                                    <td>{{$taluka->Name}}</td>
+                                    <td>{{App\Taluka::find($taluka->id)->state['Name']}}</td>
+                                    <td>{{App\Taluka::find($taluka->id)->district['Name']}}</td>
                                     <td> <div class="actions">
-                                            <a class="btn btn-primary" href={{route('taluka.edit',$t->id)}}><i class="fas fa-pen"></i></a>
-                                        {!!Form::open(['action'=>['TalukaController@destroy',$t->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
+                                            <a class="btn btn-primary" href={{route('taluka.edit',$taluka->id)}}><i class="fas fa-pen"></i></a>
+                                        {!!Form::open(['action'=>['TalukaController@destroy',$taluka->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                         {!!Form::close()!!}

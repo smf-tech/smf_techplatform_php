@@ -18,8 +18,8 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        $dis = District::all();
-        return view('admin.districts.districts_index',compact('dis'));
+        $districts = District::paginate(5);
+        return view('admin.districts.districts_index',compact('districts'));
     }
 
     /**
@@ -48,10 +48,10 @@ class DistrictController extends Controller
             return Redirect::back()->withErrors(['District already exists']);
         }
 
-        $dis = new District;
-        $dis->Name = $request->districtName;
-        $dis->state_id = $request->state_id;
-        $dis->save();
+        $district = new District;
+        $district->Name = $request->districtName;
+        $district->state_id = $request->state_id;
+        $district->save();
         return redirect()->route('district.index')->withMessage('District Created');               
     }
 
@@ -74,10 +74,10 @@ class DistrictController extends Controller
      */
     public function edit($id)
     {
-        $dis = District::find($id);
+        $district = District::find($id);
         $states = State::all();
 
-        return view('admin.districts.edit',compact('dis','states'));
+        return view('admin.districts.edit',compact('district','states'));
     }
 
     /**
@@ -88,11 +88,25 @@ class DistrictController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $dis=District::find($id);
-        $dis->districtName=$request->districtName;
-        $dis->state_id=$request->state_id;
-        $dis->save();
+    {    
+        
+        $district=District::find($id);
+        $district->Name=$request->districtName;        
+        $district->state_id=$request->state_id;
+        $district->save();
+
+        Taluka::where('district_id',$id)->update(['state_id'=>$request->state_id]);
+        $cluster = Cluster::where('state_id',$request->state_id)->get();
+
+        if($cluster->isEmpty())
+        {
+        Cluster::where('district_id',$id)->update(['state_id'=>$request->state_id]); 
+        }
+        else
+        {
+            Cluster::where('district_id',$id)->delete();
+        }
+        Village::where('district_id',$id)->update(['state_id'=>$request->state_id]);
 
         return redirect()->route('district.index')->withMessage('District Edited');   
     }
@@ -105,7 +119,7 @@ class DistrictController extends Controller
      */
     public function destroy($id)
     {
-        $dis=District::find($id)->delete();
+        $district=District::find($id)->delete();
         return redirect()->route('district.index')->withMessage('District Deleted');                
     }
 }
