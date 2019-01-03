@@ -9,7 +9,7 @@ $.ajaxSetup({
                 Survey.surveyLocalization.locales["hi"] = Survey.surveyLocalization.locales["en-us"];
                 Survey.surveyLocalization.localeNames["hi"] = "Hindi";
                 Survey.surveyLocalization.supportedLocales = ["en", "mr","hi"];
-        
+
   SurveyEditor
       .StylesManager
       .applyTheme("bootstrap");
@@ -66,7 +66,7 @@ $.ajaxSetup({
 				},
         success:function(res){
             console.log(res)
-            window.location.href = "http://127.0.0.1:8000/"+orgId+"/forms";
+            window.location.href = "/"+orgId+"/forms";
         }
       });
     
