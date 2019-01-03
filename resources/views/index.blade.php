@@ -77,7 +77,7 @@
 @endsection
 
 @push('scripts')
-     <script src="{{ asset('js/edit_survey.js') }}" value="{{$surveyJson}}" id="id" surveyID="{{ $surveyID }}"></script>
+     <script src="{{ asset('js/create_survey.js') }}" id="id" class="{{ Auth::user()->id }}"></script>
 @endpush
 
 
