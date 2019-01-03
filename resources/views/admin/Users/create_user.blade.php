@@ -14,6 +14,11 @@
                         </div>
                     @endif
                         <h3>Create user</h3>
+                    @if (session('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <form action="{{route('users.store')}}" method="post" class="form-horizontal">
                            {{csrf_field()}}     
                         <legend></legend>
@@ -95,13 +100,11 @@
                                         </div>
                                         <div class="col-md-6 row form-group{{ $errors->has('org_id') ? ' has-error' : '' }} ">
                                                 <label for="org_id" class="col-md-4 col-form-label ">Organisation</label>
-                    
                                                 <div class="form-group col-md-8">
                                                     <select id="org_id"  class="form-control" name="org_id" required>
                                                             @foreach($orgs as $org)
                                                                 <option value={{$org->id}}>{{$org->name}}</option>
-                                                                
-                                                             @endforeach 
+                                                            @endforeach 
                                                     </select>
                     
                                                     @if ($errors->has('org_id'))
@@ -135,18 +138,16 @@
                                                 </div>
                                             </div>
         
-                                           
-            
+                             
                                             <div class="col-md-6 row form-group{{ $errors->has('state_id') ? ' has-error' : '' }} ">
                                                     <label for="state_id2" class="col-md-4 col-form-label ">State</label>
                         
                                                     <div class="form-group col-md-8">
-                                                        <select id="state_id2"  class="form-control" name="state_id[]" multiple size="4" required>
-                                                            <option value=0></option>
+                                                        <select id="state_id2"  class="form-control" name="state_id" required>
+                                                            <!-- <option value=0></option> -->
                                                                 @foreach($states as $state)
                                                                     <option value={{$state->id}}>{{$state->Name}}</option>
-                                                                    
-                                                                 @endforeach 
+                                                                @endforeach 
                                                         </select>
                         
                                                         @if ($errors->has('state_id'))
@@ -156,7 +157,6 @@
                                                         @endif
                                                     </div>
                                                 </div>
-                                            
                                                 
                                 </div>
                                   

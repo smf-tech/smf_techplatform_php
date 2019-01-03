@@ -30,12 +30,12 @@
                                  <input type="text" name="description" placeholder="description"class="form-control"/>
                             </div>
                             <div class="form-group sub-con">
-                            <div class="form-group ">
+                            <!-- <div class="form-group ">
                                 <h4>Permissions</h4>
                                 @foreach($permissions as $permission)
                                 {{$permission->name}}<input type="checkbox" name="permission[]" value="{{$permission->id}}"  class="form-control"/><br/>
                                 @endforeach 
-                            </div>
+                            </div> -->
                             <div  class="form-group" >
                                     <h4>Organisation</h4>
                                     <select name="org_id" class="form-control">

@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'subtitle' => env('APP_SUBTITLE', 'SMF Platform'),
 
     /*
     |--------------------------------------------------------------------------
@@ -163,7 +164,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Zizaco\Entrust\EntrustServiceProvider::class,
+        //Zizaco\Entrust\EntrustServiceProvider::class,
 
     ],
 
@@ -215,7 +216,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        //'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
 
     ],
 

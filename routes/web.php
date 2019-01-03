@@ -17,9 +17,9 @@
 
 Route::get('/','PagesController@index');
 
-Route::get('/about','PagesController@about');
+//Route::get('/about','PagesController@about');
 
-Route::get('/services','PagesController@services');
+//Route::get('/services','PagesController@services');
 
 Auth::routes();
 
@@ -46,7 +46,6 @@ Route::group(
     Route::resource('orgManager','orgManager');
     Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
 
-
     Route::get('{orgId}/forms/create', 'SurveyController@showCreateForm');
 
     Route::post('/savebuiltform','SurveyController@saveSurveyForm');
@@ -67,7 +66,7 @@ Route::group(
 
    });
 
-Route::group(['middleware' => [CheckAuth::class]], function () { 
+    Route::group(['middleware' => [CheckAuth::class]], function () { 
     Route::get('/getRoles','RoleController@getOrgRoles');
     Route::get('/getJurisdiction','StateController@getJurisdiction');
     Route::get('/getLevel','UserController@getLevel');
@@ -77,9 +76,9 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
 });
 
 Route::get('/settings', 'SettingsController@index')->name('settings');
-
-
-
 Route::get('/sendOTP','smsAuthController@sendOTP');
 Route::get('/verifyOTP','smsAuthController@verifyOTP');
 Route::get('/getTestEndpoint','smsAuthController@getTestEndpoint');
+
+Route::delete('user/{id}', array('as' => 'user.destroy','uses' => 'UserController@destroy'));
+Route::delete('role/{id}', array('as' => 'role.destroy','uses' => 'RoleController@destroy'));

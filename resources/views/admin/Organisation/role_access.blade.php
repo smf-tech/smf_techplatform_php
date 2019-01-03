@@ -26,7 +26,6 @@
                                 @endforeach
                                 </select>
                                 </div>
-                                
                             </div>
                         </div>
                         <div class="row form-group">
@@ -51,12 +50,23 @@
                                         <option value="{{$module['_id']}}" @if(in_array($module['_id'],$role_onapprove_modules)) selected='selected'  @endif>{{$module['name']}}</option>
                                 @endforeach
                                 </select>
-                                    </div>
+                             </div>
                             </div>   
-                        </div>                            
-                                        
+                        </div> 
+                        <div class="row form-group">
+                             <div class="form-group col-md-12 row">
+                                    <label for="email" class="col-md-3" >Approver Role:</label>
+                                    <div class="col-md-9">
+                                <select  name="approver_role" id="approver_role">
+                                @foreach($org_roles as $org_role)
+                                    <option value="{{$org_role['_id']}}">{{$org_role['display_name']}}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                            </div>   
                         </div>
-
+         
+                        </div>
                             <input type="submit" class="btn btn-success"/>
                             <br/>
                     </form>

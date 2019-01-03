@@ -33,12 +33,21 @@
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>
-                                        <div class="actions">
+                                        <!-- <div class="actions">
                                         <a class="btn btn-primary" href={{route('users.edit',$user->id)}}><i class="fas fa-pen"></i></a>
-                                        {!!Form::open(['action'=>['UserController@destroy',$user->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
-                                            
+                                        {!!Form::open(['action'=>['UserController@destroy',$user->id],'method'=>'POST','class'=>'pull-right' ])!!}
                                             <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                          {!!Form::close()!!}
+                                        </div> -->
+
+                                        <!-- //below code added -->
+                                        <div class="actions">
+                                            <a class="btn btn-primary" href={{route('users.edit',$user->id)}}><i class="fas fa-pen"></i></a>
+                                            <form action="{{ url('user',$user->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

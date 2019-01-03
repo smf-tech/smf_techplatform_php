@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 #use App\Role;
 #use App\Permission;
+use App\User;
 use App\Organisation;
 use App\Jurisdiction;
 use App\RoleJurisdiction;
@@ -73,7 +74,6 @@ class RoleController extends Controller
                 }
             } */
 
-      
         return redirect()->route('role.index')->withMessage('Role Created');
     }
 
@@ -99,7 +99,8 @@ class RoleController extends Controller
          $role=Role::find($id);
          //$permissions=Permission::all();
          //$role_permissions=$role->perms()->pluck('id','id')->toArray();
-         $orgs=Organisation::all();
+         //$orgs=Organisation::all();
+         $orgs=Organisation::where('orgshow','<>',0)->get();
          $levels = Jurisdiction::all();
          $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
 
@@ -130,16 +131,11 @@ class RoleController extends Controller
         }*/ 
 
         $sj = RoleJurisdiction::where('role_id',$role->id)->delete();
+        $s = new RoleJurisdiction;
+        $s->role_id = $role->id;
+        $s->jurisdiction_id = $request->level_id;
+        $s->save();
 
-                $s = new RoleJurisdiction;
-                $s->role_id = $role->id;
-                $s->jurisdiction_id = $request->level_id;
-                $s->save();
-
-
-      
-        
-       
         return redirect()->route('role.index')->withMessage('Role Edited');
     }
 
@@ -149,14 +145,17 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user,$id)
     {
-        DB::table('permission_role')->where('role_id',$id)->delete();
-
-        DB::table('roles')->where('id',$id)->delete();
-        return redirect()->route('role.index')->withMessage('Role Deleted');
-
+       $role = Role::find($id);
+       foreach ($role['user_ids'] as $role_user_id_key => $role_user_id_val) {
+            $user = User::find($role_user_id_val);
+            if ($user->hasRole($role->name)) {
+               $user->removeRole($role->name);
+            }
+        }
+        $role->delete();
+        return redirect()->route('role.index')->with('message', 'Role Deleted Successfuly!');
     }
-
 
 }

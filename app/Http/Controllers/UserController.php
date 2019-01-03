@@ -51,7 +51,6 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
-        
         return view('admin.users.user_index',compact('users'));
     }
 
@@ -64,9 +63,9 @@ class UserController extends Controller
     {
         
         $orgs=Organisation::where('orgshow','<>',0)->get();
-        
         $states=State::all();
-        return view('admin.users.create_user',compact(['orgs','states']));
+        $roles=Role::all();
+        return view('admin.users.create_user',compact(['orgs','states','roles']));
     }
 
     /**
@@ -92,12 +91,10 @@ class UserController extends Controller
 
            }
         }
-              
        
-        $states= $request->state_id;
-      
-         $data= $request->except(['role','_token']);
-         $user=User::create([
+         $states= $request->state_id;
+         $data= $request->except(['_token']);
+         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' =>  bcrypt($data['password']),
@@ -106,24 +103,22 @@ class UserController extends Controller
             'gender' => $data['gender'],
             'org_id'=>$data['org_id'],
             'role_id'=>$data['role_id'],
+            'state_id'=>$states,
             'approved'=> false
         ]);
    
       
         //make an entry in the roles users table
-         $role=DB::collection('roles')->where('_id',$data['role_id'])->get();
+        $role=DB::collection('roles')->where('_id',$data['role_id'])->get();
         $user->assignRole($role[0]['name']);
         UserDetails::create([
             'user_id' => $user['_id'],
-            'state_id' => implode(',', $states),
+            'state_id' => $states,
             'district_id' =>implode(',', $districts),
             'taluka_id' => implode(',', $talukas),
             'village_id' => implode(',', $villages),
             'cluster_id' => implode(',', $clusters),
-        
         ]);
-
-
         return redirect()->route('users.index')->withMessage('User Created');
     }
 
@@ -146,19 +141,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+       
         $user=User::find($id);
-        $orgs=Organisation::all();
+        $orgs=Organisation::where('orgshow','<>',0)->get();
+       
         $orgId=$user['org_id'];
         $roleId=$user['role_id'];
         $userDet=UserDetails::where('user_id',$id)->get();
+       
         $stateId=$userDet[0]->state_id;
-        
         $role=Role::find($roleId);
         $states=State::all();
-
-        
-
-        
 
         return view('admin.users.edit',compact(['user','orgs','states','orgId','role','stateId']));
     }
@@ -178,8 +171,8 @@ class UserController extends Controller
         $user->org_id=$request->org_id;
         $user->role_id=$request->role_id;
         $user->save();
-        DB::table('role_user')->where('user_id',$id)->delete();
-        DB::table('user_dets')->where('user_id',$id)->delete();
+        //DB::table('role_user')->where('user_id',$id)->delete();
+        //DB::table('user_dets')->where('user_id',$id)->delete();
 
         $clusters=$villages=$talukas=$districts=array(null);
         $arrayItems=array();
@@ -202,16 +195,13 @@ class UserController extends Controller
 
        UserDetails::create([
         'user_id' => $id,
-        'state_id' => implode(',', $states),
+        'state_id' => $states,
         'district_id' =>implode(',', $districts),
         'taluka_id' => implode(',', $talukas),
         'village_id' => implode(',', $villages),
-        'cluster_id' => implode(',', $clusters),
-    
-    ]);
+        'cluster_id' => implode(',', $clusters),]);
 
-
-        DB::insert('insert into role_user (user_id,role_id) values(?,?)',[$id,$request->role_id]);
+        //DB::insert('insert into role_user (user_id,role_id) values(?,?)',[$id,$request->role_id]);
         return redirect()->route('users.index')->withMessage('User Edited');
     }
 
@@ -221,11 +211,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user,$id)
     {
-        DB::table('role_user')->where('user_id',$id)->delete();
-
-        DB::table('users')->where('id',$id)->delete();
-        return redirect()->route('users.index')->withMessage('Role Deleted');
+        $user = User::find($id);
+        $role_id = $user['role_id'];
+        $role = Role::find($role_id);
+        
+        $user->removeRole($role->name);
+        $user->delete();
+        return redirect()->route('users.index')->with('message', 'User Deleted Successfuly!');
     }
+
+
 }
