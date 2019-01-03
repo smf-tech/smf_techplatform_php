@@ -1,4 +1,4 @@
-@extends('layouts.editSurvey',compact(['orgId'=>$orgId,'modules'=>$modules,'surveyJson'=>$surveyJson,'surveyID'=>$surveyID]))
+@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules,'surveyJson'=>$surveyJson,'surveyID'=>$surveyID]))
 @section('content')
 
 <div>
@@ -51,7 +51,7 @@
         <select id='entity_id'>
                 <option value='' selected disabled hidden>--Please Select--</option>
                 @foreach($entities as $entity)
-                    @if($survey_details[7] == $microservice['_id'])
+                    @if($survey_details[7] == $entity['_id'])
                         <option value={{$entity['_id']}} selected="selected">{{ $entity['display_name'] }}</option>
                     @else
                         <option value={{$entity['_id']}}>{{ $entity['display_name'] }}</option>
@@ -98,3 +98,7 @@
     <div id="editorElement"></div>
 </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/edit_survey.js') }}" value="{{$surveyJson}}" id="id" surveyID="{{ $surveyID }}"></script>
+@endpush
