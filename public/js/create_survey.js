@@ -4,6 +4,19 @@ $.ajaxSetup({
     }
   });
   
+
+                Survey.surveyLocalization.locales["mr"] = Survey.surveyLocalization.locales["en-us"];
+                Survey.surveyLocalization.localeNames["mr"] = "Marathi"; 
+                Survey.surveyLocalization.locales["hi"] = Survey.surveyLocalization.locales["en-us"];
+                Survey.surveyLocalization.localeNames["hi"] = "Hindi";
+                Survey.surveyLocalization.supportedLocales = ["en", "mr","hi"];
+        
+                //Show translation tab.
+                /*var editorOptions = {
+                showTranslationTab: true,showJSONEditorTab: false,showTestSurveyTab: false 
+                };
+                var editor = new SurveyEditor.SurveyEditor("#editorElement", editorOptions);*/
+        
   SurveyEditor
       .StylesManager
       .applyTheme("bootstrap");
@@ -17,7 +30,7 @@ $.ajaxSetup({
 //  ko.applyBindings(vm);
 
   $(document).on('click','#svd-survey-settings',function(){
-    console.log("hello");
+    // console.log("hello");
     $("input").click(function(){
 
         // var viewModel = {
@@ -36,7 +49,7 @@ $.ajaxSetup({
             // }
         //   });
 
-        console.log("bye");
+        // console.log("bye");
       });
 
   });

@@ -4,6 +4,12 @@ $.ajaxSetup({
     }
   });
   
+  Survey.surveyLocalization.locales["mr"] = Survey.surveyLocalization.locales["en-us"];
+                Survey.surveyLocalization.localeNames["mr"] = "Marathi"; 
+                Survey.surveyLocalization.locales["hi"] = Survey.surveyLocalization.locales["en-us"];
+                Survey.surveyLocalization.localeNames["hi"] = "Hindi";
+                Survey.surveyLocalization.supportedLocales = ["en", "mr","hi"];
+        
   SurveyEditor
       .StylesManager
       .applyTheme("bootstrap");
