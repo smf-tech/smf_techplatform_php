@@ -31,7 +31,7 @@
                                     <td>{{$entity->display_name}}</td>
                                     {{-- <td>{{App\District::find($d->id)->state['Name']}}</td> --}}
                                     <td> <div class="actions">
-                                            <a class="btn btn-primary" href={{route('district.edit',$entity->id)}}><i class="fas fa-pen"></i></a>
+                                            <a class="btn btn-primary" href={{route('entity.edit',$entity->id)}}><i class="fas fa-pen"></i></a>
                                         {!!Form::open(['action'=>['EntityController@destroy',$entity->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>

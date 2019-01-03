@@ -52,7 +52,7 @@ class UserController extends Controller
     {
         $users=User::all();
         
-        return view('admin.users.user_index',compact('users'));
+        return view('admin.Users.user_index',compact('users'));
     }
 
     /**
@@ -66,7 +66,7 @@ class UserController extends Controller
         $orgs=Organisation::where('orgshow','<>',0)->get();
         $roles=Role::all();
         $states=State::all();
-        return view('admin.users.create_user',compact(['orgs','states','roles']));
+        return view('admin.Users.create_user',compact(['orgs','states','roles']));
     }
 
     /**
@@ -160,7 +160,7 @@ class UserController extends Controller
 
         
 
-        return view('admin.users.edit',compact(['user','orgs','states','orgId','role','stateId']));
+        return view('admin.Users.edit',compact(['user','orgs','states','orgId','role','stateId']));
     }
 
     /**

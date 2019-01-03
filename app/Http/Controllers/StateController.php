@@ -20,7 +20,7 @@ class StateController extends Controller
     public function index()
     {
         $states = State::all();
-        return view('admin.states.state_index',compact('states'));
+        return view('admin.States.state_index',compact('states'));
     }
 
     /**
@@ -32,15 +32,9 @@ class StateController extends Controller
     {
         $jurisdiction=Jurisdiction::all();
         $states = State::all();
-        return view('admin.states.create_state',compact('jurisdiction','states'));
+        return view('admin.States.create_state',compact('jurisdiction','states'));
     }
 
-//     public function messages()
-// {
-//     return [
-//         'State already exists'
-//     ];
-// }
     /**
      * Store a newly created resource in storage.
      *
@@ -53,10 +47,7 @@ class StateController extends Controller
             'Name' => 'unique:states',
         ]);
 
-        if ($validator->fails()) {
-            // return redirect()->route('state.create')->withMessage("State already exists");
-            // return redirect()->route('state.create')->withErrors($validator)->withInput($request->input);
-            // return redirect()->route('state.create')->messages();
+        if ($validator->fails()) {            
             return Redirect::back()->withErrors(['State already exists']);
         }
         $state=State::create($request->except(['jurisdiction','_token']));
@@ -101,7 +92,7 @@ class StateController extends Controller
         $jurisdiction=Jurisdiction::all();
 
         $state_jurisdictions=StateJurisdiction::where('state_id',$id)->get();
-        return view('admin.states.edit',compact(['state','jurisdiction','state_jurisdictions']));
+        return view('admin.States.edit',compact(['state','jurisdiction','state_jurisdictions']));
     }
 
     /**

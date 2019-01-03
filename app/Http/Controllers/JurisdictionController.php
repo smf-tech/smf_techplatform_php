@@ -16,7 +16,7 @@ class JurisdictionController extends Controller
     public function index()
     {
         $juris = Jurisdiction::all();
-        return view('admin.jurisdictions.jurisdiction_index',compact('juris'));
+        return view('admin.Jurisdictions.jurisdiction_index',compact('juris'));
     }
 
     /**
@@ -26,7 +26,7 @@ class JurisdictionController extends Controller
      */
     public function create()
     {
-        return view('admin.jurisdictions.create_jurisdiction');
+        return view('admin.Jurisdictions.create_jurisdiction');
     }
 
     /**
@@ -37,7 +37,6 @@ class JurisdictionController extends Controller
      */
     public function store(Request $request)
     {
-        // $juris = Jurisdiction::create([$request]);
         $juris = new Jurisdiction;
         $juris->levelName = $request->levelName;
         $juris->save();
@@ -64,7 +63,7 @@ class JurisdictionController extends Controller
     public function edit($id)
     {
         $juris = Jurisdiction::find($id);
-        return view('admin.jurisdictions.edit',compact('juris'));
+        return view('admin.Jurisdictions.edit',compact('juris'));
 
     }
 
@@ -94,7 +93,6 @@ class JurisdictionController extends Controller
     public function destroy($id)
     {
         $juris=Jurisdiction::find($id)->delete();
-        // $juris->delete();
         return redirect()->route('jurisdiction.index')->withMessage('Jurisdiction Deleted');                
     }
 }

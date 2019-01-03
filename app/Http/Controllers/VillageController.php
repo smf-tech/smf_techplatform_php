@@ -22,7 +22,7 @@ class VillageController extends Controller
     public function index()
     {
         $vil = Village::all();
-        return view('admin.villages.villages_index',compact('vil'));
+        return view('admin.Villages.villages_index',compact('vil'));
     }
 
     /**
@@ -37,7 +37,7 @@ class VillageController extends Controller
         $talukas = Taluka::all();
         $clusters = Cluster::all();
 
-        return view('admin.villages.create_village',compact('states','districts','talukas','clusters'));   
+        return view('admin.Villages.create_village',compact('states','districts','talukas','clusters'));   
     }
 
     /**
@@ -72,27 +72,6 @@ class VillageController extends Controller
             $vil->save();
 
         return redirect()->route('village.index')->withMessage('Village Created');
-
-        // $validator = Validator::make($request->all(), [
-        //     'Name' => 'unique:villages,cluster_id',
-        // ]);
-
-        // if ($validator->fails()) 
-        // {
-        //     return Redirect::back()->withErrors(['Village already exists']);
-        // }
-        // $vil = new Village;
-        // $vil->Name = $request->villageName;
-        // $vil->state_id = $request->state_id;
-        // $vil->district_id = $request->District;
-        // $vil->taluka_id = $request->Taluka;
-       
-        // if($request->Cluster){
-        //     $vil->cluster_id = $request->Cluster;
-        //  }
-        //     $vil->save();
-
-        // return redirect()->route('village.index')->withMessage('Village Created');
     }
 
     /**
@@ -120,7 +99,7 @@ class VillageController extends Controller
         $talukas = Taluka::all();        
         $clusters = Cluster::all();
 
-        return view('admin.villages.edit',compact('vil','states','districts','talukas','clusters'));
+        return view('admin.Villages.edit',compact('vil','states','districts','talukas','clusters'));
     }
 
     /**
@@ -133,7 +112,6 @@ class VillageController extends Controller
     public function update(Request $request, $id)
     {
         $vil=Village::find($id);
-        // $dis->id=$request->id;
         $vil->villageName=$request->villageName;
         $vil->state_id = $request->state_id;
         $vil->district_id = $request->district_id;

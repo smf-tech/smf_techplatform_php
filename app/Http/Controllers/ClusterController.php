@@ -22,7 +22,7 @@ class ClusterController extends Controller
     public function index()
     {
         $clu = Cluster::all();
-        return view('admin.clusters.clusters_index',compact('clu'));
+        return view('admin.Clusters.clusters_index',compact('clu'));
     }
 
     /**
@@ -41,7 +41,7 @@ class ClusterController extends Controller
         }
         
         $states=State::whereIn('_id',$id)->get();
-        return view('admin.clusters.create_cluster',compact('states'));   
+        return view('admin.Clusters.create_cluster',compact('states'));   
     }
 
     /**
@@ -64,23 +64,7 @@ class ClusterController extends Controller
         $clu->district_id = $request->District;
         $clu->taluka_id = $request->Taluka;
         $clu->save();
-        return redirect()->route('cluster.index')->withMessage('Cluster Created');
-
-        // $validator = Validator::make($request->all(), [
-        //     'Name' => 'unique:clusters,taluka_id',
-        // ]);
-
-        // if ($validator->fails()) 
-        // {
-        //     return Redirect::back()->withErrors(['Cluster already exists']);
-        // }
-        // $clu = new Cluster;
-        // $clu->Name = $request->clusterName;
-        // $clu->state_id = $request->state_id;
-        // $clu->district_id = $request->District;
-        // $clu->taluka_id = $request->Taluka;
-        // $clu->save();
-        // return redirect()->route('cluster.index')->withMessage('Cluster Created');
+        return redirect()->route('cluster.index')->withMessage('Cluster Created');        
     }
 
     /**
@@ -107,7 +91,7 @@ class ClusterController extends Controller
         $districts = District::all();
         $talukas = Taluka::all();
 
-        return view('admin.clusters.edit',compact('clu','states','districts','talukas'));
+        return view('admin.Clusters.edit',compact('clu','states','districts','talukas'));
     }
 
     /**
@@ -120,7 +104,6 @@ class ClusterController extends Controller
     public function update(Request $request, $id)
     {
         $clu=Cluster::find($id);
-        // $dis->id=$request->id;
         $clu->clusterName=$request->clusterName;
         $clu->state_id = $request->state_id;
         $clu->district_id = $request->district_id;

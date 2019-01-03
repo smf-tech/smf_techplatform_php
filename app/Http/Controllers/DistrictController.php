@@ -19,7 +19,7 @@ class DistrictController extends Controller
     public function index()
     {
         $dis = District::all();
-        return view('admin.districts.districts_index',compact('dis'));
+        return view('admin.Districts.districts_index',compact('dis'));
     }
 
     /**
@@ -30,7 +30,7 @@ class DistrictController extends Controller
     public function create()
     {
         $states = State::all();
-        return view('admin.districts.create_district',compact('states'));   
+        return view('admin.Districts.create_district',compact('states'));   
     }
 
     /**
@@ -52,33 +52,7 @@ class DistrictController extends Controller
         $dis->Name = $request->districtName;
         $dis->state_id = $request->state_id;
         $dis->save();
-        return redirect()->route('district.index')->withMessage('District Created');        
-        // return $districts[1];
-
-        // ->where('state_id',$request->state_id)->get();
-        // ->where(function ($query) {
-        //     $query->where('state_id','=',$request->state_id);
-        // })->get();
-        // $validator = Validator::make($request->all(), [
-            // $validator = $request->validate([
-            // 'Name' => 'unique:districts,state_id',
-            // 'state_id' => 'unique:districts,Name',
-            // 'Name' => 'unique_with:districts,state_id',                 
-            // 'state_id' => 'required',
-
-            // 'Name' => District::where('Name',$request->districtName)->where('state_id',$request->state_id)->get();
-            // Rule::unique('districts')->where(function ($query) {
-            //     return $query->where('state_id','=',$request->state_id);
-            // })
-
-        // ]);
-
-        // if ($validator->fails()) 
-        // {
-        //     return Redirect::back()->withErrors(['District already exists']);
-        // }
-        
-        
+        return redirect()->route('district.index')->withMessage('District Created');               
     }
 
     /**
@@ -103,7 +77,7 @@ class DistrictController extends Controller
         $dis = District::find($id);
         $states = State::all();
 
-        return view('admin.districts.edit',compact('dis','states'));
+        return view('admin.Districts.edit',compact('dis','states'));
     }
 
     /**
@@ -116,7 +90,6 @@ class DistrictController extends Controller
     public function update(Request $request, $id)
     {
         $dis=District::find($id);
-        // $dis->id=$request->id;
         $dis->districtName=$request->districtName;
         $dis->state_id=$request->state_id;
         $dis->save();

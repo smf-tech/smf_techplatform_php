@@ -24,14 +24,13 @@ class RoleController extends Controller
      */
     public function getOrgRoles(Request $request){
   
-        $roles=Role::where('org_id', $request->selectedOrg )->get();
-       
+        $roles=Role::where('org_id', $request->selectedOrg )->get();       
         return json_encode($roles);
     }
     public function index()
     {
         $roles=Role::all();
-        return view('admin.roles.role_index',compact('roles'));
+        return view('admin.Roles.role_index',compact('roles'));
     }
 
     /**
@@ -45,7 +44,7 @@ class RoleController extends Controller
         $orgs=Organisation::where('orgshow','<>',0)->get();
         $levels = Jurisdiction::all();
         
-        return view('admin.roles.create_role',compact(['permissions','orgs','levels']));
+        return view('admin.Roles.create_role',compact(['permissions','orgs','levels']));
     }
 
     /**
@@ -66,14 +65,6 @@ class RoleController extends Controller
             $s->role_id = $role->_id;
             $s->jurisdiction_id = $request->level_id;
             $s->save();
-
-            /*if(count($request->permission)> 0){
-                foreach($request->permission as $key=>$value){
-                    $role->attachPermission($value);
-                }
-            } */
-
-      
         return redirect()->route('role.index')->withMessage('Role Created');
     }
 
@@ -96,14 +87,12 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-         $role=Role::find($id);
-         //$permissions=Permission::all();
-         //$role_permissions=$role->perms()->pluck('id','id')->toArray();
+         $role=Role::find($id);        
          $orgs=Organisation::where('orgshow','<>',0)->get();
          $levels = Jurisdiction::all();
          $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
 
-         return view('admin.roles.edit',compact(['role','orgs','levels','role_jurisdictions']));
+         return view('admin.Roles.edit',compact(['role','orgs','levels','role_jurisdictions']));
     }
 
     /**
@@ -123,23 +112,12 @@ class RoleController extends Controller
         $role->save();
         DB::table('permission_role')->where('role_id',$id)->delete();
 
-        /*if(count($request->permission)> 0){
-            foreach($request->permission as $key=>$value){
-                $role->attachPermission($value);
-            }
-        }*/ 
-
         $sj = RoleJurisdiction::where('role_id',$role->id)->delete();
 
                 $s = new RoleJurisdiction;
                 $s->role_id = $role->id;
                 $s->jurisdiction_id = $request->level_id;
                 $s->save();
-
-
-      
-        
-       
         return redirect()->route('role.index')->withMessage('Role Edited');
     }
 

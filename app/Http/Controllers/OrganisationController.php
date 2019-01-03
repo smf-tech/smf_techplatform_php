@@ -51,15 +51,7 @@ class OrganisationController extends Controller
         
         $org=Organisation::create($request->except(['_token']));
         $dbName=$org->name.'_'.$org->id;
-        /*\Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mysql',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => 'root',
-            'password'  => '',  
-        ));
-        #DB::setDefaultConnection($dbName); 
-        */
+        
        try{
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
@@ -146,41 +138,6 @@ public function getProjects()
     $projects = DB::collection('projects')->get(); 
     return view('admin.Projects.projects_index',compact('projects'));
 }
-public function getCategories()
-{
-    
-    $organisation_id = Auth::user()->org_id;
-
-    $projects = Organisation::find($organisation_id);
-
-    $dbName = $projects->name.'_'.$organisation_id;
-    // return $dbName;
-    \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-        'driver'    => 'mongodb',
-        'host'      => '127.0.0.1',
-        'database'  => $dbName,
-        'username'  => '',
-        'password'  => '',  
-    ));
-   
-    DB::setDefaultConnection($dbName); 
-
-    $projects = DB::collection('categories')->get(); 
-    // $projects = Project::all();
-    // return $projects[0]['_id'];
-    // return json_decode($projects[0])->name;
-    // foreach($projects[0] as $key=>$value)
-    // {
-    //     echo $value;
-    // }
-    // return null;
-    return view('admin.Categories.categories_index',compact('projects'));
-
-// foreach ($projects as $project) 
-// {
-//     echo $project->name;
-// }
-}
     /**
      * Display the specified resource.
      *
@@ -249,7 +206,7 @@ public function getCategories()
         DB::setDefaultConnection('mongodb');
         $roles=Role::where('org_id', $org_id)->get();
         $orgId = $org_id;
-        return view('admin.organisation.roles_index',compact('roles','modules','orgId'));
+        return view('admin.Organisation.roles_index',compact('roles','modules','orgId'));
     }
 
     public function configureRole(Request $request,$org_id,$role_id){
@@ -273,11 +230,11 @@ public function getCategories()
             $role_default_modules = $roleconfig['default_modules'];
             $role_onapprove_modules = $roleconfig['on_approve_modules'];       
         }     
-        //dd($role_default_modules);  
+
         DB::setDefaultConnection('mongodb');
         $orgId = $org_id;
-        //dd($projects);
-        return view('admin.organisation.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules'));
+        
+        return view('admin.Organisation.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules'));
     }  
 
     public function updateroleconfig(Request $request,$role_id){
