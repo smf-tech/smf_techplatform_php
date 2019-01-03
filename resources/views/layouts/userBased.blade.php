@@ -85,10 +85,12 @@
                     
                             <ul class="list-unstyled components accordion" id="accordionExample">
                                 @forelse($modules as $module)
-                            <li><a href="/{{$orgId}}/{{$module['name']}}">{{$module['name']}}</a></li>
+                            <li><a href="/{{$orgId}}/{{strtolower($module['name'])}}">{{$module['name']}}</a></li>
                                 @empty
                                     <li>   No Modules</li>
                                 @endforelse
+                                <li><a href="/{{$orgId}}/entities">Entities</a></li>
+                                <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
                             </ul>
                         </nav>
                     
