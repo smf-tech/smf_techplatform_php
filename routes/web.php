@@ -67,6 +67,8 @@ Route::group(
     Route::resource('entity','EntityController');
     Route::get('{orgId}/entities','EntityController@index');
     Route::get('{orgId}/entity/create','EntityController@create');
+	
+	Route::resource('microservice','MicroservicesController');
 
    });
 
@@ -86,3 +88,4 @@ Route::get('/settings', 'SettingsController@index')->name('settings');
 Route::get('/sendOTP','smsAuthController@sendOTP');
 Route::get('/verifyOTP','smsAuthController@verifyOTP');
 Route::get('/getTestEndpoint','smsAuthController@getTestEndpoint');
+
