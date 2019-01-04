@@ -19,7 +19,7 @@ class StateController extends Controller
      */
     public function index()
     {
-        $states = State::all();
+        $states = State::paginate(5);
         return view('admin.states.state_index',compact('states'));
     }
 
@@ -31,8 +31,7 @@ class StateController extends Controller
     public function create()
     {
         $jurisdiction=Jurisdiction::all();
-        $states = State::all();
-        return view('admin.states.create_state',compact('jurisdiction','states'));
+        return view('admin.states.create_state',compact('jurisdiction'));
     }
 
     /**
@@ -61,7 +60,8 @@ class StateController extends Controller
             $level++;
             $s->save();
         }
-        return redirect()->route('state.index')->withMessage('State Created');
+        session()->flash('status', 'State was created!');
+        return redirect()->route('state.index');
     }
 
     /**
@@ -123,7 +123,8 @@ class StateController extends Controller
                 $s->save();
             }
         }
-        return redirect()->route('state.index')->withMessage('State Edited');
+        session()->flash('status', 'State was edited!');
+        return redirect()->route('state.index');
     }
 
     /**
@@ -134,8 +135,7 @@ class StateController extends Controller
      */
     public function destroy($id)
     {
-        $state=State::find($id);
-        $state->delete();
-        return redirect()->route('state.index')->withMessage('State Deleted');
+        State::find($id)->delete();
+        return redirect()->route('state.index')->withSuccessMessage('State Deleted');
     }
 }

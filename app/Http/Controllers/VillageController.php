@@ -70,7 +70,8 @@ class VillageController extends Controller
          }
             $village->save();
 
-        return redirect()->route('village.index')->withMessage('Village Created');
+        session()->flash('status', 'Village was created!');    
+        return redirect()->route('village.index');
     }
 
     /**
@@ -127,7 +128,8 @@ class VillageController extends Controller
             }
         $village->save();
 
-        return redirect()->route('village.index')->withMessage('Village Edited');   
+        session()->flash('status', 'Village was edited!');    
+        return redirect()->route('village.index');   
     }
 
     /**

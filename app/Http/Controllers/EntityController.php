@@ -94,8 +94,8 @@ class EntityController extends Controller
        });
        
        
-
-        return redirect()->route('entity.index')->withMessage('Entity Created');
+       session()->flash('status', 'Entity was created!');
+        return redirect()->route('entity.index');
     }
     public function edit($entity_id)
     {
@@ -146,7 +146,8 @@ class EntityController extends Controller
         $entity->display_name=$request->display_name;       
         $entity->save();
 
-        return redirect()->route('entity.index')->withMessage('Entity Updated');
+        session()->flash('status', 'Entity was updated!');
+        return redirect()->route('entity.index');
     }
 
     public function destroy($id)

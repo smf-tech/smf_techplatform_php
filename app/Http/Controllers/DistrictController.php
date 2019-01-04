@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\District;
 use App\State;
+use App\Taluka;
+use App\Cluster;
+use App\Village;
 use Validator;
 use Redirect;
 use Illuminate\Validation\Rule;
@@ -52,7 +55,9 @@ class DistrictController extends Controller
         $district->Name = $request->districtName;
         $district->state_id = $request->state_id;
         $district->save();
-        return redirect()->route('district.index')->withMessage('District Created');               
+
+        session()->flash('status', 'District was created!');
+        return redirect()->route('district.index');               
     }
 
     /**
@@ -108,7 +113,8 @@ class DistrictController extends Controller
         }
         Village::where('district_id',$id)->update(['state_id'=>$request->state_id]);
 
-        return redirect()->route('district.index')->withMessage('District Edited');   
+        session()->flash('status', 'District was edited!');
+        return redirect()->route('district.index');   
     }
 
     /**

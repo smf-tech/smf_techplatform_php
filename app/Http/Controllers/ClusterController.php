@@ -7,6 +7,7 @@ use App\Cluster;
 use App\Taluka;
 use App\District;
 use App\State;
+use App\Village;
 use App\Jurisdiction;
 use App\StateJurisdiction;
 use Validator;
@@ -64,7 +65,9 @@ class ClusterController extends Controller
         $cluster->district_id = $request->District;
         $cluster->taluka_id = $request->Taluka;
         $cluster->save();
-        return redirect()->route('cluster.index')->withMessage('Cluster Created');        
+
+        session()->flash('status', 'Cluster was created!');
+        return redirect()->route('cluster.index');        
     }
 
     /**
@@ -117,7 +120,8 @@ class ClusterController extends Controller
 
         $cluster->save();
 
-        return redirect()->route('cluster.index')->withMessage('Cluster Edited');   
+        session()->flash('status', 'Cluster was edited!');
+        return redirect()->route('cluster.index');   
     }
 
     /**

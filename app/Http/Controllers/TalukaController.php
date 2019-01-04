@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Taluka;
 use App\District;
 use App\State;
+use App\Cluster;
+use App\Village;
 use App\Jurisdiction;
 use App\StateJurisdiction;
 use Illuminate\Support\Facades\DB;
@@ -151,7 +153,9 @@ class TalukaController extends Controller
         $taluka->state_id = $request->state_id;
         $taluka->district_id = $request->District;      
         $taluka->save();
-        return redirect()->route('taluka.index')->withMessage('Taluka Created');
+
+        session()->flash('status', 'Taluka was created!');
+        return redirect()->route('taluka.index');
         
         // $validator = Validator::make($request->all(), [
         //     'Name' => 'unique:talukas,district_id',
@@ -226,7 +230,8 @@ class TalukaController extends Controller
 
         Village::where('taluka_id',$id)->update(['state_id'=>$request->state_id,'district_id'=>$request->District]);
         
-        return redirect()->route('taluka.index')->withMessage('Taluka Edited');   
+        session()->flash('status', 'Taluka was edited!');
+        return redirect()->route('taluka.index');   
     }
 
     /**

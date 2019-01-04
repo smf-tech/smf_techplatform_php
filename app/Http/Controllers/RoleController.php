@@ -65,6 +65,8 @@ class RoleController extends Controller
             $s->role_id = $role->_id;
             $s->jurisdiction_id = $request->level_id;
             $s->save();
+
+            session()->flash('status', 'Role was created!');
         return redirect()->route('role.index')->withMessage('Role Created');
     }
 
@@ -118,7 +120,9 @@ class RoleController extends Controller
                 $s->role_id = $role->id;
                 $s->jurisdiction_id = $request->level_id;
                 $s->save();
-        return redirect()->route('role.index')->withMessage('Role Edited');
+
+                session()->flash('status', 'Role was updated!');
+        return redirect()->route('role.index');
     }
 
     /**

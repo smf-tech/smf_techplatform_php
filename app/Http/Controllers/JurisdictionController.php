@@ -40,7 +40,9 @@ class JurisdictionController extends Controller
         $juris = new Jurisdiction;
         $juris->levelName = $request->levelName;
         $juris->save();
-        return redirect()->route('jurisdiction.index')->withMessage('Jurisdiction Created');
+
+        session()->flash('status', 'Jurisdiction was created!');
+        return redirect()->route('jurisdiction.index');
     }
 
     /**
@@ -81,7 +83,8 @@ class JurisdictionController extends Controller
         $juris->levelName=$request->levelName;
         $juris->save();
 
-        return redirect()->route('jurisdiction.index')->withMessage('Jurisdiction Edited');   
+        session()->flash('status', 'Jurisdiction was edited!');
+        return redirect()->route('jurisdiction.index');   
     }
 
     /**

@@ -124,6 +124,7 @@ class UserController extends Controller
         ]);
 
 
+        session()->flash('status', 'User was created!');
         return redirect()->route('users.index')->withMessage('User Created');
     }
 
@@ -212,6 +213,8 @@ class UserController extends Controller
 
 
         DB::insert('insert into role_user (user_id,role_id) values(?,?)',[$id,$request->role_id]);
+
+        session()->flash('status', 'User was edited!');
         return redirect()->route('users.index')->withMessage('User Edited');
     }
 

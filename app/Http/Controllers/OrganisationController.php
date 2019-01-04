@@ -116,7 +116,8 @@ class OrganisationController extends Controller
            $table->timestamps();
     });
     
-        return redirect()->route('organisation.index')->withMessage('Oganisation Created');
+    session()->flash('status', 'Oganisation was created!');
+        return redirect()->route('organisation.index');
 }
 
 public function getProjects()
@@ -175,7 +176,9 @@ public function getProjects()
         $org->service=$request->service;
        
         $org->save();
-        return redirect()->route('organisation.index')->withMessage('Oganisation Updated');
+
+        session()->flash('status', 'Oganisation was updated!');
+        return redirect()->route('organisation.index');
     }
 
     /**
