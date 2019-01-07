@@ -84,9 +84,10 @@ class EntityController extends Controller
         $entity = new Entity;
         $entity->Name = $request->entityName;
         $entity->display_name = $request->displayName;
+        $entity->is_active = (bool)$request->active;
         $entity->save();
 
-                Schema::connection($dbName)->create('entity_'.$entity->id, function($table)
+        Schema::connection($dbName)->create('entity_'.$entity->id, function($table)
         {
             $table->increments('id');
             $table->string('User ID');
@@ -94,8 +95,8 @@ class EntityController extends Controller
        });
        
        
-       session()->flash('status', 'Entity was created!');
-        return redirect()->route('entity.index');
+
+        return redirect()->route('entity.index')->withMessage('Entity Created');
     }
     public function edit($entity_id)
     {
@@ -143,11 +144,11 @@ class EntityController extends Controller
 
         $entity = Entity::find($entity_id);
         $entity->Name=$request->Name;
-        $entity->display_name=$request->display_name;       
+        $entity->display_name=$request->display_name;    
+        $entity->is_active = (bool)$request->active;   
         $entity->save();
 
-        session()->flash('status', 'Entity was updated!');
-        return redirect()->route('entity.index');
+        return redirect()->route('entity.index')->withMessage('Entity Updated');
     }
 
     public function destroy($id)

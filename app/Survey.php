@@ -46,7 +46,7 @@ class Survey  extends \Jenssegers\Mongodb\Eloquent\Model
     }
     public function microservice()
     {
-        return $this->belongsTo('App\Microservices');
+        return $this->belongsTo('App\Microservice');
     }
     public function entity()
     {

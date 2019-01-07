@@ -25,6 +25,14 @@
                                 <label for="display_name">Entity Display Name</label>
                                 <input type="text" name="display_name" placeholder="Entity display name" value="{{$entity->display_name}}" class="form-control"/>
                             </div>
+                            <div class="form-group">
+                                <label for="entityActive">Is active</label>
+                                @if($entity->is_active == true)
+                                <input type="checkbox" name="active" class="form-control"  checked/>
+                                @else
+                                <input type="checkbox" name="active" class="form-control" />
+                                @endif
+                            </div>       
                             <input type="submit" class="btn btn-success"/>
                     
                         {!! Form::close() !!} 
