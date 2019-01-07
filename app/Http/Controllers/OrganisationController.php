@@ -215,6 +215,7 @@ public function getProjects()
     public function configureRole(Request $request,$org_id,$role_id){
         $organisation=Organisation::find($org_id);
         $role = Role::find($role_id);
+        
         $dbName=$organisation->name.'_'.$org_id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
@@ -224,6 +225,7 @@ public function getProjects()
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
+       
         $modules= DB::collection('modules')->get();
         $projects= DB::collection('projects')->get();
         $roleconfig = DB::collection('role_configs')->where('role_id', $role_id)->first();
@@ -233,11 +235,11 @@ public function getProjects()
             $role_default_modules = $roleconfig['default_modules'];
             $role_onapprove_modules = $roleconfig['on_approve_modules'];       
         }     
-
+        
         DB::setDefaultConnection('mongodb');
         $orgId = $org_id;
-        
-        return view('admin.organisation.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules'));
+        $org_roles=DB::collection('roles')->where('org_id', $orgId)->where('_id','<>',$role_id)->get();
+        return view('admin.organisation.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles'));
     }  
 
     public function updateroleconfig(Request $request,$role_id){
@@ -255,10 +257,10 @@ public function getProjects()
         DB::setDefaultConnection($dbName);
         $config_data = array('projects' => isset($data['assigned_projects'])?$data['assigned_projects']:[],
                             'default_modules' =>isset($data['default_modules'])?$data['default_modules']:[],
-                            'on_approve_modules' =>isset($data['on_approve'])?$data['on_approve']:[]
-                            );
+                            'on_approve_modules' =>isset($data['on_approve'])?$data['on_approve']:[],
+                            'approver_role' =>isset($data['approver_role'])?$data['approver_role']:[],);
         DB::collection('role_configs')->where('role_id', $role_id)
                         ->update($config_data, ['upsert' => true]);                  
-        return redirect()->route('roleconfig', ['orgId' => $org_id, 'role_id' => $role_id])->with('message', 'RoleConfig Updated Successfuly!!!');;
+        return redirect()->route('roleconfig', ['orgId' => $org_id, 'role_id' => $role_id])->with('message', 'RoleConfig Updated Successfuly!!!');
     }      
 }

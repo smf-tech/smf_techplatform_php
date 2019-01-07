@@ -35,10 +35,16 @@
                                     <td>
                                             <div class="actions">
                                                     <a class="btn btn-primary" href={{route('role.edit',$role->id)}}><i class="fas fa-pen"></i></a>
-                                                {!!Form::open(['action'=>['RoleController@destroy',$role->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
+                                                {{--  {!!Form::open(['action'=>['RoleController@destroy',$role->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                                {!!Form::close()!!}
+                                                {!!Form::close()!!}  --}}
+                                                <form action="{{ url('role',$role->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                                                                    
+                                                </form> 
                                             </div>
                                     </td>
                                 </tr>

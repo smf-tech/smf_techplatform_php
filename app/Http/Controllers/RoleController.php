@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Organisation;
 use App\Jurisdiction;
 use App\RoleJurisdiction;
+use App\User;
 use Illuminate\Support\Facades\DB;
 
 use Maklad\Permission\Models\Role;
@@ -60,6 +61,7 @@ class RoleController extends Controller
             'display_name'=>$request->display_name,
             'description'=>$request->description,
             'org_id'=>$request->org_id,
+            'user_ids'=>[]
         ]);
             $s = new RoleJurisdiction;
             $s->role_id = $role->_id;
@@ -133,11 +135,17 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('permission_role')->where('role_id',$id)->delete();
-
-        DB::table('roles')->where('id',$id)->delete();
-        return redirect()->route('role.index')->withMessage('Role Deleted');
-
+        $role = Role::find($id);
+        if(isset($role['user_ids'])){
+            foreach($role['user_ids'] as $role_user_id_key=>$role_user_id_val){
+                    $user = User::find($role_user_id_val);
+                    if($user->hasRole($role->name)){
+                        $user->removeRole($role->name);
+                    }
+            }
+        }
+        $role->delete();
+        return redirect()->route('role.index')->with('message','Role Deleted Successfuly!');
     }
 
 
