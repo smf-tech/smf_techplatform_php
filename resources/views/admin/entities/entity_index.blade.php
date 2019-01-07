@@ -23,12 +23,18 @@
                                 {{-- <th>District ID</th> --}}
                                 <th>Entity Name</th>
                                 <th>Display Name</th>
+                                <th>Is Active</th>
                             </tr>
                             @forelse($entities as $entity)
                                 <tr>
                                     {{-- <td>{{$d->id}}</td> --}}
                                     <td>{{$entity->Name}}</td>
                                     <td>{{$entity->display_name}}</td>
+                                    @if($entity->is_active == true)
+                                        <td>Yes</td>
+                                    @else
+                                        <td>No</td>
+                                    @endif
                                     {{-- <td>{{App\District::find($d->id)->state['Name']}}</td> --}}
                                     <td> <div class="actions">
                                             <a class="btn btn-primary" href={{route('entity.edit',$entity->id)}}><i class="fas fa-pen"></i></a>

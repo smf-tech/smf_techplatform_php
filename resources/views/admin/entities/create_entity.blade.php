@@ -29,7 +29,11 @@
                                 @if($errors->any())
                                 <b style="color:red">{{$errors->first()}}</b>
                                 @endif
-                            </div>                          
+                            </div>     
+                            <div class="form-group">
+                                <label for="entityActive">Is active</label>
+                                <input type="checkbox" name="active" class="form-control"/>
+                            </div>                         
                             <input type="submit" class="btn btn-success"/>
                          </form>                        
                 </div>
