@@ -60,8 +60,9 @@
                                     <label for="email" class="col-md-3" >Approver Role:</label>
                                     <div class="col-md-9">
                                 <select  name="approver_role" id="approver_role">
+                                    <option value=""></option>
                                 @foreach($org_roles as $org_role)
-                                    <option value="{{$org_role['_id']}}">{{$org_role['display_name']}}</option>
+                                    <option value="{{$org_role['_id']}}" @if($org_role['_id'] == $approver_role) selected='selected'  @endif>{{$org_role['display_name']}}</option>
                                 @endforeach
                                 </select>
                             </div>

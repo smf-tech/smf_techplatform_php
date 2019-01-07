@@ -61,6 +61,7 @@ class RoleController extends Controller
             'display_name'=>$request->display_name,
             'description'=>$request->description,
             'org_id'=>$request->org_id,
+            'jurisdiction' => $request->level_id,
             'user_ids'=>[]
         ]);
             $s = new RoleJurisdiction;
@@ -68,7 +69,7 @@ class RoleController extends Controller
             $s->jurisdiction_id = $request->level_id;
             $s->save();
 
-            session()->flash('status', 'Role was created!');
+        session()->flash('status', 'Role was created!');
         return redirect()->route('role.index')->withMessage('Role Created');
     }
 
@@ -145,7 +146,7 @@ class RoleController extends Controller
             }
         }
         $role->delete();
-        return redirect()->route('role.index')->with('message','Role Deleted Successfuly!');
+        return redirect()->route('role.index')->with('message','Role Deleted Successfuly!');
     }
 
 

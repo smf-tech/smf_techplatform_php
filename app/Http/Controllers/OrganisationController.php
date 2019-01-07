@@ -233,13 +233,14 @@ public function getProjects()
         if(isset($roleconfig)){
             $role_projects =  $roleconfig['projects'];
             $role_default_modules = $roleconfig['default_modules'];
-            $role_onapprove_modules = $roleconfig['on_approve_modules'];       
+            $role_onapprove_modules = $roleconfig['on_approve_modules'];
+            $approver_role = $roleconfig['approver_role'];       
         }     
         
         DB::setDefaultConnection('mongodb');
         $orgId = $org_id;
         $org_roles=DB::collection('roles')->where('org_id', $orgId)->where('_id','<>',$role_id)->get();
-        return view('admin.organisation.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles'));
+        return view('admin.organisation.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles','approver_role'));
     }  
 
     public function updateroleconfig(Request $request,$role_id){
