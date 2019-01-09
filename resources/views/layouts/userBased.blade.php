@@ -89,6 +89,7 @@
                                 @empty
                                     <li>   No Modules</li>
                                 @endforelse
+                                <li><a href="/{{$orgId}}/microservices">Microservices</a></li>
                                 <li><a href="/{{$orgId}}/entities">Entities</a></li>
                                 <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
                             </ul>

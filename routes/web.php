@@ -69,7 +69,8 @@ Route::group(
     Route::get('{orgId}/entities','EntityController@index');
     Route::get('{orgId}/entity/create','EntityController@create');
 	
-	Route::resource('microservice','MicroservicesController');
+    Route::resource('microservice','MicroservicesController');
+    Route::get('{orgId}/microservices','MicroservicesController@index');
 
    });
 
