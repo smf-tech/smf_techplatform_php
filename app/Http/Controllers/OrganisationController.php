@@ -231,10 +231,10 @@ public function getProjects()
         $roleconfig = DB::collection('role_configs')->where('role_id', $role_id)->first();
         $role_projects = $role_default_modules = $role_onapprove_modules = array();
         if(isset($roleconfig)){
-            $role_projects =  $roleconfig['projects'];
-            $role_default_modules = $roleconfig['default_modules'];
-            $role_onapprove_modules = $roleconfig['on_approve_modules'];
-            $approver_role = $roleconfig['approver_role'];       
+            $role_projects =  isset($roleconfig['projects'])?$roleconfig['projects']:[];
+            $role_default_modules = isset($roleconfig['default_modules'])?$roleconfig['default_modules']:[];
+            $role_onapprove_modules = isset($roleconfig['on_approve_modules'])?$roleconfig['on_approve_modules']:[];
+            $approver_role = isset($roleconfig['approver_role'])?$roleconfig['approver_role']:[];       
         }     
         
         DB::setDefaultConnection('mongodb');
