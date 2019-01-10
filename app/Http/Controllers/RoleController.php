@@ -139,7 +139,7 @@ class RoleController extends Controller
         $role = Role::find($id);
         if(isset($role['user_ids'])){
             foreach($role['user_ids'] as $role_user_id_key=>$role_user_id_val){
-                    $user = User::find($role_user_id_val);
+                    $user = User::find($role_user_id_val);
                     if($user->hasRole($role->name)){
                         $user->removeRole($role->name);
                     }
