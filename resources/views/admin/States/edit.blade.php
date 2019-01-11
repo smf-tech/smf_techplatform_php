@@ -19,10 +19,6 @@
                         {{csrf_field()}} 
                         <legend></legend>
                              <div class="form-group">
-                                 <label for="id">State ID</label>
-                                 <input type="integer" name="id" placeholder="ID of the state"class="form-control" value="{{$state->id}}"/>
-                             </div>
-                             <div class="form-group">
                                     <label for="stateName">State Name</label>
                                     <input type="text" name="stateName" placeholder="Name of the state"class="form-control" value="{{$state->Name}}"/>
                             </div>

@@ -22,14 +22,12 @@
                      
                         <table class="table">
                             <tr>
-                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Action</th>
                             </tr>
                             @forelse($users as $user)
                                 <tr>
-                                    <td>{{$user->id}}</td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>

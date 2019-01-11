@@ -32,7 +32,7 @@
                             </div>     
                             <div class="form-group">
                                 <label for="entityActive">Is active</label>
-                                <input type="checkbox" name="active" class="form-control"/>
+                                <input type="checkbox" name="active" class="form-control" checked/>
                             </div>                         
                             <input type="submit" class="btn btn-success"/>
                          </form>                        
