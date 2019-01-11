@@ -23,11 +23,7 @@
                         {{csrf_field()}} 
                         <legend></legend>
                              <div class="form-group">
-                                 <label for="name">Role Name</label>
-                                 <input type="text" name="name" placeholder="name of the role"class="form-control" value="{{$role->name}}"/>
-                             </div>
-                             <div class="form-group">
-                                    <label for="display_name">Display Name</label>
+                                    <label for="display_name">Role Name</label>
                                     <input type="text" name="display_name" placeholder="Display Name"class="form-control" value="{{$role->display_name}}"/>
                             </div>
                              <div class="form-group">

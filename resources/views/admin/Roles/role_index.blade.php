@@ -23,13 +23,11 @@
                         <table class="table">
                             <tr>
                                 <th>Name</th>
-                                <th>Display Name</th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>
                             @forelse($roles as $role)
                                 <tr>
-                                    <td>{{$role->name}}</td>
                                     <td>{{$role->display_name}}</td>
                                     <td>{{$role->description}}</td>
                                     <td>

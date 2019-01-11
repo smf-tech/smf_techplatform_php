@@ -22,14 +22,12 @@
                     
                         <table class="table">
                             <tr>
-                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Service</th>
                                 <th>Action</th>
                             </tr>
                            @forelse($orgs as $item)
                                 <tr>
-                                    <td>{{$item->id}}</td>
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->service}}</td>
                                     <td> 
