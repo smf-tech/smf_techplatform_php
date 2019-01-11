@@ -26,46 +26,16 @@ $.ajaxSetup({
   
   var creatorId = $('#id').attr('class');
   
-  
-//  ko.applyBindings(vm);
+  var x = document.getElementsByClassName('svd_commercial_container')[0];
+  x.style.display = "none";
 
-  $(document).on('click','#svd-survey-settings',function(){
-    // console.log("hello");
-    $("input").click(function(){
+  document.getElementsByClassName('nav-link')[1].innerText = 'Form Designer';
 
-        // var viewModel = {
-        //     title : ko.observable()
-        //  };
-         
-        //  var vm = new AppViewModel();
-        
-        // console.log(viewModel.title());
+  var buttonElements = document.getElementsByTagName('button');
+    buttonElements[3].innerHTML= '<span data-bind="text: title">Form Settings</span>';
+    buttonElements[4].innerHTML= '<span data-bind="text: title">Save Form</span>';
 
-        // this.filter = ko.computed({
-        //     read: function() { return ""; }, // <-- not recommended, read context!
-            // write: function(newValue) {
-            //   // You're free to discard the newValue   <-- not recommended, read context!
-            //   alert("Input has been changed.");
-            // }
-        //   });
-
-        // console.log("bye");
-      });
-
-  });
-//   console.log("data-bind: " + $("span").data().bind);
-//   console.log("value: " + $("span").val());
-
-//   var viewModel = {
-//     title: ko.observable() // Initially blank
-// };
-// viewModel.title = ko.pureComputed(function() {
-//     return this.title();
-// }, viewModel);
-
-// console.log(viewModel.title);
-
-//   console.log(this.title());
+  document.getElementById('objectSelector')[0].innerHTML = 'Form';
 
   //Setting this callback will make visible the "Save" button
   editor.saveSurveyFunc = function () {

@@ -24,7 +24,16 @@ $.ajaxSetup({
   editor.text = $('#id').attr('value');
   var surveyID = $('#id').attr('surveyID');
 
-//   console.log(surveys);
+  var x = document.getElementsByClassName('svd_commercial_container')[0];
+    x.style.display = "none";
+
+  document.getElementsByClassName('nav-link')[1].innerText = 'Form Designer';
+
+  var buttonElements = document.getElementsByTagName('button');
+    buttonElements[3].innerHTML= '<span data-bind="text: title">Form Settings</span>';
+    buttonElements[4].innerHTML= '<span data-bind="text: title">Save Form</span>';
+
+  document.getElementById('objectSelector')[0].innerHTML = 'Form';
 
   var orgId=window.location.pathname.split('/')[1];
 
