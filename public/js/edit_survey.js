@@ -10,12 +10,12 @@ $.ajaxSetup({
                 Survey.surveyLocalization.localeNames["hi"] = "Hindi";
                 Survey.surveyLocalization.supportedLocales = ["en", "mr","hi"];
 
-  SurveyEditor
-      .StylesManager
-      .applyTheme("bootstrap");
-  
-  var editorOptions = {showTranslationTab: true,showJSONEditorTab: false,showTestSurveyTab: false };
-  var editor = new SurveyEditor.SurveyEditor("editorElement", editorOptions);
+        SurveyEditor
+        .StylesManager
+        .applyTheme("bootstrap");
+        
+      var editorOptions = {showTranslationTab: true,showJSONEditorTab: false,showTestSurveyTab: false };
+      var editor = new SurveyEditor.SurveyEditor("editorElement", editorOptions);
   
 //   var creatorId = $('#id').attr('class');
   var projectId = $('#pid').attr('value');
@@ -24,7 +24,7 @@ $.ajaxSetup({
   editor.text = $('#id').attr('value');
   var surveyID = $('#id').attr('surveyID');
 
-  console.log(surveys);
+//   console.log(surveys);
 
   var orgId=window.location.pathname.split('/')[1];
 
@@ -65,8 +65,10 @@ $.ajaxSetup({
                 entity_id:entityId
 				},
         success:function(res){
-            console.log(res)
-            window.location.href = "/"+orgId+"/forms";
+            // console.log(res)
+            // console.log(res.substr(1,res.length-2))
+            window.location.href = "/"+orgId+"/editKeys/"+res.substr(1,res.length-2);
+            // window.location.href = "/"+orgId+"/forms";
         }
       });
     

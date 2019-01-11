@@ -20,13 +20,11 @@
                     </div>
                         <table class="table">
                             <tr>
-                                <th>Level No</th>
                                 <th>Level Name</th>
                                 <th>Action</th>
                             </tr>
                             @forelse($juris as $j)
                                 <tr>
-                                    <td>{{$j->id}}</td>
                                     <td>{{$j->levelName}}</td>
                                     <td>
                                         <div class="actions">

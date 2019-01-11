@@ -51,6 +51,9 @@ Route::group(
     Route::get('{orgId}/forms/create', 'SurveyController@showCreateForm');
 
     Route::post('/savebuiltform','SurveyController@saveSurveyForm');
+    Route::get('/{orgId}/setKeys/{survey_id}','SurveyController@setKeys');
+    Route::post('/form/storeKeys','SurveyController@storeKeys');
+    Route::get('/{orgId}/editKeys/{survey_id}','SurveyController@editKeys');
     Route::get('{orgId}/forms','SurveyController@index');
     Route::get('{orgId}/roles','OrganisationController@orgroles');
     Route::get('{orgId}/roles/{role_id}',['as'=>'roleconfig','uses'=>'OrganisationController@configureRole']);
@@ -71,6 +74,14 @@ Route::group(
 	
     Route::resource('microservice','MicroservicesController');
     Route::get('{orgId}/microservices','MicroservicesController@index');
+
+    Route::resource('category','CategoryController');
+    Route::get('{orgId}/categories','CategoryController@index');
+    Route::get('{orgId}/category/create','CategoryController@create');
+
+    Route::resource('project','ProjectController');
+    Route::get('{orgId}/projects','ProjectController@index');
+    Route::get('{orgId}/project/create','ProjectController@create');
 
    });
 

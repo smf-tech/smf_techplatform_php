@@ -37,9 +37,8 @@ class SurveyController extends Controller
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
- 
        
-         DB::collection('surveys')->insert(
+        $id = DB::collection('surveys')->insertGetId(
             ['name'=>$k ,'json'=>$request->json,'creator_id'=> $request->creator_id,
             'active'=>$request->active,'editable'=>$request->editable,
             'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
@@ -48,23 +47,142 @@ class SurveyController extends Controller
             'entity_id'=>$request->entity_id]
         );
 
-        return json_encode('success');
+        foreach($id as $key=>$value)
+            $survey_id = $value;
+
+        return json_encode($survey_id);
      
+    }
+    public function setKeys()
+    {
+        $keys = array();
+
+        //Breaks up url into an array of substrings using delimiter '/'
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+        $orgId = $uri[1];
+        $survey_id = $uri[3];
+
+        $organisation=Organisation::find($orgId);
+        $dbName=$organisation->name.'_'.$organisation->id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+
+        $modules= DB::collection('modules')->get();
+
+        //Returns fields _id,json of survey having survey id=$survey_id
+        $survey = Survey::where('_id','=',$survey_id)->get(['json']);   
+
+        //Breaks up json string into an array of substrings using delimiter '"'
+        $jsonValue = explode('"',$survey[0]->json);
+
+        //Obtains length of $jsonValue
+        $length = sizeof($jsonValue) - 1;
+
+        $numberOfKeys = 0;
+
+        while($length > 0)      //Starts from the end of the json string
+        {
+            if('name' == $jsonValue[$length])   //Gets all values in the json string where key==name
+            {
+                if(!preg_match('/page/',$jsonValue[$length+2])) //Excludes all values in the json string if it contains page
+                {
+                    $keys[] = $jsonValue[$length+2];       //$jsonValue[$length+2] contains the name of the question
+                    $numberOfKeys++;                    
+                }
+            }
+            if('pages' == $jsonValue[$length])      //will break out of loop if key==pages
+                break;
+            $length --;
+        }
+
+        $primaryKeySet = array();
+        return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','modules','survey_id'));
+    }
+    public function editKeys()
+    {
+         //Breaks up url into an array of substrings using delimiter '/'
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+
+        $keys = array();
+        
+        $orgId = $uri[1];
+        $survey_id = $uri[3];
+        $organisation=Organisation::find($orgId);
+        $dbName=$organisation->name.'_'.$organisation->id;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        $modules= DB::collection('modules')->get();
+
+         //Returns fields _id,primaryKeys,json of survey having survey id=$survey_id
+        $survey = Survey::where('_id','=',$survey_id)->get(['primaryKeys','json']);
+
+        //obtains only the primary keys from $survey as an array
+        $primaryKeySet = $survey[0]->primaryKeys;
+
+        //Breaks up json string into an array of substrings using delimiter '"'
+        $jsonValue = explode('"',$survey[0]->json);
+
+        //Obtains length of $jsonValue
+        $length = sizeof($jsonValue) - 1;
+        $numberOfKeys = 0;
+       
+        while($length > 0)  //Starts from the end of the json string
+        {
+            if('name' == $jsonValue[$length])   //Gets all values in the json string where key==name
+            {
+                if(!preg_match('/page/',$jsonValue[$length+2]))   //Excludes all values in the json string if it contains page           
+                {
+                    $keys[] = $jsonValue[$length+2];    //$jsonValue[$length+2] contains the name of the question
+                    $numberOfKeys++;
+                }
+            }
+            if('pages' == $jsonValue[$length])       //will break out of loop if key==pages
+                break;
+            $length --;
+        }
+
+            return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','modules','survey_id'));
+    }
+
+    public function storeKeys(Request $request)
+    {
+        $survey_id = $request->surveyID;
+
+        //Returns $request->primaryKeys[]
+        $primaryKeys = $request->except(['_token','surveyID']); 
+
+        $organisation_id = Auth::user()->org_id;
+        $organisation = Organisation::find($organisation_id);
+        $dbName=$organisation->name.'_'.$organisation_id;
+
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+
+        DB::collection('surveys')->where('_id',$survey_id)->update($primaryKeys);
+
+        //Redirects to index function
+        return redirect($organisation_id.'/forms');
     }
     public function sendResponse(Request $request)
     {
-        // $survey = new SurveyResult;
-        // $survey->survey_id = $request->surveyId;
-        // $survey->user_id = $request->userId;
-        // $survey->json = $request->jsonString;
-        // $survey->save();
-
-        // if($request->jsonString == '{}')
-        //     echo "Please fill out form";
-        // else
-        // {
-
-        // }
         $uri = explode("/",$_SERVER['REQUEST_URI']);
         $organisation=Organisation::find($uri[1]);
         $orgId=$organisation->id;
@@ -103,7 +221,7 @@ class SurveyController extends Controller
         $json=json_decode($json);
         $json=json_encode($json);
         $survey_id = $request->surveyID;
-        // return $json;
+
         return view('layouts.survey',compact('json','survey_id','orgId','modules'));
     }
     /**
@@ -112,7 +230,8 @@ class SurveyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   //getOranisation
+    {   
+        //getOranisation
         $uri = explode("/",$_SERVER['REQUEST_URI']);
 
         $organisation=Organisation::find($uri[1]);
@@ -129,10 +248,8 @@ class SurveyController extends Controller
         $modules= DB::collection('modules')->get();
 
         $surveys=Survey::paginate(5);
-        // $projects = 
-        // return $survey;
+       
         return view('admin.surveys.survey_index',compact('surveys','orgId','modules'));
-        // print_r(DB::select('select * from surveys'));
     }
     public function viewResults(Request $request){
         $survey_id=$request->surveyID;
@@ -186,7 +303,6 @@ class SurveyController extends Controller
         $dbName=$organisation->name.'_'.$orgId;
 
         $org_roles = $this->getOrganisationRoles($orgId);
-        // return $org_id;
 
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
@@ -239,7 +355,6 @@ class SurveyController extends Controller
        
          DB::collection('surveys')->where('_id',$request->surveyID)->update(
             ['name'=>$k ,'json'=>$request->json,
-            // 'creator_id'=> $request->creator_id,
             'active'=>$request->active,'editable'=>$request->editable,
             'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
             'category_id'=>$request->category_id,'project_id'=>$request->project_id,
@@ -248,7 +363,7 @@ class SurveyController extends Controller
             ]
         );
 
-        return json_encode('success');
+        return json_encode($request->surveyID);
      
     }
 
@@ -324,10 +439,6 @@ class SurveyController extends Controller
         $organisation = Organisation::find($organisation_id);
         $dbName=$organisation->name.'_'.$organisation_id;
 
-        // $id = explode(" ", $ids);
-        // $organisation=Organisation::find($id[1]);
-        // $dbName=$organisation->name.'_'.$id[1];
-
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
@@ -340,11 +451,6 @@ class SurveyController extends Controller
         DB::collection('surveys')->where('_id',$survey_id)->delete();
 
         $modules= DB::collection('modules')->get();
-        // $orgId = $id[1];
-        // $surveys=Survey::paginate(5);
-        // DB::setDefaultConnection('mongodb');
-       
-        // return view('layouts.editSurvey',compact('surveys','orgId','modules'));
         
         return Redirect::back()->withMessage('Form Deleted');
         

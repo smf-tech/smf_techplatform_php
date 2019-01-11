@@ -13,9 +13,9 @@
                         </div>
                     @endif
                        <div class="row">
-                        <h3 class="col-md-9">Projects</h3>
+                        <h3 class="col-md-9">Categories</h3>
                         <div class="col">
-                                <a class ="btn btn-success"href="/{{$orgId}}/project/create">Project   <i class="fas fa-plus"></i></a>
+                                <a class ="btn btn-success"href="/{{$orgId}}/category/create">Category   <i class="fas fa-plus"></i></a>
                         </div>
                         </div>
                         <table class="table">
@@ -23,12 +23,12 @@
                                 <th>Name</th>
                                 <th>Action</th>
                             </tr>
-                            @forelse($projects as $project)
+                            @forelse($categories as $category)
                                 <tr>
-                                    <td>{{$project->name}}</td>
+                                    <td>{{$category->name}}</td>
                                     <td> <div class="actions">
-                                            <a class="btn btn-primary" href={{route('project.edit',$project->id)}}><i class="fas fa-pen"></i></a>
-                                        {!!Form::open(['action'=>['ProjectController@destroy',$project->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
+                                            <a class="btn btn-primary" href={{route('category.edit',$category->id)}}><i class="fas fa-pen"></i></a>
+                                        {!!Form::open(['action'=>['CategoryController@destroy',$category->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                          {!!Form::close()!!}
@@ -36,7 +36,7 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <tr><td>no Projects</td></tr>
+                                <tr><td>no Categories</td></tr>
                             @endforelse
                         </table>   
                         

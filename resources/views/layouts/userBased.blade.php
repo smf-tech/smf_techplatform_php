@@ -91,6 +91,8 @@
                                 @endforelse
                                 <li><a href="/{{$orgId}}/microservices">Microservices</a></li>
                                 <li><a href="/{{$orgId}}/entities">Entities</a></li>
+                                <li><a href="/{{$orgId}}/categories">Categories</a></li>
+                                <li><a href="/{{$orgId}}/projects">Projects</a></li>
                                 <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
                             </ul>
                         </nav>

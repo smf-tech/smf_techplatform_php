@@ -85,7 +85,7 @@ $.ajaxSetup({
       var multiple_entry = $('#multiple_entry').is(":checked");
       var assigned_roles = $('#assigned_roles').val();
       
-
+        // var jsonVal = jsonEl.value;
       //console.log(assigned_roles);return;
 
 
@@ -117,9 +117,22 @@ $.ajaxSetup({
                 microservice_id:microserviceId,
                 entity_id:entityId
 				},
-        success:function(res){
-            console.log(res)
-            window.location.href = "/"+orgId+"/forms";
+        success:function(res)
+     {
+            // alert(input.val());
+            console.log(res.substr(1,res.length-2))
+            window.location.href = "/"+orgId+"/setKeys/"+res.substr(1,res.length-2);
+            // if(res)
+            // {
+            // jQuery.ajax({
+            //     type: "POST",
+            //     url: "/setKeys",
+            //     data: { 
+            //             json:jsonEl.value, 
+            //             survey_id:res,                        
+            //             }
+            //         });
+            // }
         }
       });
     }
