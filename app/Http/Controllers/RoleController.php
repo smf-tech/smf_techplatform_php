@@ -56,13 +56,15 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {  
+        $project_ids = $request->project_id;
         $role=Role::create([
             'name'=>$request->name.'_'.$request->org_id,
             'display_name'=>$request->display_name,
             'description'=>$request->description,
             'org_id'=>$request->org_id,
             'jurisdiction' => $request->level_id,
-            'user_ids'=>[]
+            'user_ids'=>[],
+            'project_ids'=>$project_ids
         ]);
             $s = new RoleJurisdiction;
             $s->role_id = $role->_id;
@@ -90,14 +92,23 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
          $role=Role::find($id);        
          $orgs=Organisation::where('orgshow','<>',0)->get();
          $levels = Jurisdiction::all();
          $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
-
-         return view('admin.roles.edit',compact(['role','orgs','levels','role_jurisdictions']));
+         $project_ids = array();
+         if (isset($role->project_ids) && !empty($role->project_ids)) {
+            $project_ids = $role->project_ids;
+         } 
+         $org_id = $role->org_id;
+         $data['orgID'] = $org_id;
+         $request->merge($data);
+         $non_ajax_call_flag = true;
+         $projects_arr = $this->getAjaxOrgId($request,$non_ajax_call_flag);
+         
+         return view('admin.roles.edit',compact(['role','orgs','levels','role_jurisdictions','project_ids','projects_arr']));
     }
 
     /**
@@ -114,8 +125,9 @@ class RoleController extends Controller
         $role->display_name=$request->display_name;
         $role->description=$request->description;
         $role->org_id=$request->org_id;
+        $role->project_ids=$request->project_id;
         $role->save();
-        DB::table('permission_role')->where('role_id',$id)->delete();
+        
 
         $sj = RoleJurisdiction::where('role_id',$role->id)->delete();
 
@@ -149,5 +161,26 @@ class RoleController extends Controller
         return redirect()->route('role.index')->with('message','Role Deleted Successfuly!');
     }
 
+    public function getAjaxOrgId(Request $request, $non_ajax_call_flag=null)
+    {    
+      $org_id = $request->orgID;
+      $organisation=Organisation::find($org_id);
+      $dbName = $organisation->name.'_'.$org_id;
+      \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        $projects = DB::collection('projects')->get();
+        
+        if (isset($non_ajax_call_flag)) {
+            return $projects;
+        } else {
+            return json_encode($projects);
+        }
+    }    
 
 }

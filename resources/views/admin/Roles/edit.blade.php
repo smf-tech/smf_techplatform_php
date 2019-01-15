@@ -33,12 +33,22 @@
                             <div class="form-group sub-con">
                             <div  class="form-group" >
                                     <h4>Organisation</h4>
-                                    <select name="org_id" class="form-control">
+                                    <select name="org_id" id ="orgidedit" class="form-control">
                                             @foreach($orgs as $org)
                                                
                                                 <option value={{$org->id}}  {{ ($org->id===$role->org_id) ?"selected":""}}>{{$org->name}}</option>
                                             @endforeach 
                                     </select></br></br>
+                                    <h4>Projects</h4>
+                                    <select name="project_id[]" id="project_id" multiple class="form-control">
+                                        @foreach($projects_arr as $proj_arr)
+                                         <?php $selected_attrb_flag = false; ?>
+                                            @if(in_array($proj_arr['_id'],$project_ids))
+                                                <?php $selected_attrb_flag = true; ?>
+                                            @endif
+                                            <option value={{$proj_arr['_id']}} {{ $selected_attrb_flag ? "selected":""}}>{{$proj_arr['name']}}</option>
+                                        @endforeach
+                                    </select>                                    
                                     {{-- </div>
                                     <div  class="form-group" > --}}
                                         <h4>Jurisdiction</h4>

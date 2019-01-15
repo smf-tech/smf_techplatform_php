@@ -91,6 +91,7 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
     Route::get('/getLevel','UserController@getLevel');
     Route::get('/getJidandLevel','TalukaController@getJidandLevel');
     Route::get('/populateData','TalukaController@populateData');
+    Route::get('/getAjaxOrgId','RoleController@getAjaxOrgId');
 
 });
 

@@ -32,11 +32,17 @@
                             <div class="form-group sub-con">
                             <div  class="form-group" >
                                     <h4>Organisation</h4>
-                                    <select name="org_id" class="form-control">
+                                    <select name="org_id" id ="orgid" class="form-control">
+                                        <option value=""></option>
                                             @foreach($orgs as $org)
                                                 <option value={{$org->id}}>{{$org->name}}</option>
                                             @endforeach 
-                                    </select></br></br>
+                                    </select></br>
+                                    <h4>Projects</h4>
+                                    <select name="project_id[]" id="project_id" multiple class="form-control">
+                                        <option value=""></option>
+                                    </select>
+                                    </br>                                    
                             {{-- </div>
                             <div  class="form-group" > --}}
                                 <h4>Jurisdiction</h4>
