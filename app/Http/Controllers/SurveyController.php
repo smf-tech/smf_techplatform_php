@@ -126,10 +126,10 @@ class SurveyController extends Controller
         $modules= DB::collection('modules')->get();
 
          //Returns fields _id,primaryKeys,json of survey having survey id=$survey_id
-        $survey = Survey::where('_id','=',$survey_id)->get(['primaryKeys','json']);
+        $survey = Survey::where('_id','=',$survey_id)->get(['form_keys','json']);
 
         //obtains only the primary keys from $survey as an array
-        $primaryKeySet = $survey[0]->primaryKeys;
+        $primaryKeySet = $survey[0]->form_keys;
 
         //Breaks up json string into an array of substrings using delimiter '"'
         $jsonValue = explode('"',$survey[0]->json);

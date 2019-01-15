@@ -55,11 +55,9 @@
                                         <select name="level_id" class="form-control">
                                                 @foreach($levels as $level)
                                                 <?php $c = false; ?>
-                                                @foreach($role_jurisdictions as $r)
-                                                    @if($level->id == $r->jurisdiction_id)
+                                                    @if($role->jurisdiction_id == $level->id)
                                                         <?php $c = true; ?>
                                                     @endif
-                                                @endforeach
                                                     <option value={{$level->id}} {{ $c ? "selected":""}}>{{$level->levelName}}</option>
                                                 @endforeach 
                                         </select>

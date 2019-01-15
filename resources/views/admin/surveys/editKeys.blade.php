@@ -8,11 +8,11 @@
         
         @if(in_array($keys[$i],$primaryKeySet))
             <label><b>                
-                <input type="checkbox" value="{{$keys[$i]}}" name="primaryKeys[]" checked/>&nbsp;&nbsp;{{$keys[$i]}}
+                <input type="checkbox" value="{{$keys[$i]}}" name="form_keys[]" checked/>&nbsp;&nbsp;{{$keys[$i]}}
             <b></label>
         @else
             <label><b>                
-                <input type="checkbox" value="{{$keys[$i]}}" name="primaryKeys[]"/>&nbsp;&nbsp;{{$keys[$i]}}
+                <input type="checkbox" value="{{$keys[$i]}}" name="form_keys[]"/>&nbsp;&nbsp;{{$keys[$i]}}
             <b></label>
         @endif
              </br>

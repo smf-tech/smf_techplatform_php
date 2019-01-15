@@ -62,14 +62,10 @@ class RoleController extends Controller
             'display_name'=>$request->display_name,
             'description'=>$request->description,
             'org_id'=>$request->org_id,
-            'jurisdiction' => $request->level_id,
+            'jurisdiction_id' => $request->level_id,
             'user_ids'=>[],
             'project_ids'=>$project_ids
         ]);
-            $s = new RoleJurisdiction;
-            $s->role_id = $role->_id;
-            $s->jurisdiction_id = $request->level_id;
-            $s->save();
 
         session()->flash('status', 'Role was created!');
         return redirect()->route('role.index')->withMessage('Role Created');
@@ -121,20 +117,13 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {  
         $role=Role::find($id);
-        $role->name=$request->name;
         $role->display_name=$request->display_name;
         $role->description=$request->description;
         $role->org_id=$request->org_id;
+        $role->jurisdiction_id=$request->level_id;
         $role->project_ids=$request->project_id;
         $role->save();
-        
-
-        $sj = RoleJurisdiction::where('role_id',$role->id)->delete();
-
-                $s = new RoleJurisdiction;
-                $s->role_id = $role->id;
-                $s->jurisdiction_id = $request->level_id;
-                $s->save();
+    
 
                 session()->flash('status', 'Role was updated!');
         return redirect()->route('role.index');
