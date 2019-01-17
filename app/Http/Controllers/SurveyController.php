@@ -78,27 +78,21 @@ class SurveyController extends Controller
         //Returns fields _id,json of survey having survey id=$survey_id
         $survey = Survey::where('_id','=',$survey_id)->get(['json']);   
 
-        //Breaks up json string into an array of substrings using delimiter '"'
-        $jsonValue = explode('"',$survey[0]->json);
-
-        //Obtains length of $jsonValue
-        $length = sizeof($jsonValue) - 1;
-
+        // Converts json string to array
+        $data = json_decode($survey[0]->json,true);     
+          
+        // Accessing the value of key pages
+        $pages = $data['pages'];
         $numberOfKeys = 0;
 
-        while($length > 0)      //Starts from the end of the json string
+        foreach($pages as $page)
         {
-            if('name' == $jsonValue[$length])   //Gets all values in the json string where key==name
+            // Accessing the value of key elements to obtain the names of the questions
+            foreach($page['elements'] as $element)
             {
-                if(!preg_match('/page/',$jsonValue[$length+2])) //Excludes all values in the json string if it contains page
-                {
-                    $keys[] = $jsonValue[$length+2];       //$jsonValue[$length+2] contains the name of the question
-                    $numberOfKeys++;                    
-                }
+                $keys[] = $element['name'];
+                $numberOfKeys++;
             }
-            if('pages' == $jsonValue[$length])      //will break out of loop if key==pages
-                break;
-            $length --;
         }
 
         $primaryKeySet = array();
@@ -125,34 +119,29 @@ class SurveyController extends Controller
         DB::setDefaultConnection($dbName);
         $modules= DB::collection('modules')->get();
 
-         //Returns fields _id,primaryKeys,json of survey having survey id=$survey_id
+        //Returns fields _id,primaryKeys,json of survey having survey id=$survey_id
         $survey = Survey::where('_id','=',$survey_id)->get(['form_keys','json']);
 
         //obtains only the primary keys from $survey as an array
         $primaryKeySet = $survey[0]->form_keys;
 
-        //Breaks up json string into an array of substrings using delimiter '"'
-        $jsonValue = explode('"',$survey[0]->json);
+        // Converts json string to array
+        $data = json_decode($survey[0]->json,true);        
 
-        //Obtains length of $jsonValue
-        $length = sizeof($jsonValue) - 1;
+        // Accessing the value of key pages
+        $pages = $data['pages'];
         $numberOfKeys = 0;
-       
-        while($length > 0)  //Starts from the end of the json string
-        {
-            if('name' == $jsonValue[$length])   //Gets all values in the json string where key==name
-            {
-                if(!preg_match('/page/',$jsonValue[$length+2]))   //Excludes all values in the json string if it contains page           
-                {
-                    $keys[] = $jsonValue[$length+2];    //$jsonValue[$length+2] contains the name of the question
-                    $numberOfKeys++;
-                }
-            }
-            if('pages' == $jsonValue[$length])       //will break out of loop if key==pages
-                break;
-            $length --;
-        }
 
+        foreach($pages as $page)
+        {
+             // Accessing the value of key elements to obtain the names of the questions
+            foreach($page['elements'] as $element)
+            {
+                $keys[] = $element['name'];
+                $numberOfKeys++;
+            }
+        }
+   
             return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','modules','survey_id'));
     }
 
