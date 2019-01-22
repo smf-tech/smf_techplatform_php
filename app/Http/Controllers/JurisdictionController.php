@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Jurisdiction;
+use App\Project;
+use App\Organisation;
 use Illuminate\Support\Facades\DB;
+use Validator;
+use Redirect;
+use Auth;
+
 
 class JurisdictionController extends Controller
 {
@@ -15,8 +22,23 @@ class JurisdictionController extends Controller
      */
     public function index()
     {
+        
+        $orgId = Auth::user()->org_id;
+        $organisation=Organisation::find($orgId);
+        $dbName=$organisation->name.'_'.$orgId;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        
+        $modules= DB::collection('modules')->get();
         $juris = Jurisdiction::all();
-        return view('admin.jurisdictions.jurisdiction_index',compact('juris'));
+        return view('admin.jurisdictions.jurisdiction_index',compact('juris','orgId','modules'));
+        //return view('admin.jurisdictions.jurisdiction_index',compact('juris'));
     }
 
     /**
@@ -26,7 +48,22 @@ class JurisdictionController extends Controller
      */
     public function create()
     {
-        return view('admin.jurisdictions.create_jurisdiction');
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+        
+        $organisation=Organisation::find($uri[1]);
+        $orgId=$organisation->id;
+        $dbName=$organisation->name.'_'.$organisation->id;
+
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        $modules= DB::collection('modules')->get();
+        return view('admin.jurisdictions.create_jurisdiction', compact('orgId','modules') );
     }
 
     /**
@@ -35,14 +72,29 @@ class JurisdictionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Jurisdiction $juris)
     {
+        $organisation_id = Auth::user()->org_id;
+        $org = Organisation::find($organisation_id);
+        $dbName = $org->name.'_'.$organisation_id;
+        
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        
+        $validator = Validator::make($request->all(), ['levelName' => 'required|unique:jurisdictions'])->validate();
+
         $juris = new Jurisdiction;
         $juris->levelName = $request->levelName;
         $juris->save();
 
         session()->flash('status', 'Jurisdiction was created!');
-        return redirect()->route('jurisdiction.index');
+        return redirect()->route('jurisdictions.index');
     }
 
     /**
@@ -64,8 +116,23 @@ class JurisdictionController extends Controller
      */
     public function edit($id)
     {
+        $orgId = Auth::user()->org_id;
+        $organisation = Organisation::find($orgId);
+        $dbName=$organisation->name.'_'.$orgId;
+
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+
+        $modules= DB::collection('modules')->get();
+
         $juris = Jurisdiction::find($id);
-        return view('admin.jurisdictions.edit',compact('juris'));
+        return view('admin.jurisdictions.edit',compact('orgId','modules','juris'));
 
     }
 
@@ -78,13 +145,26 @@ class JurisdictionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $organisation_id = Auth::user()->org_id;
+        $organisation = Organisation::find($organisation_id);
+        $dbName = $organisation->name.'_'.$organisation_id;
+
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',  
+        ));
+        DB::setDefaultConnection($dbName);
+        $validator = Validator::make($request->all(), ['levelName' => 'required|unique:jurisdictions'])->validate();
         $juris=Jurisdiction::find($id);
         $juris->id=$request->id;
         $juris->levelName=$request->levelName;
         $juris->save();
 
         session()->flash('status', 'Jurisdiction was edited!');
-        return redirect()->route('jurisdiction.index');   
+        return redirect()->route('jurisdictions.index');   
     }
 
     /**
@@ -95,7 +175,22 @@ class JurisdictionController extends Controller
      */
     public function destroy($id)
     {
-        $juris=Jurisdiction::find($id)->delete();
-        return redirect()->route('jurisdiction.index')->withMessage('Jurisdiction Deleted');                
+        $organisation_id = Auth::user()->org_id;
+        $org = Organisation::find($organisation_id);
+
+        $dbName=$org->name.'_'.$organisation_id;
+        
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+            'driver'    => 'mongodb',
+            'host'      => '127.0.0.1',
+            'database'  => $dbName,
+            'username'  => '',
+            'password'  => '',
+        ));
+        DB::setDefaultConnection($dbName);
+
+        $juris = Jurisdiction::find($id)->delete();
+        session()->flash('status', 'Jurisdiction deleted successfully!');
+        return redirect()->route('jurisdictions.index');                
     }
 }

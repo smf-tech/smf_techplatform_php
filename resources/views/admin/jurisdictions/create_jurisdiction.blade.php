@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased')
 
 @section('content')
 <div class="container">
@@ -13,8 +13,17 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                         <h3>Create Jurisdiction</h3>
-                    <form action="{{route('jurisdiction.store')}}" method="post">
+                    <form action="{{route('jurisdictions.store')}}" method="post">
                            {{csrf_field()}}     
                         <legend></legend>
                              <div class="form-group">

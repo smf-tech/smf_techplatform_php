@@ -39,7 +39,6 @@ Route::group(
     Route::resource('organisation','OrganisationController');
     Route::resource('users','UserController');
     Route::resource('state','StateController');
-    Route::resource('jurisdiction','JurisdictionController');
     Route::resource('district','DistrictController');
     Route::resource('taluka','TalukaController');
     Route::resource('cluster','ClusterController');
@@ -83,10 +82,15 @@ Route::group(
     Route::get('{orgId}/projects','ProjectController@index');
     Route::get('{orgId}/project/create','ProjectController@create');
 
-        Route::resource('{orgId}/locations','LocationController', [
-            'parameters' => ['location' => 'locationId'],
-        ]);
-   });  
+    Route::resource('{orgId}/locations','LocationController', [
+        'parameters' => ['location' => 'locationId'],
+    ]);  
+
+    Route::resource('jurisdictions','JurisdictionController');
+    Route::get('{orgId}/jurisdictions','JurisdictionController@index');
+    Route::get('{orgId}/jurisdiction/create','JurisdictionController@create');
+});
+
 
 Route::group(['middleware' => [CheckAuth::class]], function () { 
     Route::get('/getRoles','RoleController@getOrgRoles');
@@ -99,8 +103,6 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
 });
 
 Route::get('/settings', 'SettingsController@index')->name('settings');
-
-
 
 Route::get('/sendOTP','smsAuthController@sendOTP');
 Route::get('/verifyOTP','smsAuthController@verifyOTP');

@@ -18,11 +18,11 @@ class StateJuris extends Migration
             $table->string('Name')->unique();
             $table->timestamps();
         });
-        Schema::create('jurisdictions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('levelName')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('jurisdictions', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('levelName')->nullable();
+        //     $table->timestamps();
+        // });
         Schema::create('state_jurisdictions', function (Blueprint $table) {
             $table->integer('state_id')->unsigned();
             $table->integer('jurisdiction_id')->unsigned();
@@ -46,7 +46,7 @@ class StateJuris extends Migration
     public function down()
     {
         Schema::drop('states');
-        Schema::drop('jurisdiction');   
+        //Schema::drop('jurisdiction');   
         Schema::drop('state_jurisdictions');   
     }
 }

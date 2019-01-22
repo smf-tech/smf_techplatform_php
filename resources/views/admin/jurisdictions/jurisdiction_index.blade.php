@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased')
 
 @section('content')
 <div class="container">
@@ -16,7 +16,7 @@
 
                     <div class="row">
                             <h3 class="col-md-9">Jurisdictions</h3>
-                            <a class ="btn btn-success"href="{{route('jurisdiction.create')}}">Jurisdiction  <i class="fas fa-plus"></i></a>
+                            <a class ="btn btn-success"href="/{{$orgId}}/jurisdiction/create">Jurisdiction  <i class="fas fa-plus"></i></a>
                     </div>
                         <table class="table">
                             <tr>
@@ -28,7 +28,7 @@
                                     <td>{{$j->levelName}}</td>
                                     <td>
                                         <div class="actions">
-                                            <a class="btn btn-primary"  href={{route('jurisdiction.edit',$j->id)}}><i class="fas fa-pen"></i></a>
+                                            <a class="btn btn-primary"  href={{route('jurisdictions.edit',$j->id)}}><i class="fas fa-pen"></i></a>
                                         {!!Form::open(['action'=>['JurisdictionController@destroy',$j->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                             
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>

@@ -95,7 +95,7 @@
                                          </ul>
                                    </li>
                                     <li><a  href="{{ url('/state') }}" ><i class="fas fa-map-marker-alt"> </i>   State</a> </li>
-                                    <li><a  href="{{ url('/jurisdiction') }}" ><i class="fas fa-sitemap"> </i>   Jurisdictions</a></li>
+                                    <!-- <li><a  href="{{ url('/jurisdiction') }}" ><i class="fas fa-sitemap"> </i>   Jurisdictions</a></li> -->
 
                             </ul>
                         </nav>
