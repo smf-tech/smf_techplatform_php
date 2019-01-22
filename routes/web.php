@@ -83,7 +83,10 @@ Route::group(
     Route::get('{orgId}/projects','ProjectController@index');
     Route::get('{orgId}/project/create','ProjectController@create');
 
-   });
+        Route::resource('{orgId}/locations','LocationController', [
+            'parameters' => ['location' => 'locationId'],
+        ]);
+   });  
 
 Route::group(['middleware' => [CheckAuth::class]], function () { 
     Route::get('/getRoles','RoleController@getOrgRoles');

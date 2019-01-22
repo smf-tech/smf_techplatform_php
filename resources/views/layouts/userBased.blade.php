@@ -94,6 +94,7 @@
                                 <li><a href="/{{$orgId}}/categories">Categories</a></li>
                                 <li><a href="/{{$orgId}}/projects">Projects</a></li>
                                 <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
+                                <li><a href="/{{$orgId}}/locations">Locations</a></li>                                
                             </ul>
                         </nav>
                     
@@ -117,6 +118,7 @@
     
     <link href="https://surveyjs.azureedge.net/1.0.56/surveyeditor.css" type="text/css" rel="stylesheet"/>
     <script src="https://surveyjs.azureedge.net/1.0.56/surveyeditor.js"></script>
+    <script src="{{ asset('js/index.js') }}"></script> 
     {{-- <script src="{{ asset('js/create_survey.js') }}" class="{{ Auth::user()->id }}" id="id"></script> --}}
 
     @stack('scripts')
