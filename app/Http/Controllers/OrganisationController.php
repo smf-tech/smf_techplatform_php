@@ -24,7 +24,7 @@ class OrganisationController extends Controller
      */
     public function index()
     {    
-        $orgs=Organisation::where('orgshow','<>',0)->get();
+        $orgs = Organisation::where('orgshow','<>',0)->get();
         return view('admin.organisation.organisation_index',compact('orgs'));
         
     }
@@ -52,21 +52,33 @@ class OrganisationController extends Controller
         $org=Organisation::create($request->except(['_token']));
         $dbName=$org->name.'_'.$org->id;
         
-       try{
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName); 
-      
-
-        }
-        catch(QueryException  $e){
-            var_dump($e);
-            exit;
+       try {
+            \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+                'driver'    => 'mongodb',
+                'host'      => '127.0.0.1',
+                'database'  => $dbName,
+                'username'  => '',
+                'password'  => '',  
+            ));
+            DB::setDefaultConnection($dbName);
+            Schema::connection($dbName)->create('jurisdictions', function($table) {
+                $table->increments('id');
+                $table->string('levelName');
+                $table->timestamps();
+            });
+            Schema::connection($dbName)->create('jurisdictions_types', function($table) {
+                $table->increments('id');
+                $table->string('jurisdictions');
+                $table->timestamps();
+            });
+            Schema::connection($dbName)->create('locations', function($table) {
+                $table->increments('id');
+                $table->string('name');
+                $table->string('jurisdiction_type_id');
+                $table->timestamps();
+            });
+            
+        } catch(QueryException  $e) {
             DB::setDefaultConnection('mongodb');
             $this->destroy($org->id);
             return redirect()->route('organisation.index')->withMessage('Oganisation Not Created');
@@ -117,7 +129,7 @@ class OrganisationController extends Controller
     });
     
     session()->flash('status', 'Oganisation was created!');
-        return redirect()->route('organisation.index');
+    return redirect()->route('organisation.index');
 }
 
 public function getProjects()
@@ -158,7 +170,7 @@ public function getProjects()
      */
     public function edit($id)
     {
-        $org=Organisation::find($id);
+       $org=Organisation::find($id);
        return view('admin.organisation.edit',compact('org'));
     }
 
@@ -194,7 +206,8 @@ public function getProjects()
         return redirect()->route('organisation.index')->withMessage('Oganisation Deleted');
     }
 
-    public function orgroles(Request $request,$org_id){
+    public function orgroles(Request $request,$org_id)
+    {
         $organisation=Organisation::find($org_id);
         $dbName=$organisation->name.'_'.$org_id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(

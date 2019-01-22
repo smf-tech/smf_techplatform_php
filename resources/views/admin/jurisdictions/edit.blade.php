@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased')
 
 @section('content')
 <div class="container">
@@ -13,23 +13,27 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Edit State</h3>
-                        {!! Form::model($juris, ['route' => [ 'jurisdiction.update', $juris->id ], 'method'=>'PUT', 'id' => 'jurisdiction-edit-form']) !!}
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                        <h3>Edit Jurisdiction</h3>
+                        {!! Form::model($juris, ['route' => ['jurisdictions.update', $juris->id ], 'method'=>'PUT', 'id' => 'jurisdiction-edit-form']) !!}
                         
                         {{csrf_field()}} 
                         <legend></legend>
-                             <div class="form-group">
-                                 <label for="id">Jurisdiction Level</label>
-                                 <input type="integer" name="id" placeholder="Level of Jurisdiction" class="form-control" value="{{$juris->id}}"/>
-                             </div>
-                             <div class="form-group">
-                                    <label for="levelName">Level Name</label>
-                                    <input type="text" name="levelName" placeholder="Level name"class="form-control" value="{{$juris->levelName}}"/>
+                            <div class="form-group">
+                                <label for="levelName">Level Name</label>
+                                <input type="text" name="levelName" placeholder="Level name"class="form-control" value="{{$juris->levelName}}"/>
                             </div>
                             <input type="submit" class="btn btn-success"/>
                     
                         {!! Form::close() !!} 
-                        
                 </div>
             </div>
         </div>

@@ -94,6 +94,7 @@
                                 <li><a href="/{{$orgId}}/categories">Categories</a></li>
                                 <li><a href="/{{$orgId}}/projects">Projects</a></li>
                                 <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
+                                <li><a href="/{{$orgId}}/jurisdictions">Jurisdictions</a></li>
                             </ul>
                         </nav>
                     
