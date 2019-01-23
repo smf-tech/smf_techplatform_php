@@ -95,6 +95,7 @@
                                 <li><a href="/{{$orgId}}/projects">Projects</a></li>
                                 <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
                                 <li><a href="/{{$orgId}}/jurisdictions">Jurisdictions</a></li>
+                                <li><a href="/{{$orgId}}/jurisdiction-types">Jurisdiction Types</a></li>
                                 <li><a href="/{{$orgId}}/locations">Locations</a></li>
                             </ul>
                         </nav>

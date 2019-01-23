@@ -89,6 +89,7 @@ Route::group(
     Route::resource('jurisdictions','JurisdictionController');
     Route::get('{orgId}/jurisdictions','JurisdictionController@index');
     Route::get('{orgId}/jurisdiction/create','JurisdictionController@create');
+    Route::resource('{orgId}/jurisdiction-types', 'JurisdictionTypeController')->except(['show']);
 });
 
 

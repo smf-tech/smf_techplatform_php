@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Schema;
 use Validator;
 use Redirect;
 use Auth;
+use App\JurisdictionType;
 
 class ProjectController extends Controller
 {
@@ -37,75 +38,38 @@ class ProjectController extends Controller
 
     public function create()
     {
-        $uri = explode("/",$_SERVER['REQUEST_URI']);
-
-        $organisation=Organisation::find($uri[1]);
-        $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$organisation->id;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
+        list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
         $modules= DB::collection('modules')->get();
-
-        return view('admin.projects.create_project',compact('orgId','modules'));
-      
+        $jurisdictionTypes = JurisdictionType::all();
+        return view('admin.projects.create_project',compact('orgId', 'modules', 'jurisdictionTypes'));
     }
 
     public function store(Request $request)
-    {  
-        $validator = Validator::make($request->all(), [
-            'Name' => 'unique:projects,name',
+    {
+        list($orgId, $dbName) = $this->setDatabaseConfig();
+        DB::setDefaultConnection($dbName);
+        $result = $request->validate([
+            'name' => 'required|unique:projects',
+            'jurisdictionType' => 'required'
         ]);
-
-        if ($validator->fails()) 
-        {
-            return Redirect::back()->withErrors(['Project already exists']);
-        }
-        
-        $organisation_id = Auth::user()->org_id;
-        $org = Organisation::find($organisation_id);
-        $dbName=$org->name.'_'.$organisation_id;
-        
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName); 
-      
         $project = new Project;
-        $project->name = $request->projectName;
+        $project->name = $result['name'];
+        $project->jurisdiction_type_id = $result['jurisdictionType'];
         $project->save();
 
         return redirect()->route('project.index')->withMessage('project Created');
     }
     public function edit($project_id)
     {
-        $orgId = Auth::user()->org_id;
-        $organisation = Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
+        list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
 
         $modules= DB::collection('modules')->get();
-        $project = project::find($project_id);
+        $project = Project::find($project_id);
+        $jurisdictionTypes = JurisdictionType::all();
         
-       return view('admin.projects.edit',compact('orgId','modules','project'));
+       return view('admin.projects.edit',compact('orgId','modules','project', 'jurisdictionTypes'));
     }
 
     /**
@@ -117,21 +81,15 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $project_id)
     {
-        $organisation_id = Auth::user()->org_id;
-        $organisation = Organisation::find($organisation_id);
-        $dbName=$organisation->name.'_'.$organisation_id;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
+        list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
-
+        $result = $request->validate([
+            'name' => 'required|unique:projects',
+            'jurisdictionType' => 'required'
+        ]);
         $project = Project::find($project_id);
-        $project->name=$request->Name;
+        $project->name = $result['name'];
+        $project->jurisdiction_type_id = $result['jurisdictionType'];
         $project->save();
 
         return redirect()->route('project.index')->withMessage('Project Updated');
