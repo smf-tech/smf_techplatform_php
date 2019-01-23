@@ -84,7 +84,7 @@ class ProjectController extends Controller
         list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
         $result = $request->validate([
-            'name' => 'required|unique:projects',
+            'name' => 'required',
             'jurisdictionType' => 'required'
         ]);
         $project = Project::find($project_id);

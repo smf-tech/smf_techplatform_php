@@ -157,7 +157,7 @@ class JurisdictionController extends Controller
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
-        $validator = Validator::make($request->all(), ['levelName' => 'required|unique:jurisdictions'])->validate();
+        $validator = Validator::make($request->all(), ['levelName' => 'required'])->validate();
         $juris=Jurisdiction::find($id);
         $juris->id=$request->id;
         $juris->levelName=$request->levelName;
