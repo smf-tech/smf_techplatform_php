@@ -318,6 +318,15 @@ $(document).on('change','#orgid,#orgidedit',function() {
 
 // Used for creating a location
 $(document).on('change','#jurisdictionType',function(){
+
+  if(this.value == 0)
+  {
+    $('#levelContainer').find('div').remove().end();
+    $('#levelContainer').find('br').remove().end();
+  }
+
+  else
+  {
   // Obtains the value present between the option tag of the selected select option
   var result = document.getElementById(this.value).innerText;
   // Converting the string to an array of substrings using delimiter ','
@@ -332,17 +341,32 @@ $(document).on('change','#jurisdictionType',function(){
         jurisdictions.forEach((item)=>{
 
         // Creates a new input tag for each item
-        $('#levelContainer').append('<div class="row"><h5 class="col-md-3">'+item+'</h5><input type="text" id="location'+i+'" name="location'+ i +'" class="form-control"></input><br/><br/></div><br>')
+        $('#levelContainer').append('<div><h4>'+item+'</h4><input type="text" id="location'+i+'" name="location'+ i +'" class="form-control"></input><br/></div>')
         i = i + 1;
 
        });
 
       //  Creates a hidden input tag to pass the array of levels e.g. [state, district, taluka]
-       $('#levelContainer').append('<div class="row"><h5 class="col-md-3"></h5><input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'"></input><br/><br/></div><br>')
+       $('#levelContainer').append('<div><h5 class="col-md-3"></h5><input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'"></input><br/><br/></div><br>')
+
+      }
+
 })
 
 // Used for editing a location
 $(document).on('change','#editJurisdiction',function(){
+
+  if(this.value == 0)
+  {
+    $('#levelContainer').find('div').remove().end();
+    $('#contentId').find('input').remove().end();
+    $('#contentId').find('h4').remove().end();
+    $('#contentId').find('br').remove().end();
+    $('#levelContainer').find('br').remove().end();
+  }
+
+  else
+  {
   // Obtains the value present between the option tag of the selected select option
   var result = document.getElementById(this.value).innerText;
   // Converting the string to an array of substrings using delimiter ','
@@ -362,11 +386,13 @@ $(document).on('change','#editJurisdiction',function(){
         jurisdictions.forEach((item)=>{
         
         // Creates a new input tag for each item
-        $('#levelContainer').append('<div class="row"><h4>'+item+'</h4><input type="text" id="location'+i+'" name="location'+ i +'" class="form-control"></input><br/></div></br>')
+        $('#levelContainer').append('<div><h4>'+item+'</h4><input type="text" id="location'+i+'" name="location'+ i +'" class="form-control"></input><br/></div>')
         i = i + 1;
 
        });
 
        //  Creates a hidden input tag to pass the array of levels e.g. [state, district, taluka]
-       $('#levelContainer').append('<div class="row"><h5 class="col-md-3"></h5><input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'" class="form-control"></input><br/></div>')
+       $('#levelContainer').append('<div><h5 class="col-md-3"></h5><input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'" class="form-control"></input><br/></div>')
+       
+      }
 })
