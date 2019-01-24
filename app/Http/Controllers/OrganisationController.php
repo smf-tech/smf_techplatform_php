@@ -25,7 +25,7 @@ class OrganisationController extends Controller
     public function index()
     {    
         $orgs = Organisation::where('orgshow','<>',0)->get();
-        return view('admin.organisation.organisation_index',compact('orgs'));
+        return view('admin.organisations.organisation_index',compact('orgs'));
         
     }
 
@@ -36,7 +36,7 @@ class OrganisationController extends Controller
      */
     public function create()
     {
-        return view('admin.organisation.create_organisation');
+        return view('admin.organisations.create_organisation');
       
     }
 
@@ -171,7 +171,7 @@ public function getProjects()
     public function edit($id)
     {
        $org=Organisation::find($id);
-       return view('admin.organisation.edit',compact('org'));
+       return view('admin.organisations.edit',compact('org'));
     }
 
     /**
@@ -222,7 +222,7 @@ public function getProjects()
         DB::setDefaultConnection('mongodb');
         $roles=Role::where('org_id', $org_id)->get();
         $orgId = $org_id;
-        return view('admin.organisation.roles_index',compact('roles','modules','orgId'));
+        return view('admin.organisations.roles_index',compact('roles','modules','orgId'));
     }
 
     public function configureRole(Request $request,$org_id,$role_id){
@@ -253,7 +253,7 @@ public function getProjects()
         DB::setDefaultConnection('mongodb');
         $orgId = $org_id;
         $org_roles=DB::collection('roles')->where('org_id', $orgId)->where('_id','<>',$role_id)->get();
-        return view('admin.organisation.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles','approver_role'));
+        return view('admin.organisations.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles','approver_role'));
     }  
 
     public function updateroleconfig(Request $request,$role_id){
