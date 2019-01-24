@@ -34,7 +34,7 @@ class Survey  extends \Jenssegers\Mongodb\Eloquent\Model
      */
     public function results()
     {
-        return $this->hasMany('App\SurveyResult', 'survey_id');
+        return $this->hasMany('App\SurveyResult', 'form_id');
     }
     public function project()
     {

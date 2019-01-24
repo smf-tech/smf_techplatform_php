@@ -17,7 +17,7 @@ class SurveyResult  extends \Jenssegers\Mongodb\Eloquent\Model
      */
     public function survey()
     {
-        return $this->belongsTo('App\Survey', 'survey_id');
+        return $this->belongsTo('App\Survey', 'form_id');
     }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
