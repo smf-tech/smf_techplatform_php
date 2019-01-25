@@ -295,16 +295,16 @@ $(document).on('change','#state_id2',function(){
 $(document).on('change','#orgid,#orgidedit',function() {
  
   var orgID = $(this).val();
-  if(orgID) {
+  if (orgID) {
     $.ajax({
         url: '/getAjaxOrgId',
         type: "GET",
         data: {orgID : orgID},
         success:function(data) {
           var obj = JSON.parse(data); 
-          $('select[name="project_id[]"]').empty();
+          $('select[name="project_id"]').empty();
           obj.forEach(element => {
-            $('select[name="project_id[]').append('<option value="'+ element['_id']['$oid'] +'">'+element['name']+'</option>');
+            $('select[name="project_id').append('<option value="'+ element['_id']['$oid'] +'">'+element['name']+'</option>');
           });
         },
         error: function (data) {
@@ -312,7 +312,7 @@ $(document).on('change','#orgid,#orgidedit',function() {
         }
     });
   } else {
-      $('select[name="project_id[]"]').empty();
+      $('select[name="project_id"]').empty();
   }
 })
 

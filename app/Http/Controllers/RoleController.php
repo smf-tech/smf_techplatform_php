@@ -16,18 +16,17 @@ use Maklad\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-   
-    
-    /**
+   /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getOrgRoles(Request $request){
-  
-        $roles=Role::where('org_id', $request->selectedOrg )->get();       
+    public function getOrgRoles(Request $request)
+    {
+        $roles=Role::where('org_id', $request->selectedOrg)->get();       
         return json_encode($roles);
     }
+    
     public function index()
     {
         $roles=Role::all();
@@ -41,8 +40,8 @@ class RoleController extends Controller
      */
     public function create()
     {   
-        $permissions=Permission::all();
-        $orgs=Organisation::where('orgshow','<>',0)->get();
+        $permissions = Permission::all();
+        $orgs = Organisation::where('orgshow','<>',0)->get();
         $levels = Jurisdiction::all();
         
         return view('admin.roles.create_role',compact(['permissions','orgs','levels']));
@@ -56,15 +55,15 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {  
-        $project_ids = $request->project_id;
-        $role=Role::create([
+        $project_id = $request->project_id;
+        $role = Role::create([
             'name'=>$request->name.'_'.$request->org_id,
             'display_name'=>$request->display_name,
             'description'=>$request->description,
             'org_id'=>$request->org_id,
             'jurisdiction_id' => $request->level_id,
             'user_ids'=>[],
-            'project_ids'=>$project_ids
+            'project_id'=>$project_id
         ]);
 
         session()->flash('status', 'Role was created!');
@@ -90,13 +89,13 @@ class RoleController extends Controller
      */
     public function edit(Request $request,$id)
     {
-         $role=Role::find($id);        
-         $orgs=Organisation::where('orgshow','<>',0)->get();
+         $role = Role::find($id);        
+         $orgs = Organisation::where('orgshow','<>',0)->get();
          $levels = Jurisdiction::all();
          $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
-         $project_ids = array();
-         if (isset($role->project_ids) && !empty($role->project_ids)) {
-            $project_ids = $role->project_ids;
+         $project_id ='';
+         if (isset($role->project_id) && !empty($role->project_id)) {
+            $project_id = $role->project_id;
          } 
          $org_id = $role->org_id;
          $data['orgID'] = $org_id;
@@ -104,7 +103,7 @@ class RoleController extends Controller
          $non_ajax_call_flag = true;
          $projects_arr = $this->getAjaxOrgId($request,$non_ajax_call_flag);
          
-         return view('admin.roles.edit',compact(['role','orgs','levels','role_jurisdictions','project_ids','projects_arr']));
+         return view('admin.roles.edit',compact(['role','orgs','levels','role_jurisdictions','project_id','projects_arr']));
     }
 
     /**
@@ -121,11 +120,10 @@ class RoleController extends Controller
         $role->description=$request->description;
         $role->org_id=$request->org_id;
         $role->jurisdiction_id=$request->level_id;
-        $role->project_ids=$request->project_id;
+        $role->project_id=$request->project_id;
         $role->save();
-    
-
-                session()->flash('status', 'Role was updated!');
+        
+        session()->flash('status', 'Role was updated!');
         return redirect()->route('role.index');
     }
 
@@ -138,19 +136,19 @@ class RoleController extends Controller
     public function destroy($id)
     {
         $role = Role::find($id);
-        if(isset($role['user_ids'])){
-            foreach($role['user_ids'] as $role_user_id_key=>$role_user_id_val){
-                    $user = User::find($role_user_id_val);
-                    if($user->hasRole($role->name)){
-                        $user->removeRole($role->name);
-                    }
+        if(isset($role['user_ids'])) {
+            foreach($role['user_ids'] as $role_user_id_key=>$role_user_id_val) {
+                $user = User::find($role_user_id_val);
+                if($user->hasRole($role->name)) {
+                    $user->removeRole($role->name);
+                }
             }
         }
         $role->delete();
         return redirect()->route('role.index')->with('message','Role Deleted Successfuly!');
     }
 
-    public function getAjaxOrgId(Request $request, $non_ajax_call_flag=null)
+    public function getAjaxOrgId(Request $request, $non_ajax_call_flag = null)
     {    
       $org_id = $request->orgID;
       $organisation=Organisation::find($org_id);
@@ -162,14 +160,15 @@ class RoleController extends Controller
             'username'  => '',
             'password'  => '',  
         ));
-        DB::setDefaultConnection($dbName);
-        $projects = DB::collection('projects')->get();
         
+        DB::setDefaultConnection($dbName);
+
+        $projects = DB::collection('projects')->get();
         if (isset($non_ajax_call_flag)) {
             return $projects;
         } else {
             return json_encode($projects);
         }
-    }    
+    }
 
 }
