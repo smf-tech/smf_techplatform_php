@@ -29,9 +29,9 @@ class ProjectController extends Controller
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        $modules = DB::collection('modules')->get();
 
-        $projects=Project::all();
+        $projects = Project::all();
         return view('admin.projects.projects_index',compact('projects','orgId','modules'));
         
     }
@@ -99,9 +99,10 @@ class ProjectController extends Controller
     {
         $organisation_id = Auth::user()->org_id;
         $org = Organisation::find($organisation_id);
-
-        $dbName=$org->name.'_'.$organisation_id;
-        
+        $user_id =  Auth::user()->id;
+        DB::table('roles')->where('project_id',$id)->update(['project_id' => null]);
+        //DB::table('roles')->whereIn('user_ids',$user_id)->where('project_id',$id)->delete();
+        $dbName = $org->name.'_'.$organisation_id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
@@ -109,10 +110,9 @@ class ProjectController extends Controller
             'username'  => '',
             'password'  => '',  
         ));
-        DB::setDefaultConnection($dbName); 
-
-        Project::find($id)->delete();
         
-        return Redirect::back()->withMessage('project Deleted');   
+        DB::setDefaultConnection($dbName); 
+        Project::find($id)->delete();
+        return Redirect::back()->withMessage('Project Deleted');   
     }
 }

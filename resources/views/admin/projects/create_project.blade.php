@@ -1,4 +1,4 @@
-@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
+@extends('layouts.userBased')
 
 @section('content')
 <div class="container">
@@ -18,11 +18,23 @@
                         <legend></legend>
                              <div class="form-group">
                                  <label for="projectName">Project Name</label>
-                                 <input type="text" name="projectName" placeholder="name of the project" class="form-control"/>
-                                 @if($errors->any())
-                                 <b style="color:red">{{$errors->first()}}</b>
+                                 <input type="text" name="name" placeholder="name of the project" class="form-control" value="{{old('name')}}"/>
+                                 @if($errors->has('name'))
+                                 <b style="color:red">{{$errors->first('name')}}</b>
                                  @endif
-                             </div>                                 
+                             </div>
+                        <div class="form-group">
+                            <label for="jurisdictionType">Jurisdiction Type</label>
+                            <select class="form-control" id="jurisdictionType" name="jurisdictionType">
+                                <option value="">Select Jurisdiction Type</option>
+                                @foreach ($jurisdictionTypes as $type)
+                                <option value="{{$type->id}}">{{json_encode($type->jurisdictions)}}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('jurisdictionType'))
+                            <b style="color:red">{{$errors->first('jurisdictionType')}}</b>
+                            @endif
+                        </div>
                             <input type="submit" class="btn btn-success"/>
                          </form>                        
                 </div>
