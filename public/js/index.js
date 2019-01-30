@@ -319,80 +319,193 @@ $(document).on('change','#orgid,#orgidedit',function() {
 // Used for creating a location
 $(document).on('change','#jurisdictionType',function(){
 
-  if(this.value == 0)
-  {
-    $('#levelContainer').find('div').remove().end();
-    $('#levelContainer').find('br').remove().end();
-  }
+  // Empties both div tags
+  $('#jurisdictionTypeContainer').empty();
+  $('#jurisdictionTypeContainer2').empty();
 
-  else
+  // because an error occurs while fetching document.getElementById(this.value).innerText for value = 0
+  if(this.value != 0)
   {
   // Obtains the value present between the option tag of the selected select option
   var result = document.getElementById(this.value).innerText;
   // Converting the string to an array of substrings using delimiter ','
   var jurisdictions = result.split(", ");
 
-  $('#levelContainer').find('div').remove().end();
-  $('#levelContainer').find('br').remove().end();
-      
         var i = 0;
 
         // var item contains values such as state, district, taluka, etc.
         jurisdictions.forEach((item)=>{
 
         // Creates a new input tag for each item
-        $('#levelContainer').append('<div><h4>'+item+'</h4><input type="text" id="location'+i+'" name="location'+ i +'" class="form-control"></input><br/></div>')
+        $('#jurisdictionTypeContainer').append('<div><h4>'+item+'</h4><input type="text" id="location'+i+'" name="level'+ 0 +'_location'+ i +'" class="form-control"></input><br/></div>')
         i = i + 1;
 
        });
 
       //  Creates a hidden input tag to pass the array of levels e.g. [state, district, taluka]
-       $('#levelContainer').append('<div><h5 class="col-md-3"></h5><input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'"></input><br/><br/></div><br>')
+       $('#jurisdictionTypeContainer').append('<div><h5 class="col-md-3"></h5><input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'"></input><br/><br/></div><br>')
 
       }
 
 })
 
-// Used for editing a location
-$(document).on('change','#editJurisdiction',function(){
+// Used for adding another set of input tags for the selected location
+  $('#addJurisdictionType').click(function(){
 
-  if(this.value == 0)
-  {
-    $('#levelContainer').find('div').remove().end();
-    $('#contentId').find('input').remove().end();
-    $('#contentId').find('h4').remove().end();
-    $('#contentId').find('br').remove().end();
-    $('#levelContainer').find('br').remove().end();
+    // Cloning the div so as to get the same empty input tags and titles of the main div
+      $('#jurisdictionTypeContainer').clone().appendTo('#jurisdictionTypeContainer2').find("input[type='text']").val("");
+
+      $('#jurisdictionTypeContainer2').find("input[type='hidden']").remove();
+
+      // To count number of divs contained inside the div having id = jurisdictionTypeContainer2
+      var noOfTypes= $('#jurisdictionTypeContainer2').children().length;
+
+
+      $('#jurisdictionTypeContainer2').append('<input type="hidden" name="noOfJurisdictionTypes" value="'+ noOfTypes +'" class="form-control"></input>')
+
+      var i = 0;
+
+      // For each input tag of the last div with id = jurisdictionTypeContainer we change the value of name to
+      // store values like level0_location0, level0_location1, etc.
+      $('#jurisdictionTypeContainer2 #jurisdictionTypeContainer:last').find('input').each(function(){
+        $(this).attr('name', 'level'+ (noOfTypes) + '_location' + i);
+        i++;
+
+     });
+
+})
+
+// To remove a set of input tags for the selected location
+$('#removeJurisdictionType').click(function(){
+
+  // If div with id = jurisdictionTypeContainer2 has no child divs with id = jurisdictionTypeContainer
+  // we empty the main div having id = jurisdictionTypeContainer
+  if($('#jurisdictionTypeContainer2').find('#jurisdictionTypeContainer').length == 0)
+      $('#jurisdictionTypeContainer').empty();
+  else {
+    // will remove the last child having id = jurisdictionTypeContainer of parent div with id = jurisdictionTypeContainer2 
+    $('#jurisdictionTypeContainer2 #jurisdictionTypeContainer:last').remove();
+
+    // Will return the number of children
+    var noOfTypes= $('#jurisdictionTypeContainer2').children().length;
+
+    // A hidden input tag that will help obtain in the controller the total number of enteries made
+    $('#jurisdictionTypeContainer2').find("input[type='hidden']").val(noOfTypes-1); 
   }
+})
 
-  else
+// Used for editing a location
+$(document).on('change','#editJurisdictionType',function(){
+
+  // Empties both div tags
+  $('#jurisdictionTypes').empty();
+  $('#jurisdictionTypeContainer2').empty();
+
+  // because an error occurs while fetching document.getElementById(this.value).innerText for value = 0
+  if(this.value != 0)
   {
   // Obtains the value present between the option tag of the selected select option
   var result = document.getElementById(this.value).innerText;
   // Converting the string to an array of substrings using delimiter ','
   var jurisdictions = result.split(", ");
-
-  // Removes all specific tags present for a given div id
-  $('#levelContainer').find('div').remove().end();
-  $('#contentId').find('input').remove().end();
-  $('#contentId').find('h4').remove().end();
-  $('#contentId').find('br').remove().end();
-  $('#levelContainer').find('br').remove().end();
-  
       
         var i = 0;
+
+        // Since emptying div with id = jurisdictionTypes removes the div with id = jurisdictionTypeContainer
+        // we append it again
+        $('#jurisdictionTypes').append('<div id="jurisdictionTypeContainer"></div>');
 
         // var item contains values such as state, district, taluka, etc.
         jurisdictions.forEach((item)=>{
         
         // Creates a new input tag for each item
-        $('#levelContainer').append('<div><h4>'+item+'</h4><input type="text" id="location'+i+'" name="location'+ i +'" class="form-control"></input><br/></div>')
+        $('#jurisdictionTypes #jurisdictionTypeContainer').append('<div><h4>'+item+'</h4><input type="text" id="location'+i+'" name="level'+ 0 +'_location'+ i +'" class="form-control"></input><br/></div>')
         i = i + 1;
 
        });
 
+      // A hidden input tag that will keep a track of the number of enteries made
+      $('#jurisdictionTypeContainer2').append('<input type="hidden" name="noOfJurisdictionTypes" value="'+ 1 +'" class="form-control"></input>');
+
        //  Creates a hidden input tag to pass the array of levels e.g. [state, district, taluka]
-       $('#levelContainer').append('<div><h5 class="col-md-3"></h5><input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'" class="form-control"></input><br/></div>')
+       $('#jurisdictionTypes').append('<input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'" class="form-control"></input>')
        
       }
+})
+
+// Used for adding a set of input tags when editing a location
+$('#addJurisdictionTypeForEdit').click(function(){
+
+  // If div with id = jurisdictionTypeContainer2 has no child divs with id = jurisdictionTypeContainer
+  if (!$('#jurisdictionTypes').find('#jurisdictionTypeContainer').length){
+   
+    // To obtain the value of the option selected
+    var result = $('#editJurisdictionType').find(":selected").text();
+     // Converting the string to an array of substrings using delimiter ','
+    var jurisdictions = result.split(", ");
+      
+        var i = 0;
+
+        // Since div with id = jurisdictionTypes is empty
+        $('#jurisdictionTypes').append('<div id="jurisdictionTypeContainer"></div>');
+
+        // var item contains values such as state, district, taluka, etc.
+        jurisdictions.forEach((item)=>{
+        
+        // Creates a new input tag for each item
+        $('#jurisdictionTypes #jurisdictionTypeContainer').append('<div><h4>'+item+'</h4><input type="text" id="location'+i+'" name="level'+ 0 +'_location'+ i +'" class="form-control"></input><br/></div>')
+        i = i + 1;
+       });
+
+      // A hidden input tag that will keep a track of the number of enteries made       
+      $('#jurisdictionTypeContainer2').append('<input type="hidden" name="noOfJurisdictionTypes" value="'+ 1 +'" class="form-control"></input>');
+
+      //  Creates a hidden input tag to pass the array of levels e.g. [state, district, taluka]
+      $('#jurisdictionTypes').append('<input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'" class="form-control"></input>')
+  }
+  else {  // There are child divs present and so we append a new div to div with id = jurisdictionTypeContainer2
+  $('#jurisdictionTypeContainer').clone().appendTo('#jurisdictionTypeContainer2').find("input[type='text']").val("");
+
+  $('#jurisdictionTypeContainer2').find("input[type='hidden']").remove();
+
+  // Obtains total number of child tags for divs with ids jurisdictionTypes & jurisdictionTypeContainer2
+  var noOfTypes = $('#jurisdictionTypes').children('#jurisdictionTypeContainer').length + $('#jurisdictionTypeContainer2').children('#jurisdictionTypeContainer').length;
+
+  $('#jurisdictionTypeContainer2').append('<input type="hidden" name="noOfJurisdictionTypes" value="'+noOfTypes+'" class="form-control"></input>')
+
+  var i = 0;
+  // For each input tag of the last div with id = jurisdictionTypeContainer we change the value of name to
+  // store values like level0_location0, level0_location1, etc.
+  $('#jurisdictionTypeContainer2 #jurisdictionTypeContainer:last').find('input').each(function(){
+    $(this).attr('name', 'level'+ (noOfTypes - 1) + '_location' + i);
+    i++;
+ });
+  }
+})
+
+// Used for removing a set of input tags when editing a location
+$('#removeJurisdictionTypeForEdit').click(function(){
+
+    // If div with id = jurisdictionTypeContainer2 has child divs with id = jurisdictionTypeContainer
+    // we remove the last child div
+    if ($('#jurisdictionTypeContainer2').find('#jurisdictionTypeContainer').length){
+
+            $('#jurisdictionTypeContainer2 #jurisdictionTypeContainer:last').remove();
+
+            // Obtains the total count of children present in both the divs
+            var noOfTypes = $('#jurisdictionTypes').children('#jurisdictionTypeContainer').length + $('#jurisdictionTypeContainer2').children().length;
+
+            // Changing the value of the hidden input tag of div jurisdictionTypeContainer2
+            $('#jurisdictionTypeContainer2').find("input[type='hidden']").val(noOfTypes-1);
+    }            
+    else{      //If no children are present, we remove the last child div of parent div jurisdictionTypes
+            $('#jurisdictionTypes').find('div').last().remove();
+
+            // Obtaining the number of child div with id = jurisdictionTypeContainer present in parent 
+            // div with id = jurisdictionTypes
+            var oldTypes = $('#jurisdictionTypes').children('#jurisdictionTypeContainer').length;
+            
+            // Helps to obtain the value in the controller
+            $('#jurisdictionTypeContainer2').append('<input type="hidden" name="noOfJurisdictionTypes" value="'+ oldTypes +'" class="form-control"></input>');
+    }
 })

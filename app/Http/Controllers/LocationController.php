@@ -72,7 +72,7 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {    
-        // $request contains _token, name of location,jurisdictionId of jurisdiction type, vlaues of locations: location0,location1,location2, jurisdictionTypes e.g. state,unit,cluster
+        // $request contains _token, jurisdictionTypeId, vlaues of locations: location0,location1,location2,level0_location0, jurisdictionTypes e.g. state,unit, cluster, noOfJurisdictionTypes
         
         // Obtaining Organisation id of logged in user
         $orgId = Auth::user()->org_id;
@@ -90,23 +90,22 @@ class LocationController extends Controller
         // Converting the string $request->jurisdictionTypes to an array of substrings using delimiter ','
         $jurisdictionTypes = explode(',',$request->jurisdictionTypes);
 
-        $request->validate([
-            'name' => 'required'
-        ]);
         $location = new Location;        
-        $location->name = $request->name;   
-        $location->jurisdictionId = $request->jurisdictionId;
+        $location->jurisdiction_type_id = $request->jurisdictionTypeId;
 
-        $i = 0;
         // To create a collection of levels, e.g. { state:Goa, district:North Goa, taluka:Tiswadi }
         $arr = [];
 
+        for($j = 0; $j<=$request->noOfJurisdictionTypes; $j++)
+        {
+            $i = 0;
         foreach($jurisdictionTypes as $type)
         {
-            $level = "location".$i;
+            $level = "level".$j."_location".$i;
             // e.g. $arr['state'] = 'Goa'
-            $arr[$type] = $request->$level;           
+            $arr[$j][$type] = $request->$level;           
             $i = $i+1;
+        }
         }
 
         // Converting $arr to string
@@ -162,7 +161,7 @@ class LocationController extends Controller
 
         // Converting $location->level from string to object
         $location->level = json_decode($location->level);
-
+        
         return view('admin.locations.edit',compact('jurisdictions','location','orgId','modules'));
     }
 
@@ -177,10 +176,9 @@ class LocationController extends Controller
     {
         //Breaks up url into an array of substrings using delimiter '/'
         $uri = explode("/",$_SERVER['REQUEST_URI']);
-        // $orgId = $uri[1];
         $locationId = $uri[3];
 
-        // $request contains _method: PUT, _token, name of location,jurisdictionId of jurisdiction type, values of locations: location0,location1,location2, jurisdictionTypes e.g. state,unit,cluster
+        // $request contains _method: PUT, _token, jurisdictionTypeId, values of locations: location0,location1,location2, jurisdictionTypes e.g. state,unit,cluster
         
         // Obtaining Organisation id of logged in user
         $orgId = Auth::user()->org_id;
@@ -195,26 +193,25 @@ class LocationController extends Controller
         ));
         DB::setDefaultConnection($dbName);
 
-        $request->validate([
-            'name' => 'required'
-        ]);
         // Converting the string $request->jurisdictionTypes to an array of substrings using delimiter ','
         $jurisdictionTypes = explode(',',$request->jurisdictionTypes);
         
         $location = Location::find($locationId);        
-        $location->name = $request->name;   
-        $location->jurisdictionId = $request->jurisdictionId;
+        $location->jurisdiction_type_id = $request->jurisdictionTypeId;
 
-        $i = 0;
         // To create a collection of levels, e.g. { state:Goa, district:North Goa, taluka:Tiswadi }
         $arr = [];
 
+        for($j = 0; $j<$request->noOfJurisdictionTypes; $j++)
+        {
+            $i = 0;
         foreach($jurisdictionTypes as $type)
         {
-            $level = "location".$i;
+            $level = "level".$j."_location".$i;
             // e.g. $arr['state'] = 'Goa'
-            $arr[$type] = $request->$level;      
+            $arr[$j][$type] = $request->$level;           
             $i = $i+1;
+        }       
         }
 
         // Converting $arr to string

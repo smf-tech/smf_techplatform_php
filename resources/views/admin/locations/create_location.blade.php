@@ -17,35 +17,14 @@
                     <form action="{{route('locations.store',['orgId' => $orgId])}}" method="post">
                            {{csrf_field()}}     
                         <legend></legend>
-                        <div>
-                           <h4>Name</h4>
-                           <input type="text" name="name" class="form-control"></input></br>
-                            @if($errors->has('name'))
-                            <b style="color:red">{{$errors->first('name')}}</b>
-                            @endif
-                        {{-- </br></br></br> --}}
-                        </div>
                              <div>
                                 <h4>Jurisdiction Type</h4>
-                                <select id="jurisdictionType" name="jurisdictionId" class="form-control">
+                                <select id="jurisdictionType" name="jurisdictionTypeId" class="form-control">
                                         <option value="0"></option>
                                         
                                         @forelse($jurisdictions as $jurisdiction)
                                             {{ $jurisdictionLevels = "" }}
                                             {{ $i = true }}
-                                            
-                                            
-                                            {{-- @foreach($jurisdiction->type['jurisdiction'] as $type)
-                                                @if($i != true)
-                                                {{ $types = $types.", ".$type['name'] }}
-                                                @else
-                                                {{ $types = $type['name'] }}
-                                                {{ $i = false }}
-                                                @endif    
-                                            @endforeach --}}
-
-
-
 
                                             @foreach($jurisdiction->jurisdictions as $type)
                                             {{-- Storing each value of jurisdictions array as a comma separated string --}}
@@ -58,10 +37,16 @@
                                             @endforeach                                            
                                                 <option id={{$jurisdiction->id}} value={{$jurisdiction->id}}> {{ $jurisdictionLevels }}</option>                                                                                               
                                         @endforeach 
-                                </select>                               
+                                </select>    
+                            </br>
+                                <input type ="button" id="addJurisdictionType" value="add"></input>    &nbsp;&nbsp;
+                                <input type ="button" id="removeJurisdictionType" value="remove"></input>                           
                             </div>
                             </br>
-                            <div id="levelContainer"  class="form-group">                                       
+                            <div id="jurisdictionTypeContainer"  class="form-group">                                       
+                            </div>
+                            {{-- Will have child divs with id = jurisdictionTypeContainer appended to it--}}
+                            <div id="jurisdictionTypeContainer2" class="parent">                                
                             </div>
                             <input type="submit" class="btn btn-success"/>
                          </form>                        
