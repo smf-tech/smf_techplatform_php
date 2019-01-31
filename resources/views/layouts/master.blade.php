@@ -97,9 +97,7 @@
                         <!-- Sidebar -->
                         <nav id="sidebar">
                               
-                          
-                    
-                            <ul class="list-unstyled components accordion" id="accordionExample">
+                           <ul class="list-unstyled components accordion" id="accordionExample">
                                     <li><a  href="{{ url('/users') }}"><i class="fas fa-users"></i> Users</a></li>
                                     <li><a  href="{{ url('/role') }}" ><i class="fab fa-critical-role"></i>Roles</a></li> 
                                     <li><a  href="{{ url('/organisation') }}" ><i class="fas fa-sitemap"></i>Organisations</a></li> 

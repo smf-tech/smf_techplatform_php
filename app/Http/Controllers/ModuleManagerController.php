@@ -24,7 +24,7 @@ class ModuleManagerController extends Controller
             DB::setDefaultConnection($dbName); 
             $modules =    DB::collection('modules')->get();      
             $module_name =   DB::collection('modules')->where('_id',$module_id); 
-            $module_content=  DB::collection($module_name[0]->name);
+            $module_content =  DB::collection($module_name[0]->name);
             //get the structure of the table 
             $structure=DB::collection('SHOW  COLUMNS FROM '.$module_name[0]->name);
              foreach ($structure as $x){

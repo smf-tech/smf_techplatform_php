@@ -1,4 +1,4 @@
-@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
+@extends('layouts.userBased'))
 
 @section('content')
 <div class="container">
@@ -12,10 +12,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Create Entity</h3>
+                    <h3>Create Entity</h3>
                     <form action="{{route('entity.store')}}" method="post">
                            {{csrf_field()}}     
-                        <legend></legend>
+                           <legend></legend>
                              <div class="form-group">
                                  <label for="entityName">Entity Name</label>
                                  <input type="text" name="entityName" placeholder="name of the entity" class="form-control"/>

@@ -1,6 +1,3 @@
-console.log('here')
-
-
 var levelCount=0;
 var prevSelection=['null'];
 var prevLevelId=null;   
@@ -238,9 +235,6 @@ $(document).on('change','#Cluster',function(){
    
   });
 })
-
-
-
 
 $(document).on('change','#state_id2',function(){
   console.log(this.value)
@@ -508,4 +502,32 @@ $('#removeJurisdictionTypeForEdit').click(function(){
             // Helps to obtain the value in the controller
             $('#jurisdictionTypeContainer2').append('<input type="hidden" name="noOfJurisdictionTypes" value="'+ oldTypes +'" class="form-control"></input>');
     }
+})
+/* to pop a warning message on delete of Jurisdiction if
+** the Jurisdiction is associated with Jurisdiction Type
+*/
+
+$(document).on('click', '#delete-jusrisdiction', function() {
+
+		var delJurisId = $(this).val();
+    //alert(delJurisId);
+    $.ajax({
+      url: '/checkJurisdictionTypeExist',
+      type: "GET",
+      data: {delJurisId : delJurisId},
+      dataType: 'json',
+      success: function (data) {
+          //console.log(data.success);
+          if (data.success === true) {
+            $('#myModal').modal('show');
+            return false;
+          } else {
+           $('#delete-jusrisdiction-form').attr('action', '/jurisdictions/'+delJurisId).submit();
+          } 
+      },
+      error: function (data) {
+          console.log('Error:', data);
+      }
+    });
+    return false;
 })

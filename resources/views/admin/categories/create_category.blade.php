@@ -1,4 +1,4 @@
-@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
+@extends('layouts.userBased'))
 
 @section('content')
 <div class="container">
@@ -12,7 +12,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Create Category</h3>
+                    <h3>Create Category</h3>
                     <form action="{{route('category.store')}}" method="post">
                            {{csrf_field()}}     
                         <legend></legend>

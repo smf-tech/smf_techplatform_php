@@ -39,13 +39,12 @@ Route::group(
     Route::resource('organisation','OrganisationController');
     Route::resource('users','UserController');
     Route::resource('state','StateController');
-    Route::resource('district','DistrictController');
-    Route::resource('taluka','TalukaController');
-    Route::resource('cluster','ClusterController');
-    Route::resource('village','VillageController');
+    //Route::resource('district','DistrictController');
+    //Route::resource('taluka','TalukaController');
+    //Route::resource('cluster','ClusterController');
+    //Route::resource('village','VillageController');
     Route::resource('orgManager','orgManager');
     Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
-
 
     Route::get('{orgId}/forms/create', 'SurveyController@showCreateForm');
 
@@ -89,6 +88,7 @@ Route::group(
     Route::resource('jurisdictions','JurisdictionController');
     Route::get('{orgId}/jurisdictions','JurisdictionController@index');
     Route::get('{orgId}/jurisdiction/create','JurisdictionController@create');
+    Route::delete('jurisdictions/{id}', array('as' => 'jurisdictions.destroy','uses' => 'JurisdictionController@destroy'));
     Route::resource('{orgId}/jurisdiction-types', 'JurisdictionTypeController')->except(['show']);
 });
 
@@ -100,6 +100,7 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
     Route::get('/getJidandLevel','TalukaController@getJidandLevel');
     Route::get('/populateData','TalukaController@populateData');
     Route::get('/getAjaxOrgId','RoleController@getAjaxOrgId');
+    Route::get('/checkJurisdictionTypeExist','JurisdictionController@checkJurisdictionTypeExist');
 
 });
 

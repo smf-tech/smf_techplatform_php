@@ -93,7 +93,7 @@ class RoleController extends Controller
          $orgs = Organisation::where('orgshow','<>',0)->get();
          $levels = Jurisdiction::all();
          $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
-         $project_id ='';
+         $project_id = '';
          if (isset($role->project_id) && !empty($role->project_id)) {
             $project_id = $role->project_id;
          } 
@@ -151,7 +151,7 @@ class RoleController extends Controller
     public function getAjaxOrgId(Request $request, $non_ajax_call_flag = null)
     {    
       $org_id = $request->orgID;
-      $organisation=Organisation::find($org_id);
+      $organisation = Organisation::find($org_id);
       $dbName = $organisation->name.'_'.$org_id;
       \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
@@ -162,7 +162,6 @@ class RoleController extends Controller
         ));
         
         DB::setDefaultConnection($dbName);
-
         $projects = DB::collection('projects')->get();
         if (isset($non_ajax_call_flag)) {
             return $projects;

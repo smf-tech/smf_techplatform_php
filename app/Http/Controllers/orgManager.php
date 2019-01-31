@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Organisation;
 use Illuminate\Support\Facades\DB;
+use Validator;
+
 class orgManager extends Controller
 {
     /**
@@ -35,6 +37,7 @@ class orgManager extends Controller
      */
     public function store(Request $request)
     {  
+        
         $org=Organisation::find($request->orgId);
         $dbName=$org->name.'_'.$org->id;
      
@@ -46,9 +49,10 @@ class orgManager extends Controller
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName); 
-        
-        $obj['name']=$request->mName;
-        DB::collection('modules')->insert($obj);
+        $validator = Validator::make($request->all(), ['name' => 'required|unique:modules'])->validate();
+        //$obj['name'] = $request->name;
+        //DB::collection('modules')->insert($obj);
+        DB::table('modules')->insert(['name' => $request->name]);
         return redirect()->route('orgManager.show',$org->id);
     }
 
@@ -72,14 +76,14 @@ class orgManager extends Controller
             'password'  => '',  
         ));
 
-
         DB::setDefaultConnection($dbName); 
 
-        $modules =    DB::collection('modules')->get();      
+        $modules = DB::collection('modules')->get();      
         return view('admin.orgManager.index',compact(['modules','id']));
     }
 
-    public function addModule(){
+    public function addModule()
+    {
 
     }
     /**
