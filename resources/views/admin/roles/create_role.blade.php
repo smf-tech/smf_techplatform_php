@@ -43,13 +43,6 @@
                                 <select name="project_id" id="project_id" class="form-control">
                                     <option value=""></option>
                                 </select>
-                                </br>                                    
-                                <h4>Jurisdiction</h4>
-                                <select name="level_id" class="form-control">
-                                    @foreach($levels as $level)
-                                        <option value={{$level->id}}>{{$level->levelName}}</option>
-                                    @endforeach 
-                                </select>
                         </div>
                         </div>
                             <input type="submit" class="btn btn-success"/>

@@ -49,17 +49,6 @@
                                         <option value="{{$proj_arr['_id']}}" {{ $selected_attrb_flag ? "selected":""}}>{{$proj_arr['name']}}</option>
                                     @endforeach
                                 </select>
-                                <br/>                                    
-                                <h4>Jurisdiction</h4>
-                                <select name="level_id" class="form-control">
-                                    @foreach($levels as $level)
-                                    <?php $c = false; ?>
-                                        @if($role->jurisdiction_id == $level->id)
-                                            <?php $c = true; ?>
-                                        @endif
-                                        <option value={{$level->id}} {{ $c ? "selected":""}}>{{$level->levelName}}</option>
-                                    @endforeach 
-                                </select>
                             </div>
                             </div>
                             <input type="submit" class="btn btn-success"/>

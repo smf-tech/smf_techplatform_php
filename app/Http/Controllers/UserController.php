@@ -65,8 +65,8 @@ class UserController extends Controller
         
         $orgs=Organisation::where('orgshow','<>',0)->get();
         $roles=Role::all();
-        $states=State::all();
-        return view('admin.users.create_user',compact(['orgs','states','roles']));
+        // $states=State::all();
+        return view('admin.users.create_user',compact(['orgs','roles']));
     }
 
     /**
@@ -115,7 +115,7 @@ class UserController extends Controller
         $user->assignRole($role[0]['name']);
         UserDetails::create([
             'user_id' => $user['_id'],
-            'state_id' => implode(',', $states),
+            // 'state_id' => implode(',', $states),
             'district_id' =>implode(',', $districts),
             'taluka_id' => implode(',', $talukas),
             'village_id' => implode(',', $villages),
@@ -152,16 +152,16 @@ class UserController extends Controller
         $orgId=$user['org_id'];
         $roleId=$user['role_id'];
         $userDet=UserDetails::where('user_id',$id)->get();
-        $stateId=$userDet[0]->state_id;
+        // $stateId=$userDet[0]->state_id;
         
         $role=Role::find($roleId);
-        $states=State::all();
+        // $states=State::all();
 
         
 
         
 
-        return view('admin.users.edit',compact(['user','orgs','states','orgId','role','stateId']));
+        return view('admin.users.edit',compact(['user','orgs','orgId','role']));
     }
 
     /**
@@ -179,40 +179,40 @@ class UserController extends Controller
         $user->org_id=$request->org_id;
         $user->role_id=$request->role_id;
         $user->save();
-        DB::table('role_user')->where('user_id',$id)->delete();
-        DB::table('user_dets')->where('user_id',$id)->delete();
+        // DB::table('role_user')->where('user_id',$id)->delete();
+        // DB::table('user_dets')->where('user_id',$id)->delete();
 
-        $clusters=$villages=$talukas=$districts=array(null);
-        $arrayItems=array();
-       foreach($_REQUEST as $key=>$value){
-           if(is_array($value)){
-              array_push($arrayItems,$key);
-           }
-       }
-       foreach($arrayItems as $key=>$value){
-          switch($value){
-              case 'Cluster': $clusters= $request->Cluster;break;
-              case 'Village': $villages= $request->Village;break;
-              case 'Taluka': $talukas= $request->Taluka;break;
-              case 'District':  $districts= $request->District;break;
+        // $clusters=$villages=$talukas=$districts=array(null);
+        // $arrayItems=array();
+    //    foreach($_REQUEST as $key=>$value){
+    //        if(is_array($value)){
+    //           array_push($arrayItems,$key);
+    //        }
+    //    }
+    //    foreach($arrayItems as $key=>$value){
+    //       switch($value){
+    //           case 'Cluster': $clusters= $request->Cluster;break;
+    //           case 'Village': $villages= $request->Village;break;
+    //           case 'Taluka': $talukas= $request->Taluka;break;
+    //           case 'District':  $districts= $request->District;break;
 
-          }
-       }
+    //       }
+    //    }
 
-       $states= $request->state_id;
+    //    $states= $request->state_id;
 
-       UserDetails::create([
-        'user_id' => $id,
-        'state_id' => implode(',', $states),
-        'district_id' =>implode(',', $districts),
-        'taluka_id' => implode(',', $talukas),
-        'village_id' => implode(',', $villages),
-        'cluster_id' => implode(',', $clusters),
+    //    UserDetails::create([
+    //     'user_id' => $id,
+    //     // 'state_id' => implode(',', $states),
+    //     'district_id' =>implode(',', $districts),
+    //     'taluka_id' => implode(',', $talukas),
+    //     'village_id' => implode(',', $villages),
+    //     'cluster_id' => implode(',', $clusters),
     
-    ]);
+    // ]);
 
 
-        DB::insert('insert into role_user (user_id,role_id) values(?,?)',[$id,$request->role_id]);
+        // DB::insert('insert into role_user (user_id,role_id) values(?,?)',[$id,$request->role_id]);
 
         session()->flash('status', 'User was edited!');
         return redirect()->route('users.index')->withMessage('User Edited');
