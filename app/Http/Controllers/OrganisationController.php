@@ -247,6 +247,7 @@ public function getProjects()
         $projects= DB::collection('projects')->get();
         $roleConfig = DB::collection('role_configs')->where('role_id', $role_id)->first();
         $jurisdictionTypes = JurisdictionType::all();
+        $jurisdictionType = '';
         $role_projects = $role_default_modules = $role_onapprove_modules = $approver_role = array();
         if(isset($roleConfig)){
             $role_projects =  isset($roleConfig['projects'])?$roleConfig['projects']:[];
