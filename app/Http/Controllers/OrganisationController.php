@@ -79,6 +79,9 @@ class OrganisationController extends Controller
                 $table->timestamps();
             });
             
+            $this->importCSVData(\App\StructureMaster::class);
+            $this->importCSVData(\App\MachineMaster::class);
+            $this->importCSVData(\App\MachineMou::class);
         } catch(QueryException  $e) {
             DB::setDefaultConnection('mongodb');
             $this->destroy($org->id);
