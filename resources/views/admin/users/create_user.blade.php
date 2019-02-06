@@ -136,30 +136,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-        
-                                           
-            
-                                            <div class="col-md-6 row form-group{{ $errors->has('state_id') ? ' has-error' : '' }} ">
-                                                    <label for="state_id2" class="col-md-4 col-form-label ">State</label>
-                        
-                                                    <div class="form-group col-md-8">
-                                                        <select id="state_id2"  class="form-control" name="state_id[]" multiple size="4" required>
-                                                            <option value=0></option>
-                                                                @foreach($states as $state)
-                                                                    <option value={{$state->id}}>{{$state->Name}}</option>
-                                                                    
-                                                                 @endforeach 
-                                                        </select>
-                        
-                                                        @if ($errors->has('state_id'))
-                                                            <span class="help-block">
-                                                                <strong>{{ $errors->first('state_id') }}</strong>
-                                                            </span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            
-                                                
                                 </div>
                                   
                                    <div class=" form-group row">

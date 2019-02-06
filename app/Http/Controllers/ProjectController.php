@@ -33,7 +33,6 @@ class ProjectController extends Controller
 
         $projects = Project::all();
         return view('admin.projects.projects_index',compact('projects','orgId','modules'));
-        
     }
 
     public function create()

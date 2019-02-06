@@ -14,6 +14,7 @@ use Illuminate\Database\Schema\Builder as Build;
 use Illuminate\Database\Connection;
 use Maklad\Permission\Models\Role;
 use Maklad\Permission\Models\Permission;
+use App\JurisdictionType;
 use App\Associate;
 
 class OrganisationController extends Controller
@@ -67,7 +68,7 @@ class OrganisationController extends Controller
                 $table->string('levelName');
                 $table->timestamps();
             });
-            Schema::connection($dbName)->create('jurisdictions_types', function($table) {
+            Schema::connection($dbName)->create('jurisdiction_types', function($table) {
                 $table->increments('id');
                 $table->string('jurisdictions');
                 $table->timestamps();
@@ -78,6 +79,9 @@ class OrganisationController extends Controller
                 $table->string('jurisdiction_type_id');
                 $table->timestamps();
             });
+            $this->importCSVData(\App\StructureMaster::class);
+            $this->importCSVData(\App\MachineMaster::class);
+            $this->importCSVData(\App\MachineMou::class);
             
         } catch(QueryException  $e) {
             DB::setDefaultConnection('mongodb');
@@ -226,7 +230,9 @@ public function getProjects()
         return view('admin.organisations.roles_index',compact('roles','modules','orgId'));
     }
 
-    public function configureRole(Request $request,$org_id,$role_id){
+    public function configureRole(Request $request,$org_id,$role_id)
+    {
+        
         $organisation=Organisation::find($org_id);
         $role = Role::find($role_id);
         
@@ -242,14 +248,20 @@ public function getProjects()
        
         $modules= DB::collection('modules')->get();
         $projects= DB::collection('projects')->get();
-        $roleconfig = DB::collection('role_configs')->where('role_id', $role_id)->first();
-        $role_projects = $role_default_modules = $role_onapprove_modules = $approver_role = $associate_id = array();
-        if(isset($roleconfig)){
-            $role_projects =  isset($roleconfig['projects'])?$roleconfig['projects']:[];
-            $role_default_modules = isset($roleconfig['default_modules'])?$roleconfig['default_modules']:[];
-            $role_onapprove_modules = isset($roleconfig['on_approve_modules'])?$roleconfig['on_approve_modules']:[];
-            $approver_role = isset($roleconfig['approver_role'])?$roleconfig['approver_role']:[];
-            $associate_id = isset($roleconfig['associate'])?$roleconfig['associate']:[];       
+
+        $roleConfig = DB::collection('role_configs')->where('role_id', $role_id)->first();
+        $jurisdictionTypes = JurisdictionType::all();
+        $jurisdictionType = '';
+        $associate_id = '';
+
+        $role_projects = $role_default_modules = $role_onapprove_modules = $approver_role = array();
+        if(isset($roleConfig)){
+            $role_projects =  isset($roleConfig['projects'])?$roleConfig['projects']:[];
+            $role_default_modules = isset($roleConfig['default_modules'])?$roleConfig['default_modules']:[];
+            $role_onapprove_modules = isset($roleConfig['on_approve_modules'])?$roleConfig['on_approve_modules']:[];
+            $approver_role = isset($roleConfig['approver_role'])?$roleConfig['approver_role']:[];
+            $jurisdictionType = isset($roleConfig['jurisdiction_type_id']) ? $roleConfig['jurisdiction_type_id'] : '';
+            $associate_id = isset($roleConfig['associate'])?$roleConfig['associate']:'';
         }     
 
         $associates = Associate::all();
@@ -257,8 +269,8 @@ public function getProjects()
         DB::setDefaultConnection('mongodb');
         $orgId = $org_id;
         $org_roles=DB::collection('roles')->where('org_id', $orgId)->where('_id','<>',$role_id)->get();
-        
-        return view('admin.organisations.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles','approver_role','associates','associate_id'));
+        return view('admin.organisations.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles','approver_role', 'jurisdictionTypes', 'jurisdictionType', 'associates','associate_id'));
+
     }  
 
     public function updateroleconfig(Request $request,$role_id){
@@ -274,14 +286,33 @@ public function getProjects()
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
-        $config_data = array('projects' => isset($data['assigned_projects'])?$data['assigned_projects']:[],
+        $config_data = array('projects' => isset($data['assigned_projects'])?$data['assigned_projects']:'',
                             'default_modules' =>isset($data['default_modules'])?$data['default_modules']:[],
                             'on_approve_modules' =>isset($data['on_approve'])?$data['on_approve']:[],
                             'approver_role' =>isset($data['approver_role'])?$data['approver_role']:[],
                             'associate' =>isset($data['associate'])?$data['associate']:[],
+                            'jurisdiction_type_id' => isset($data['jurisdiction_type_id']) ? $data['jurisdiction_type_id'] : '',
+                            'associate' => isset($data['associate']) ? $data['associate'] : ''
                         );
         DB::collection('role_configs')->where('role_id', $role_id)
                         ->update($config_data, ['upsert' => true]);                  
         return redirect()->route('roleconfig', ['orgId' => $org_id, 'role_id' => $role_id])->with('message', 'RoleConfig Updated Successfuly!!!');
-    }      
+    }
+
+    public function getJurisdictionTypesByProjectId(Request $request)
+    {
+        $projectId = $request->projectId;
+        
+        list($orgId, $dbName) = $this->setDatabaseConfig();
+        DB::setDefaultConnection($dbName);
+        $project = Project::find($projectId);
+        $jurisTypeId = $project->jurisdiction_type_id;
+        
+        if (isset($jurisTypeId) && !empty($jurisTypeId)) {
+
+            $jurisdictionTypes = JurisdictionType::find($jurisTypeId);
+            return json_encode($jurisdictionTypes);
+        }
+        return;
+    }
 }

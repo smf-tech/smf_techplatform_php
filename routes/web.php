@@ -37,16 +37,15 @@ Route::group(
     Route::resource('role','RoleController');
     Route::delete('role/{id}', array('as' => 'role.destroy','uses' => 'RoleController@destroy'));
     Route::resource('organisation','OrganisationController');
+    Route::resource('reports','ReportController');
     Route::resource('users','UserController');
     Route::resource('state','StateController');
-    Route::resource('district','DistrictController');
-    Route::resource('taluka','TalukaController');
-    Route::resource('cluster','ClusterController');
-    Route::resource('village','VillageController');
+    //Route::resource('district','DistrictController');
+    //Route::resource('taluka','TalukaController');
+    //Route::resource('cluster','ClusterController');
+    //Route::resource('village','VillageController');
     Route::resource('orgManager','orgManager');
     Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
-
-
     Route::get('{orgId}/forms/create', 'SurveyController@showCreateForm');
 
     Route::post('/savebuiltform','SurveyController@saveSurveyForm');
@@ -89,6 +88,7 @@ Route::group(
     Route::resource('jurisdictions','JurisdictionController');
     Route::get('{orgId}/jurisdictions','JurisdictionController@index');
     Route::get('{orgId}/jurisdiction/create','JurisdictionController@create');
+    Route::delete('jurisdictions/{id}', array('as' => 'jurisdictions.destroy','uses' => 'JurisdictionController@destroy'));
     Route::resource('{orgId}/jurisdiction-types', 'JurisdictionTypeController')->except(['show']);
 
     Route::resource('{orgId}/associates','AssociateController', [
@@ -104,12 +104,12 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
     Route::get('/getJidandLevel','TalukaController@getJidandLevel');
     Route::get('/populateData','TalukaController@populateData');
     Route::get('/getAjaxOrgId','RoleController@getAjaxOrgId');
+    Route::get('/checkJurisdictionTypeExist','JurisdictionController@checkJurisdictionTypeExist');
+    Route::get('/getJurisdictionTypesByProjectId','OrganisationController@getJurisdictionTypesByProjectId');
 
 });
 
 Route::get('/settings', 'SettingsController@index')->name('settings');
-
 Route::get('/sendOTP','smsAuthController@sendOTP');
 Route::get('/verifyOTP','smsAuthController@verifyOTP');
 Route::get('/getTestEndpoint','smsAuthController@getTestEndpoint');
-

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Jurisdiction;
+
 use App\Project;
 use App\Organisation;
 use Illuminate\Support\Facades\DB;
@@ -166,6 +167,41 @@ class JurisdictionController extends Controller
         session()->flash('status', 'Jurisdiction was edited!');
         return redirect()->route('jurisdictions.index');   
     }
+    
+    /**
+     * Checks if jurisdiction to be deleted
+     * is associated with jurisdiction type
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkJurisdictionTypeExist(Request $request)
+    {
+        $id = $request->delJurisId;
+        list($orgId, $dbName) = $this->setDatabaseConfig();
+        DB::setDefaultConnection($dbName);
+
+        $juris = Jurisdiction::find($id);
+        $jurisName = $juris->levelName;
+        $jurisTypeName = DB::table('jurisdiction_types')->select('jurisdictions')
+                         ->whereIn('jurisdictions', [$jurisName])->get();
+        $flattened = $jurisTypeName->flatten();
+        $flattened->forget(0);
+        
+        if (in_array($jurisName,$flattened->all())) {
+            
+            return json_encode(array(
+                'success' => true,
+            ));
+            
+        } else {
+            
+            return json_encode(array(
+                'success' => false,
+            ));
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -187,9 +223,10 @@ class JurisdictionController extends Controller
             'username'  => '',
             'password'  => '',
         ));
-        DB::setDefaultConnection($dbName);
 
+        DB::setDefaultConnection($dbName);
         $juris = Jurisdiction::find($id)->delete();
+
         session()->flash('status', 'Jurisdiction deleted successfully!');
         return redirect()->route('jurisdictions.index');                
     }

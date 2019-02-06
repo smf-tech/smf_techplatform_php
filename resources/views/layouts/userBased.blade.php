@@ -6,13 +6,13 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -36,9 +36,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
+                    <!-- <ul class="navbar-nav mr-auto"></ul> -->
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -75,50 +73,48 @@
                 </div>
             </div>
         </nav>
-         </div>  
+        </div>  
         <div class="content " id="mainContent">
-                <div class="wrapper">
-                        <!-- Sidebar -->
-                        <nav id="sidebar">
-                              
-                          
-                    
-                            <ul class="list-unstyled components accordion" id="accordionExample">
-                                @forelse($modules as $module)
+            <div class="wrapper">
+                <!-- Sidebar -->
+                <nav id="sidebar">
+                    <ul class="list-unstyled components accordion" id="accordionExample">
+                        @forelse($modules as $module)
+                        <!-- put forms condition here $module['name']==='forms'-->
+                            @if ($module['name'] ==='Forms') 
                             <li><a href="/{{$orgId}}/{{strtolower($module['name'])}}">{{$module['name']}}</a></li>
-                                @empty
-                                    <li>   No Modules</li>
-                                @endforelse
-                                <li><a href="/{{$orgId}}/microservices">Microservices</a></li>
-                                <li><a href="/{{$orgId}}/entities">Entities</a></li>
-                                <li><a href="/{{$orgId}}/categories">Categories</a></li>
-                                <li><a href="/{{$orgId}}/projects">Projects</a></li>
-                                <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
-                                <li><a href="/{{$orgId}}/jurisdictions">Jurisdictions</a></li>
-                                <li><a href="/{{$orgId}}/jurisdiction-types">Jurisdiction Types</a></li>
-                                <li><a href="/{{$orgId}}/locations">Locations</a></li>
-                                <li><a href="/{{$orgId}}/associates">Associates</a></li>
-                            </ul>
-                        </nav>
-                    
-                    </div>
-                    <div class="container card" id="content">
-                        @yield('content')                        
-                    </div>                    
-
-                   
-
+                            @endif
+                        @empty
+                            <li>No Modules</li>
+                        @endforelse
+                        <li><a href="/{{$orgId}}/microservices">Microservices</a></li>
+                        <li><a href="/{{$orgId}}/entities">Entities</a></li>
+                        <li><a href="/{{$orgId}}/categories">Categories</a></li>
+                        <li><a href="/{{$orgId}}/projects">Projects</a></li>
+                        <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
+                        <li><a href="/{{$orgId}}/jurisdictions">Jurisdictions</a></li>
+                        <li><a href="/{{$orgId}}/jurisdiction-types">Jurisdiction Types</a></li>
+                        <li><a href="/{{$orgId}}/locations">Locations</a></li>
+                        <li><a href="/{{$orgId}}/associates">Associates</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="container card" id="content">
+                @yield('content')                        
+            </div>                    
         </div>
     </div>
     
-     <!-- Scripts -->
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-     
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    <!-- modal pop up script begins-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+    <!-- modal pop up script ends-->
     <script src="https://surveyjs.azureedge.net/1.0.56/survey.ko.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
-    
     <link href="https://surveyjs.azureedge.net/1.0.56/surveyeditor.css" type="text/css" rel="stylesheet"/>
     <script src="https://surveyjs.azureedge.net/1.0.56/surveyeditor.js"></script>
     <script src="{{ asset('js/index.js') }}"></script> 

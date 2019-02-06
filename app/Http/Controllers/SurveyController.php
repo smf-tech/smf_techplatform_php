@@ -184,8 +184,6 @@ class SurveyController extends Controller
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
-       
-
         DB::collection('survey_results')->insert([ 'survey_id'=>$request->surveyId,'user_id'=>$request->userId,'json_response'=>$request->jsonString]);
 
         return null;
@@ -240,7 +238,9 @@ class SurveyController extends Controller
        
         return view('admin.surveys.survey_index',compact('surveys','orgId','modules'));
     }
-    public function viewResults(Request $request){
+
+    public function viewResults(Request $request)
+    {
         $survey_id=$request->surveyID;
         $uri = explode("/",$_SERVER['REQUEST_URI']);
 
@@ -260,7 +260,8 @@ class SurveyController extends Controller
         return view('user.formResults',compact('survey_results','orgId','modules'));
     }
 
-    public function showCreateForm(){
+    public function showCreateForm()
+    {
         $uri = explode("/",$_SERVER['REQUEST_URI']);
 
         $organisation=Organisation::find($uri[1]);
@@ -340,9 +341,7 @@ class SurveyController extends Controller
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
- 
-       
-         DB::collection('surveys')->where('_id',$request->surveyID)->update(
+        DB::collection('surveys')->where('_id',$request->surveyID)->update(
             ['name'=>$k ,'json'=>$request->json,
             'active'=>$request->active,'editable'=>$request->editable,
             'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
