@@ -79,14 +79,7 @@
                 <!-- Sidebar -->
                 <nav id="sidebar">
                     <ul class="list-unstyled components accordion" id="accordionExample">
-                        @forelse($modules as $module)
-                        <!-- put forms condition here $module['name']==='forms'-->
-                            @if ($module['name'] ==='Forms') 
-                            <li><a href="/{{$orgId}}/{{strtolower($module['name'])}}">{{$module['name']}}</a></li>
-                            @endif
-                        @empty
-                            <li>No Modules</li>
-                        @endforelse
+                        <li><a href="/{{$orgId}}/forms">Forms</a></li>
                         <li><a href="/{{$orgId}}/microservices">Microservices</a></li>
                         <li><a href="/{{$orgId}}/entities">Entities</a></li>
                         <li><a href="/{{$orgId}}/categories">Categories</a></li>
