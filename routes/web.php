@@ -101,11 +101,11 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
     Route::get('/populateData','TalukaController@populateData');
     Route::get('/getAjaxOrgId','RoleController@getAjaxOrgId');
     Route::get('/checkJurisdictionTypeExist','JurisdictionController@checkJurisdictionTypeExist');
+    Route::get('/getJurisdictionTypesByProjectId','OrganisationController@getJurisdictionTypesByProjectId');
 
 });
 
 Route::get('/settings', 'SettingsController@index')->name('settings');
-
 Route::get('/sendOTP','smsAuthController@sendOTP');
 Route::get('/verifyOTP','smsAuthController@verifyOTP');
 Route::get('/getTestEndpoint','smsAuthController@getTestEndpoint');

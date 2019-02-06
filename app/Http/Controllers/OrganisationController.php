@@ -78,10 +78,10 @@ class OrganisationController extends Controller
                 $table->string('jurisdiction_type_id');
                 $table->timestamps();
             });
-            
             $this->importCSVData(\App\StructureMaster::class);
             $this->importCSVData(\App\MachineMaster::class);
             $this->importCSVData(\App\MachineMou::class);
+            
         } catch(QueryException  $e) {
             DB::setDefaultConnection('mongodb');
             $this->destroy($org->id);
@@ -229,7 +229,9 @@ public function getProjects()
         return view('admin.organisations.roles_index',compact('roles','modules','orgId'));
     }
 
-    public function configureRole(Request $request,$org_id,$role_id){
+    public function configureRole(Request $request,$org_id,$role_id)
+    {
+        
         $organisation=Organisation::find($org_id);
         $role = Role::find($role_id);
         
@@ -285,5 +287,22 @@ public function getProjects()
         DB::collection('role_configs')->where('role_id', $role_id)
                         ->update($config_data, ['upsert' => true]);                  
         return redirect()->route('roleconfig', ['orgId' => $org_id, 'role_id' => $role_id])->with('message', 'RoleConfig Updated Successfuly!!!');
+    }
+
+    public function getJurisdictionTypesByProjectId(Request $request)
+    {
+        $projectId = $request->projectId;
+        
+        list($orgId, $dbName) = $this->setDatabaseConfig();
+        DB::setDefaultConnection($dbName);
+        $project = Project::find($projectId);
+        $jurisTypeId = $project->jurisdiction_type_id;
+        
+        if (isset($jurisTypeId) && !empty($jurisTypeId)) {
+
+            $jurisdictionTypes = JurisdictionType::find($jurisTypeId);
+            return json_encode($jurisdictionTypes);
+        }
+        return;
     }
 }

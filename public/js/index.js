@@ -83,7 +83,7 @@ $(document).on('change','#org_id',function(){
   $(document).on('change','select',function(){
      
     prevSelection.push($(prevLevelId).find(":selected").text());
-    console.log(prevSelection)
+    //console.log(prevSelection)
   })
 
   
@@ -222,7 +222,7 @@ $(document).on('change','#Cluster',function(){
     url: "/populateData",
     data: { item:item,state:state_id, cluster:cluster},
      success:function(result){
-       console.log(result)
+       //console.log(result)
         itemId='#'+item
         $(itemId).find('option').remove().end();
         $(itemId).append('<option class="form-control value="0"></option>')
@@ -456,8 +456,7 @@ $('#addJurisdictionTypeForEdit').click(function(){
 
       //  Creates a hidden input tag to pass the array of levels e.g. [state, district, taluka]
       $('#jurisdictionTypes').append('<input type="hidden" name="jurisdictionTypes" value="'+jurisdictions+'" class="form-control"></input>')
-  }
-  else {  // There are child divs present and so we append a new div to div with id = jurisdictionTypeContainer2
+  } else {  // There are child divs present and so we append a new div to div with id = jurisdictionTypeContainer2
   $('#jurisdictionTypeContainer').clone().appendTo('#jurisdictionTypeContainer2').find("input[type='text']").val("");
 
   $('#jurisdictionTypeContainer2').find("input[type='hidden']").remove();
@@ -503,6 +502,7 @@ $('#removeJurisdictionTypeForEdit').click(function(){
             $('#jurisdictionTypeContainer2').append('<input type="hidden" name="noOfJurisdictionTypes" value="'+ oldTypes +'" class="form-control"></input>');
     }
 })
+
 /* to pop a warning message on delete of Jurisdiction if
 ** the Jurisdiction is associated with Jurisdiction Type
 */
@@ -531,3 +531,31 @@ $(document).on('click', '#delete-jusrisdiction', function() {
     });
     return false;
 })
+
+/* to populate jurisdiction types as per projects selected
+** for roles authorization configuration
+*/
+
+$("#assigned_projects").change(function() {
+    
+    var projectId = $(this).val();
+    $.ajax({
+      url: "/getJurisdictionTypesByProjectId",
+      type: "GET",
+      data: {projectId : projectId},
+      success: function (data) {
+
+        var obj = JSON.parse(data); 
+        if (obj.length !== 0) {
+          $jurisTypeId = obj._id;
+          $('select[name="jurisdiction_type_id"]').empty();
+          //console.log('sringified = '+JSON.stringify(obj.jurisdictions));
+          $('select[name="jurisdiction_type_id').append('<option value="'+ $jurisTypeId +'">'+JSON.stringify(obj.jurisdictions)+'</option>');
+        }
+      },
+      error: function (data) {
+        console.log('Error in ajax response:', data.responseText);
+      }
+    });
+}).change();
+
