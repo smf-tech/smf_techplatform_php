@@ -90,6 +90,10 @@ Route::group(
     Route::get('{orgId}/jurisdictions','JurisdictionController@index');
     Route::get('{orgId}/jurisdiction/create','JurisdictionController@create');
     Route::resource('{orgId}/jurisdiction-types', 'JurisdictionTypeController')->except(['show']);
+
+    Route::resource('{orgId}/associates','AssociateController', [
+        'parameters' => ['associate' => 'associateId'],
+    ]);  
 });
 
 

@@ -97,6 +97,7 @@
                                 <li><a href="/{{$orgId}}/jurisdictions">Jurisdictions</a></li>
                                 <li><a href="/{{$orgId}}/jurisdiction-types">Jurisdiction Types</a></li>
                                 <li><a href="/{{$orgId}}/locations">Locations</a></li>
+                                <li><a href="/{{$orgId}}/associates">Associates</a></li>
                             </ul>
                         </nav>
                     

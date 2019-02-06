@@ -67,7 +67,21 @@
                                 </select>
                             </div>
                             </div>   
-                        </div>                        
+                        </div>    
+                        
+                        <div class="row form-group">
+                                <div class="form-group col-md-12 row">
+                                       <label for="email" class="col-md-3" >Associate:</label>
+                                       <div class="col-md-9">
+                                   <select  name="associate">
+                                       <option value=""></option>
+                                   @foreach($associates as $associate)
+                                       <option value="{{$associate->id}}" @if($associate->id == $associate_id) selected='selected'  @endif>{{$associate->name}}</option>
+                                   @endforeach
+                                   </select>
+                               </div>
+                               </div>   
+                           </div>    
                         
                         </div>
 
