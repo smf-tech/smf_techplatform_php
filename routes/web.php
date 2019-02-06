@@ -90,10 +90,10 @@ Route::group(
     Route::get('{orgId}/jurisdiction/create','JurisdictionController@create');
     Route::delete('jurisdictions/{id}', array('as' => 'jurisdictions.destroy','uses' => 'JurisdictionController@destroy'));
     Route::resource('{orgId}/jurisdiction-types', 'JurisdictionTypeController')->except(['show']);
-
     Route::resource('{orgId}/associates','AssociateController', [
         'parameters' => ['associate' => 'associateId'],
-    ]);  
+    ]);
+    Route::resource('{orgId}/modules', 'ModuleController')->except(['show']);
 });
 
 

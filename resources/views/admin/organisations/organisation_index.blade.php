@@ -36,7 +36,6 @@
                                             {!!Form::open(['action'=>['OrganisationController@destroy',$item->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                             {!!Form::close()!!}
-                                            <a class="btn btn-info"  href={{route('orgManager.show',$item->id)}}>Manage</a>
 
                                         </div>
                                     </td>
