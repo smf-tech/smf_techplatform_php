@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased')
 
 @section('content')
 <div class="container">
@@ -13,7 +13,7 @@
                             </div>
                         @endif
                         <h3>Create Report</h3>
-                        <form action="{{route('reports.store')}}" method="post">
+                        <form action="{{route('reports.store', $orgId)}}" method="post">
                         {{csrf_field()}}     
                             <legend></legend>
                             <div class="form-group">
@@ -38,9 +38,11 @@
                                 <label for="category">Category</label>
                                 <input type="text" name="category" placeholder="Category" class="form-control"/>
                             </div>
-                            <div class="form-group">
-                                <span style="float:left;margin:5px 15px 0 auto;"><label for="reportActive">Active</label></span>
-                                <span style="float:left;"><input type="checkbox" name="active" class="form-control" value=1 checked/></span>
+                            <div class="form-check">
+                                <input class="form-check-input" id="report-active" type="checkbox" name="active" value="1" id="defaultCheck1">
+                                <label class="form-check-label" for="report-active">
+                                    Active
+                                </label>
                             </div>
                             <div class="form-group" style="clear:both;"></div>
                             <input type="submit" class="btn btn-success" value="Create"/>
