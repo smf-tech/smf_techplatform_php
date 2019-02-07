@@ -88,4 +88,8 @@ margin: 1em auto;
      grid-template-columns: 40px 50px 100px;
  } 
 
- 
+ #bjs_logo{
+    position: absolute;
+    top: 1em;
+    left: 1em;
+ }
