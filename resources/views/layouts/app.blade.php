@@ -26,7 +26,7 @@
             <nav class="navbar navbar-expand-md navbar-dark navbar-laravel fixed-top " id="navbar">
                 <div class="container">
                     <img id="bjs_logo" src="{{ asset('image/bjs_logo.png') }}" >   &nbsp; &nbsp; 
-                    <a class="navbar-brand" href="{{ url('/home') }}">
+                    <a class="navbar-brand adjust-margin" href="{{ url('/home') }}">
                         {{ config('app.name', 'SMF Platform') }}
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
