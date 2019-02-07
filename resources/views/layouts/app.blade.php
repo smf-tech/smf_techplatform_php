@@ -25,7 +25,7 @@
         <div id="godown">
             <nav class="navbar navbar-expand-md navbar-dark navbar-laravel fixed-top " id="navbar">
                 <div class="container">
-                    <img id="bjs_logo" src="{{ asset('image/bjs_logo.png') }}" >   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <img id="bjs_logo" src="{{ asset('image/bjs_logo.png') }}" >   &nbsp; &nbsp; 
                     <a class="navbar-brand" href="{{ url('/home') }}">
                         {{ config('app.name', 'SMF Platform') }}
                     </a>
