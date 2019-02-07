@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased')
 
 @section('content')
 <div class="container">
@@ -14,7 +14,7 @@
                         @endif
                         
                         <h3>Edit Report</h3>
-                        {!! Form::model($report, ['route' => ['reports.update', $report->id], 'method'=>'PUT', 'id' => 'report-edit-form']) !!}
+                        {!! Form::model($report, ['route' => ['reports.update', $orgId, $report->id], 'method'=>'PUT', 'id' => 'report-edit-form']) !!}
                         {{csrf_field()}} 
                         <legend></legend>
                         <div class="form-group">
@@ -39,13 +39,11 @@
                             <label for="category">Category</label>
                             <input type="text" name="category" placeholder="Category"class="form-control"value="{{$report->category}}"/>
                         </div>
-                        <?php $selected_attrb_flag = false; ?>
-                        @if($report->active == 1)
-                            <?php $selected_attrb_flag = true; ?>
-                        @endif
-                        <div class="form-group">
-                        <span style="float:left;margin:5px 15px 0 auto;"><label for="active">Active</label></span>
-                        <span style="float:left;"><input type="checkbox" name="active" value="1" class="form-control" @if($selected_attrb_flag) {{'checked'}} @endif/></span>
+                        <div class="form-check">
+                            <input class="form-check-input" id="report-active" type="checkbox" name="active" value="1" id="defaultCheck1" {{ $report->active == 1 ? 'checked' : '' }}>
+                            <label class="form-check-label" for="report-active">
+                                Active
+                            </label>
                         </div>
                         <div class="form-group" style="clear:both;"></div>
                         <input type="submit" class="btn btn-success" value="Update"/>

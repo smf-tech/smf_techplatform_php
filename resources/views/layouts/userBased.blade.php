@@ -91,6 +91,7 @@
                         <li><a href="/{{$orgId}}/locations">Locations</a></li>
                         <li><a href="/{{$orgId}}/associates">Associates</a></li>
                         <li><a href="/{{$orgId}}/modules">Modules</a></li>
+                        <li><a href="/{{$orgId}}/reports">Reports</a></li>
                     </ul>
                 </nav>
             </div>

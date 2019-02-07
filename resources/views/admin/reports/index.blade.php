@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.userBased')
 
 @section('content')
 <div class="container">
@@ -13,7 +13,7 @@
                     @endif
                     <div class="row">
                         <h3 class="col-md-9">Reports</h3>
-                        <a class ="btn btn-success"href="{{route('reports.create')}}">Report<i class="fas fa-plus"></i></a>
+                        <a class ="btn btn-success" href="{{route('reports.create', $orgId)}}">Report<i class="fas fa-plus"></i></a>
                     </div>
                     <table class="table">
                         <tr>
@@ -38,12 +38,10 @@
                             </td>
                             <td>
                                 <div class="actions">
-                                    <a class="btn btn-primary" href={{route('reports.edit',$report->id)}}><i class="fas fa-pen"></i></a>
-                                    <form action="{{ url('reports',$report->id) }}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
+                                    <a class="btn btn-primary" href={{route('reports.edit', ['orgId' => $orgId, 'id' => $report->id])}}><i class="fas fa-pen"></i></a>
+                                    {!!Form::open(['route' => ['reports.destroy', $orgId, $report->id],'method' => 'DELETE', 'class' => 'pull-right'])!!}
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                    </form> 
+                                    {!!Form::close()!!}
                                 </div>
                             </td>
                         </tr>
