@@ -21,11 +21,13 @@
                         <table class="table">
                             <tr>
                                 <th>Name</th>
+                                <th>Type</th>
                                 <th>Action</th>
                             </tr>
                             @forelse($categories as $category)
                                 <tr>
                                     <td>{{$category->name}}</td>
+                                    <td>{{$category->type}}</td>
                                     <td> <div class="actions">
                                             <a class="btn btn-primary" href={{route('category.edit',$category->id)}}><i class="fas fa-pen"></i></a>
                                         {!!Form::open(['action'=>['CategoryController@destroy',$category->id],'method'=>'DELETE','class'=>'pull-right' ])!!}

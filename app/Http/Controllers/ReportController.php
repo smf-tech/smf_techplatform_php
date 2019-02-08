@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Report;
 use App\User;
 use Validator;
+use App\Category;
 
 #use Maklad\Permission\Models\Report;
 //use Maklad\Permission\Models\Permission;
@@ -17,7 +18,16 @@ class ReportController extends Controller
     {
         list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
+
         $reports = Report::all();
+        
+        // foreach($reports as $report)    {
+        //     // echo $report;
+        //     echo "-------------------------------------------------";
+        //     var_dump($report->categories['name']);
+        // }
+        // return ;
+
         return view('admin.reports.index', compact('orgId', 'reports'));
     }
 
@@ -30,7 +40,10 @@ class ReportController extends Controller
     {   
         list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
-        return view('admin.reports.create', compact('orgId'));
+
+        $categories = Category::where('type','Reports')->get();
+
+        return view('admin.reports.create', compact('orgId','categories'));
     }
 
     /**
@@ -43,14 +56,18 @@ class ReportController extends Controller
     {
         list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
+
         $validator = Validator::make($request->all(), ['name' => 'required|unique:reports','url' => 'required:reports'])->validate();
-        $report = Report::create([
+
+        $report = DB::collection('reports')->insert(
+            [
             'name'=>$request->name,
             'description'=>$request->description,
             'url'=>$request->url,
-            'category' => $request->category,
+            'category_id' => $request->category,
             'active'=>$request->active
-        ]);
+            ]
+        );
 
         session()->flash('status', 'Report created successfully!');
         return redirect()->route('reports.index', ['orgId' => $orgId])->withMessage('Report Created');
@@ -78,8 +95,11 @@ class ReportController extends Controller
     {
         list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
         DB::setDefaultConnection($dbName);
+
         $report = Report::find($id);
-        return view('admin.reports.edit',compact('report', 'orgId'));
+        $categories = Category::where('type','Reports')->get();
+
+        return view('admin.reports.edit',compact('report', 'orgId', 'categories'));
     }
 
     /**
@@ -94,15 +114,21 @@ class ReportController extends Controller
     {  
         list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
         DB::setDefaultConnection($dbName);
+
         $report = Report::find($id);
+
         $validator = Validator::make($request->all(), ['name' => 'required:reports','url' => 'required:reports'])->validate();
-        $report->name = $request->name;
-        $report->description = $request->description;
-        $report->url = $request->url;
-        $report->category = $request->category;
-        $report->active = $request->active;
-        $report->save();
-        
+
+        $report = DB::collection('reports')->where('_id',$request->surveyID)->update(
+            [
+            'name'=>$request->name,
+            'description'=>$request->description,
+            'url'=>$request->url,
+            'category_id' => $request->category,
+            'active'=>$request->active
+            ]
+        );
+
         session()->flash('status', 'Report updated successfully!');
         return redirect()->route('reports.index', ['orgId' => $orgId]);
     }
@@ -118,8 +144,10 @@ class ReportController extends Controller
     {
         list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
         DB::setDefaultConnection($dbName);
+        
         $report = Report::find($id)->delete();
         session()->flash('status', 'Report deleted successfully!');
+
         return redirect()->route('reports.index', ['orgId' => $orgId]);
     }
 }

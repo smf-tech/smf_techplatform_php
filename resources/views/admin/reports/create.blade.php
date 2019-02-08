@@ -36,7 +36,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="category">Category</label>
-                                <input type="text" name="category" placeholder="Category" class="form-control"/>
+                                <select name="category" class="form-control">
+                                    <option value="0"></option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}"> {{ $category->name }} </option>                                            
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" id="report-active" type="checkbox" name="active" value="1" id="defaultCheck1">

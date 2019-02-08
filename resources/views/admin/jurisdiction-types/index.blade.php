@@ -23,13 +23,21 @@
                         <tr>
                             <th>Name</th>
                         </tr>
-                        @forelse ($jurisdictionTypes as $type)
+                        @forelse ($jurisdictionTypes as $jurisdictionType)
+                        <?php $jurisdiction = "" ?>
                         <tr>
-                            <td>{{ json_encode($type->jurisdictions) }}</td>
+                                @foreach($jurisdictionType->jurisdictions as $type)
+                                @if($jurisdiction != "")
+                                    <?php $jurisdiction = $jurisdiction.", ".$type ?>
+                                @else
+                                    <?php $jurisdiction = $type ?>
+                                @endif
+                            @endforeach
+                                <td>{{ $jurisdiction }}</td>
                             <td>
                                 <div class="actions">
-                                    <a class="btn btn-primary" href="/{{$orgId}}/jurisdiction-types/{{$type->id}}/edit"><i class="fas fa-pen"></i></a>
-                                    {!!Form::open(['route' => ['jurisdiction-types.destroy', $orgId, $type->id],'method' => 'DELETE', 'class' => 'pull-right'])!!}
+                                    <a class="btn btn-primary" href="/{{$orgId}}/jurisdiction-types/{{$jurisdictionType->id}}/edit"><i class="fas fa-pen"></i></a>
+                                    {!!Form::open(['route' => ['jurisdiction-types.destroy', $orgId, $jurisdictionType->id],'method' => 'DELETE', 'class' => 'pull-right'])!!}
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     {!!Form::close()!!}
                                 </div>

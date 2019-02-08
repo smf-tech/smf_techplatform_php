@@ -37,7 +37,12 @@
                         </div>
                         <div class="form-group">
                             <label for="category">Category</label>
-                            <input type="text" name="category" placeholder="Category"class="form-control"value="{{$report->category}}"/>
+                            <select name="category" class="form-control">
+                                <option value="0"></option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" @if($category->id == $report->category) selected="selected" @endif> {{ $category->name }} </option>                                            
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" id="report-active" type="checkbox" name="active" value="1" id="defaultCheck1" {{ $report->active == 1 ? 'checked' : '' }}>

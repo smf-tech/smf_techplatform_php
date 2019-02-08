@@ -230,13 +230,13 @@ public function getProjects()
         return view('admin.organisations.roles_index',compact('roles','modules','orgId'));
     }
 
-    public function configureRole(Request $request,$org_id,$role_id)
+    public function configureRole(Request $request,$orgId,$role_id)
     {
         
-        $organisation=Organisation::find($org_id);
+        $organisation=Organisation::find($orgId);
         $role = Role::find($role_id);
         
-        $dbName=$organisation->name.'_'.$org_id;
+        $dbName=$organisation->name.'_'.$orgId;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
             'driver'    => 'mongodb',
             'host'      => '127.0.0.1',
@@ -267,7 +267,6 @@ public function getProjects()
         $associates = Associate::all();
         
         DB::setDefaultConnection('mongodb');
-        $orgId = $org_id;
         $org_roles=DB::collection('roles')->where('org_id', $orgId)->where('_id','<>',$role_id)->get();
         return view('admin.organisations.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles','approver_role', 'jurisdictionTypes', 'jurisdictionType', 'associates','associate_id'));
 

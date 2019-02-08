@@ -28,20 +28,20 @@
                             @forelse($surveys as $survey)
                                 <tr>
                                     <td>
-                                        {{$survey->name}}
+                                        {{ $survey->name }}
                                     </td>
                                     <td>
-                                        {{App\Survey::find($survey->id)->category['name']}}
+                                        {{ $survey->category['name'] }}
                                     </td>
                                      <td>
-                                            {{App\Survey::find($survey->id)->project['name']}}
+                                            {{ $survey->project['name'] }}
                                             {{-- {{$survey->project_id}} --}}
                                     </td>                                    
                                     <td>
-                                            {{App\Survey::find($survey->id)->microservice['name']}}
+                                            {{ $survey->microservice['name'] }}
                                     </td>
                                     <td>
-                                        {{App\Survey::find($survey->id)->entity['display_name']}}
+                                        {{ $survey->entity['display_name'] }}
                                     </td>
                                     <td><div class="actions">
                                             {{-- {!!Form::open(['action'=>['SurveyController@editForm',$survey->id],'method'=>'EDIT','class'=>'pull-right' ])!!}

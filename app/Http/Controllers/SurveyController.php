@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Survey;
+use App\Category;
 use App\Organisation;
 use App\Entity;
 use App\Microservice;
@@ -280,7 +281,7 @@ class SurveyController extends Controller
         $modules= DB::collection('modules')->get();
 
 		$projects = DB::collection('projects')->get(); 
-        $categories = DB::collection('categories')->get();         
+        $categories = Category::where('type','Form')->get();         
         $microservices = Microservice::where('is_active',true)->get(); 
         $entities = Entity::where('is_active',true)->get(); 
 
@@ -313,7 +314,7 @@ class SurveyController extends Controller
      
         $modules= DB::collection('modules')->get();
 		$projects = DB::collection('projects')->get(); 
-        $categories = DB::collection('categories')->get(); 
+        $categories = Category::where('type','Form')->get(); 
         $microservices = Microservice::where('is_active',true)->get(); 
         $entities = Entity::where('is_active',true)->get(); 
 

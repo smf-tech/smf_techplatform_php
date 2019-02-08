@@ -17,12 +17,20 @@
                            {{csrf_field()}}     
                         <legend></legend>
                              <div class="form-group">
-                                 <label for="categoryName">Category Name</label>
+                                 <label for="categoryName">Name</label>
                                  <input type="text" name="categoryName" placeholder="name of the category" class="form-control"/>
                                  @if($errors->any())
                                  <b style="color:red">{{$errors->first()}}</b>
                                  @endif
-                             </div>                            
+                             </div>      
+                             <div class="form-group">
+                                    <label for="categoryType">Type</label>
+                                    <select name="categoryType" class="form-control">
+                                            <option value="0"></option>
+                                            <option value="Form"> Form </option>                                            
+                                            <option value="Reports"> Reports </option>                                                                                                                                           
+                                    </select>                                       
+                                </div>                        
                             <input type="submit" class="btn btn-success"/>
                          </form>                        
                 </div>

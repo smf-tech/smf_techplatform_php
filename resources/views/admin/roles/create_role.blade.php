@@ -35,7 +35,7 @@
                                 <select name="org_id" id ="orgid" class="form-control">
                                     <option value=""></option>
                                     @foreach($orgs as $org)
-                                        <option value={{$org->id}}>{{$org->name}}</option>
+                                        <option value={{$org->id}}>{{strtoupper($org->name)}}</option>
                                     @endforeach 
                                 </select>
                                 </br>

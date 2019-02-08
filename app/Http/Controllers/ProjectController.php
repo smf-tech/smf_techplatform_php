@@ -52,10 +52,18 @@ class ProjectController extends Controller
             'name' => 'required|unique:projects',
             'jurisdictionType' => 'required'
         ]);
-        $project = new Project;
-        $project->name = $result['name'];
-        $project->jurisdiction_type_id = $result['jurisdictionType'];
-        $project->save();
+        // $project = new Project;
+        // $project->name = $result['name'];
+        // $project->jurisdiction_type_id = $result['jurisdictionType'];
+        // $project->save();
+
+        $project = DB::collection('projects')->insert(
+            [
+            'name'=>$result['name'],
+            'jurisdiction_type_id'=>$result['jurisdictionType']
+            ]
+        );
+
 
         return redirect()->route('project.index')->withMessage('project Created');
     }
@@ -86,11 +94,17 @@ class ProjectController extends Controller
             'name' => 'required',
             'jurisdictionType' => 'required'
         ]);
-        $project = Project::find($project_id);
-        $project->name = $result['name'];
-        $project->jurisdiction_type_id = $result['jurisdictionType'];
-        $project->save();
+        // $project = Project::find($project_id);
+        // $project->name = $result['name'];
+        // $project->jurisdiction_type_id = $result['jurisdictionType'];
+        // $project->save();
 
+        $project = DB::collection('projects')->where('_id',$project_id)->update(
+            [
+            'name'=>$result['name'],
+            'jurisdiction_type_id'=>$result['jurisdictionType']
+            ]
+        );
         return redirect()->route('project.index')->withMessage('Project Updated');
     }
 

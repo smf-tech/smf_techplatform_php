@@ -22,7 +22,7 @@
                                 <div class="col-md-9" >
                                 <select name="assigned_projects" id="assigned_projects">
                                 @foreach($projects as $project)
-                                        <option value="{{$project['_id']}}"  @if($project['_id'] == $role_projects) selected='selected'  @endif>{{$project['name']}}</option>
+                                        <option value="{{$project['_id']}}"  @if($project['_id'] == $role->project_id) selected='selected'  @endif>{{$project['name']}}</option>
                                 @endforeach
                                 </select>
                                 </div>
@@ -80,7 +80,7 @@
                                     <select  name="jurisdiction_type_id" id="jurisdiction_type_id">
                                         <option value=""></option>
                                         @foreach($jurisdictionTypes as $type)
-                                        <option value="{{$type->_id}}" @if($jurisdictionType == $type->_id) selected='selected'  @endif>{{json_encode($type->jurisdictions)}}</option>
+                                        <option value="{{$type->_id}}" @if($type == $role->project['jurisdiction_type_id']) selected='selected'  @endif>{{json_encode($type->jurisdictions)}}</option>
                                         @endforeach
                                     </select>
                                 </div>

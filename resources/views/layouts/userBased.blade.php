@@ -27,7 +27,7 @@
         <div id="godown">
         <nav class="navbar navbar-expand-md navbar-dark navbar-laravel fixed-top " id="navbar">
             <div class="container">
-                <img id="bjs_logo" src="{{ asset('image/bjs_logo.png') }}" >   &nbsp; &nbsp; 
+                <img id="bjs_logo" src="{{ asset('image/bjs_logo.png') }}" >   
                 <a class="navbar-brand adjust-margin" href="{{ url('/home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -80,18 +80,35 @@
                 <!-- Sidebar -->
                 <nav id="sidebar">
                     <ul class="list-unstyled components accordion" id="accordionExample">
+                        
                         <li><a href="/{{$orgId}}/forms">Forms</a></li>
                         <li><a href="/{{$orgId}}/microservices">Microservices</a></li>
                         <li><a href="/{{$orgId}}/entities">Entities</a></li>
                         <li><a href="/{{$orgId}}/categories">Categories</a></li>
+
+                    </ul>
+
+                    <ul class="list-unstyled components accordion" id="accordionExample">
+                        
+                            <li><a href="/{{$orgId}}/jurisdictions">Jurisdictions</a></li>
+                            <li><a href="/{{$orgId}}/jurisdiction-types">Jurisdiction Types</a></li>
+                            <li><a href="/{{$orgId}}/locations">Locations</a></li>
+    
+                    </ul>
+                        
+                    <ul class="list-unstyled components accordion" id="accordionExample">
+                        
                         <li><a href="/{{$orgId}}/projects">Projects</a></li>
-                        <li><a href="/{{$orgId}}/roles">Roles Authorization</a></li>
-                        <li><a href="/{{$orgId}}/jurisdictions">Jurisdictions</a></li>
-                        <li><a href="/{{$orgId}}/jurisdiction-types">Jurisdiction Types</a></li>
-                        <li><a href="/{{$orgId}}/locations">Locations</a></li>
+                        <li><a href="/{{$orgId}}/roles">Roles Configuration</a></li>
                         <li><a href="/{{$orgId}}/associates">Associates</a></li>
                         <li><a href="/{{$orgId}}/modules">Modules</a></li>
+
+                    </ul>                    
+
+                    <ul class="list-unstyled components accordion" id="accordionExample">    
+
                         <li><a href="/{{$orgId}}/reports">Reports</a></li>
+
                     </ul>
                 </nav>
             </div>

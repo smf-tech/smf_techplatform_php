@@ -20,8 +20,10 @@ class JurisdictionTypeController extends Controller
     {
         list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
+
         $modules= DB::collection('modules')->get();
         $jurisdictionTypes = JurisdictionType::all();
+
         return view('admin.jurisdiction-types.index', compact('orgId', 'modules', 'jurisdictionTypes'));
     }
 

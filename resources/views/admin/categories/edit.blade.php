@@ -17,10 +17,20 @@
                         
                         {{csrf_field()}} 
                         <legend></legend>                            
-                             <div class="form-group">
-                                    <label for="Name">Category Name</label>
-                             <input type="text" name="Name" placeholder="Category name" value="{{$category->name}}" class="form-control"/>
+                            <div class="form-group">
+                                <label for="Name">Name</label>
+                                <input type="text" name="Name" placeholder="Category name" value="{{$category->name}}" class="form-control"/>
                             </div>
+
+                            <div class="form-group">
+                                    <label for="categoryType">Type</label>
+                                    <select name="categoryType" class="form-control">
+                                            <option value="0"></option>
+                                            <option value="Form" @if($category->type === "Form") selected="selected" @endif> Form </option>                                            
+                                            <option value="Reports" @if($category->type === "Reports") selected="selected" @endif> Reports </option>                                                                                                                                           
+                                    </select>                                       
+                            </div>   
+
                             <input type="submit" class="btn btn-success"/>
                     
                         {!! Form::close() !!} 

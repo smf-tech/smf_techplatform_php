@@ -10,4 +10,9 @@ class Project extends \Jenssegers\Mongodb\Eloquent\Model
         'name',
         'jurisdiction_type_id'
     ];
+
+    public function jurisdiction()
+    {
+        return $this->belongsTo('App\Jurisdiction');
+    }
 }

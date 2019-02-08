@@ -14,9 +14,6 @@
                         </div>
                     @endif
                         <h3>Edit Role</h3>
-                 
-                      
-                        
 
                         {!! Form::model($role, ['route' => [ 'role.update', $role->id ], 'method'=>'PUT', 'id' => 'role-edit-form']) !!}
                         
@@ -35,7 +32,7 @@
                                 <h4>Organisation</h4>
                                 <select name="org_id" id ="orgidedit" class="form-control">
                                     @foreach($orgs as $org)
-                                        <option value={{$org->id}}  {{ ($org->id===$role->org_id) ?"selected":""}}>{{$org->name}}</option>
+                                        <option value={{$org->id}}  {{ ($org->id===$role->org_id) ?"selected":""}}>{{strtoupper($org->name)}}</option>
                                     @endforeach 
                                 </select>
                                 <br/>

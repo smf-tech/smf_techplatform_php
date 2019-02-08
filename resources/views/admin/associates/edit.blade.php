@@ -28,9 +28,9 @@
                                     <h4>Type</h4>
                                     <select name="type" class="form-control">
                                         <option value="0"></option>
-                                        <option value="donor" {{$associate->type}} == 'donor'? selected="selected":"" > Donor </option>                                                                                               
-                                        <option value="vendor" {{$associate->type}} == 'vendor'? selected="selected":""> Vendor </option>                                                                                               
-                                        <option value="partner" {{$associate->type}} == 'partner'? selected="selected":""> Partner </option>
+                                        <option value="donor" @if($associate->type == 'donor') selected="selected" @endif > Donor </option>                                                                                               
+                                        <option value="vendor" @if($associate->type == 'vendor') selected="selected" @endif> Vendor </option>                                                                                               
+                                        <option value="partner" @if($associate->type == 'partner') selected="selected" @endif> Partner </option>
                                     </select>                                  
                                     </br>
 
