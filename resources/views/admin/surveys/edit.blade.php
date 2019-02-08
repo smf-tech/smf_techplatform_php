@@ -84,7 +84,7 @@
  <label><b> Allowed Roles</b></label>
 <select multiple="multiple" name="assigned_roles[]" id="assigned_roles">
 @foreach($org_roles as $org_role)
-            @if(in_array($org_role->id, $roles))
+            @if(is_array($roles) && in_array($org_role->id, $roles))
                 <option value={{$org_role->id}} selected="selected">{{$org_role->display_name}}</option>
             @else
                 <option value="{{$org_role->id}}" >{{$org_role->display_name}}</option>
