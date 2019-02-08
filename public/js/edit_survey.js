@@ -21,7 +21,7 @@
             showTranslationTab:true,
             showEmbededSurveyTab:false,
             showPagesToolbox:false,
-            questionTypes : ["boolean","text", "checkbox", "radiogroup", "dropdown","file","panel"]
+            questionTypes : ["boolean","text", "checkbox", "radiogroup", "dropdown","file","panel","imagepicker"]
         }; 
         Survey.JsonObject.metaData.findProperty("Survey", "checkErrorsMode").visible = false;
         Survey.JsonObject.metaData.findProperty("Survey", "clearInvisibleValues").visible = false;
