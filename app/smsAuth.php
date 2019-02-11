@@ -2,10 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\CreatorDetails;
 
-class smsAuth extends  \Jenssegers\Mongodb\Eloquent\Model
+class smsAuth extends \Jenssegers\Mongodb\Eloquent\Model
 {
+    use CreatorDetails;
+    
     protected $fillable=['phone','otp'];
 
 }

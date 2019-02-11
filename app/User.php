@@ -9,12 +9,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Maklad\Permission\Traits\HasRoles;
 use DesignMyNight\Mongodb\Auth\User as Authenticatable;
+use App\Traits\CreatorDetails;
 
 class User  extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
     use HasApiTokens;
+    use CreatorDetails;
 
 
     /**

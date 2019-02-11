@@ -2,10 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\CreatorDetails;
 
-class Village  extends \Jenssegers\Mongodb\Eloquent\Model
+class Village extends \Jenssegers\Mongodb\Eloquent\Model
 {
+    use CreatorDetails;
+    
     protected $fillable=['Name','state_id','district_id','taluka_id'];
 
     public function district()

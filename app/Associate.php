@@ -2,10 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\CreatorDetails;
 
 class Associate extends \Jenssegers\Mongodb\Eloquent\Model
 {
+    use CreatorDetails;
+    
     protected $fillable = [
         'name',
         'type', // => donor, vendor, partner 

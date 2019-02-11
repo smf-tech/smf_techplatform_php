@@ -2,10 +2,12 @@
 
 namespace App;
 
-use Jenssegers\Mongodb\Eloquent\Model as Model;
+use App\Traits\CreatorDetails;
 
-class StructureMaster extends Model
+class StructureMaster extends \Jenssegers\Mongodb\Eloquent\Model
 {
+    use CreatorDetails;
+
     protected $fillable = [
         'state',
         'district',

@@ -12,7 +12,7 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 
 use Maklad\Permission\Models\Role;
-use Maklad\Permission\Models\Permission;
+// use Maklad\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -40,11 +40,11 @@ class RoleController extends Controller
      */
     public function create()
     {   
-        $permissions = Permission::all();
+        // $permissions = Permission::all();
         $orgs = Organisation::where('orgshow','<>',0)->get();
         // $levels = Jurisdiction::all();
         
-        return view('admin.roles.create_role',compact(['permissions','orgs']));
+        return view('admin.roles.create_role',compact(['orgs']));
     }
 
     /**
@@ -92,7 +92,7 @@ class RoleController extends Controller
          $role = Role::find($id);        
          $orgs = Organisation::where('orgshow','<>',0)->get();
         //  $levels = Jurisdiction::all();
-         $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
+        //  $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
          $project_id = '';
          if (isset($role->project_id) && !empty($role->project_id)) {
             $project_id = $role->project_id;
@@ -103,7 +103,7 @@ class RoleController extends Controller
          $non_ajax_call_flag = true;
          $projects_arr = $this->getAjaxOrgId($request,$non_ajax_call_flag);
          
-         return view('admin.roles.edit',compact(['role','orgs','role_jurisdictions','project_id','projects_arr']));
+         return view('admin.roles.edit',compact(['role','orgs','project_id','projects_arr']));
     }
 
     /**

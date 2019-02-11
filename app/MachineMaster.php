@@ -2,10 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\CreatorDetails;
 
 class MachineMaster extends \Jenssegers\Mongodb\Eloquent\Model
 {
+    use CreatorDetails;
+    
     protected $fillable = [
         'machine_code',
         'make_and_model',

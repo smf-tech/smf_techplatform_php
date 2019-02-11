@@ -2,10 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\CreatorDetails;
 
-class Report  extends \Jenssegers\Mongodb\Eloquent\Model
+class Report extends \Jenssegers\Mongodb\Eloquent\Model
 {
+    use CreatorDetails;
+    
     protected $fillable = ['name', 'description', 'url', 'category','active'];
 
     public function category()

@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\CreatorDetails;
 
-class Jurisdiction  extends \Jenssegers\Mongodb\Eloquent\Model
+class Jurisdiction extends \Jenssegers\Mongodb\Eloquent\Model
 {
+    use CreatorDetails;
+    
     protected $fillable=['level'];
 }

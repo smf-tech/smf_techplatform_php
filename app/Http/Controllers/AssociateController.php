@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Associate;
 use Redirect;
+use Auth;
 
 class AssociateController extends Controller
 {

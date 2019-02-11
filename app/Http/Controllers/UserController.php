@@ -156,11 +156,7 @@ class UserController extends Controller
         
         $role=Role::find($roleId);
         // $states=State::all();
-
         
-
-        
-
         return view('admin.users.edit',compact(['user','orgs','orgId','role']));
     }
 
@@ -179,40 +175,6 @@ class UserController extends Controller
         $user->org_id=$request->org_id;
         $user->role_id=$request->role_id;
         $user->save();
-        // DB::table('role_user')->where('user_id',$id)->delete();
-        // DB::table('user_dets')->where('user_id',$id)->delete();
-
-        // $clusters=$villages=$talukas=$districts=array(null);
-        // $arrayItems=array();
-    //    foreach($_REQUEST as $key=>$value){
-    //        if(is_array($value)){
-    //           array_push($arrayItems,$key);
-    //        }
-    //    }
-    //    foreach($arrayItems as $key=>$value){
-    //       switch($value){
-    //           case 'Cluster': $clusters= $request->Cluster;break;
-    //           case 'Village': $villages= $request->Village;break;
-    //           case 'Taluka': $talukas= $request->Taluka;break;
-    //           case 'District':  $districts= $request->District;break;
-
-    //       }
-    //    }
-
-    //    $states= $request->state_id;
-
-    //    UserDetails::create([
-    //     'user_id' => $id,
-    //     // 'state_id' => implode(',', $states),
-    //     'district_id' =>implode(',', $districts),
-    //     'taluka_id' => implode(',', $talukas),
-    //     'village_id' => implode(',', $villages),
-    //     'cluster_id' => implode(',', $clusters),
-    
-    // ]);
-
-
-        // DB::insert('insert into role_user (user_id,role_id) values(?,?)',[$id,$request->role_id]);
 
         session()->flash('status', 'User was edited!');
         return redirect()->route('users.index')->withMessage('User Edited');
@@ -226,9 +188,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('role_user')->where('user_id',$id)->delete();
-
-        DB::table('users')->where('id',$id)->delete();
+        DB::table('users')->where('_id',$id)->delete();
         return redirect()->route('users.index')->withMessage('Role Deleted');
     }
 }

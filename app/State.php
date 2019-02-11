@@ -2,11 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\CreatorDetails;
 
-class State  extends \Jenssegers\Mongodb\Eloquent\Model
+class State extends \Jenssegers\Mongodb\Eloquent\Model
 {
-    protected $fillable=['Name'];
+    use CreatorDetails;
 
+    protected $fillable=['Name'];
    
 }

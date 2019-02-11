@@ -91,7 +91,8 @@ class LocationController extends Controller
         $jurisdictionTypes = explode(',',$request->jurisdictionTypes);
 
         $location = new Location;        
-        $location->jurisdiction_type_id = $request->jurisdictionTypeId;
+
+        $jurisdictionType = JurisdictionType::find($request->jurisdictionTypeId);
 
         // To create a collection of levels, e.g. { state:Goa, district:North Goa, taluka:Tiswadi }
         $arr = [];
@@ -112,6 +113,8 @@ class LocationController extends Controller
         $location->level = json_encode($arr);
 
         $location->save();
+
+        $jurisdictionType->locations()->save($location);
 
         session()->flash('status', 'Location was created!');
         return redirect()->route('locations.index',['orgId' => $orgId]);

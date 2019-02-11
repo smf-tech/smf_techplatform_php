@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use App\Traits\CreatorDetails;
 
-class Module extends Model
+class Module extends \Jenssegers\Mongodb\Eloquent\Model
 {
+    use CreatorDetails;
+    
     protected $fillable = ['name'];
 }
