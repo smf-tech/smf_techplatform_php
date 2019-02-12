@@ -1,4 +1,4 @@
-@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
+@extends('layouts.userBased',compact(['orgId'=>$orgId]))
 
 @section('content')
 <div class="container">
@@ -13,46 +13,64 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Create Location</h3></br></br>
+                        <h3>Location</h3></br></br>
                     <form action="{{route('locations.store',['orgId' => $orgId])}}" method="post">
                            {{csrf_field()}}     
                         <legend></legend>
-                             <div>
+                            <div>
                                 <h4>Jurisdiction Type</h4>
                                 <select id="jurisdictionType" name="jurisdictionTypeId" class="form-control">
-                                        <option value="0"></option>
-                                        
-                                        @forelse($jurisdictions as $jurisdiction)
-                                            {{ $jurisdictionLevels = "" }}
-                                            {{ $i = true }}
+                                       <option value="0"></option>
 
-                                            @foreach($jurisdiction->jurisdictions as $type)
-                                            {{-- Storing each value of jurisdictions array as a comma separated string --}}
-                                                @if($i != true)
-                                                {{ $jurisdictionLevels = $jurisdictionLevels.", ".$type }}
-                                                @else
-                                                {{ $jurisdictionLevels = $type }}
-                                                {{ $i = false }}
-                                                @endif    
-                                            @endforeach                                            
-                                                <option id={{$jurisdiction->id}} value={{$jurisdiction->id}}> {{ $jurisdictionLevels }}</option>                                                                                               
-                                        @endforeach 
-                                </select>    
-                            </br>
-                                <input type ="button" id="addJurisdictionType" value="add"></input>    &nbsp;&nbsp;
-                                <input type ="button" id="removeJurisdictionType" value="remove"></input>                           
+                                        @foreach($jurisdictions as $jurisdiction)
+                                           {{ $jurisdictionLevels = "" }}
+                                           {{ $i = true }}
+                                           {{ $first = $loop->first }}
+
+                                           @foreach($jurisdiction->jurisdictions as $type)
+                                           {{-- Storing each value of jurisdictions array as a comma separated string --}}
+                                               @if($i != true)
+                                               {{ $jurisdictionLevels = $jurisdictionLevels.", ".$type }}
+                                               @else
+                                               {{ $jurisdictionLevels = $type }}
+                                               {{ $i = false }}
+                                               @endif
+                                           @endforeach
+                                               <option id={{$jurisdiction->id}} value={{$jurisdiction->id}} {{ $first ? 'selected="selected"' : '' }}> {{ $jurisdictionLevels }}</option>
+                                        @endforeach
+                                </select>
+                                <br>
                             </div>
                             </br>
-                            <div id="jurisdictionTypeContainer"  class="form-group">                                       
-                            </div>
-                            {{-- Will have child divs with id = jurisdictionTypeContainer appended to it--}}
-                            <div id="jurisdictionTypeContainer2" class="parent">                                
-                            </div>
-                            <input type="submit" class="btn btn-success"/>
-                         </form>                        
+                            <table id="location" class="display" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>State</th>
+                                        <th>District</th>
+                                        <th>Taluka</th>
+                                        <th>Village</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('css')
+<!--    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.4/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css">-->
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+@endpush
+
+@push('scripts')
+<!--    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.4/js/dataTables.buttons.min.js"></script>-->
+    <script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('js/location.js') }}"></script>
+@endpush
