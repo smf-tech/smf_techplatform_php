@@ -21,7 +21,7 @@ trait CreatorDetails
 
     // create a event to happen on saving
     static::saving(function($table)  {
-        $table->created_by = Auth::user()->id;
+        $table->created_by = is_object(Auth::user()) ? Auth::user()->id : 'rootorgadmin'; 
     });
     }
 
