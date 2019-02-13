@@ -266,8 +266,12 @@ public function getProjects()
         }     
 
         $associates = Associate::all();
-        $jurisdiction = Jurisdiction::find($roleConfig['level']);
-        $jurisdictionName = strtolower($jurisdiction->levelName);
+        
+        $jurisdictionName = '';
+        if (isset($roleConfig['level'])) {
+            $jurisdiction = Jurisdiction::find($roleConfig['level']);
+            $jurisdictionName = $jurisdiction !== null ? $jurisdiction->levelName : '';
+        } 
         
         DB::setDefaultConnection('mongodb');
         $org_roles=DB::collection('roles')->where('org_id', $orgId)->where('_id','<>',$role_id)->get();
