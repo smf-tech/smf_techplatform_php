@@ -548,9 +548,24 @@ $("#assigned_projects").change(function() {
         var obj = JSON.parse(data); 
         if (obj.length !== 0) {
           $jurisTypeId = obj._id;
-          $('select[name="jurisdiction_type_id"]').empty();
-          //console.log('sringified = '+JSON.stringify(obj.jurisdictions));
-          $('select[name="jurisdiction_type_id').append('<option value="'+ $jurisTypeId +'">'+JSON.stringify(obj.jurisdictions)+'</option>');
+          
+          $("#jurisdiction_type_id").val(JSON.stringify(obj.jurisdictions));
+          $("#jurisdiction_id").append('<input type="hidden" name="jurisdictionId" value="'+ obj._id +'" class="form-control"></input>');
+
+              var selectedValue = $("#levelNames").attr("value");
+              
+              $('#levelNames').empty();
+              $('#levelNames').append('<option value=""></option>');
+
+              obj.jurisdictions.forEach((value)=>{
+
+                    if(value == selectedValue) {  
+                      $('#levelNames').append('<option value="'+ value +'" selected="selected">'+value+'</option>');
+                    } else {
+                      $('#levelNames').append('<option value="'+ value +'">'+value+'</option>');
+                    }
+              })
+
         }
       },
       error: function (data) {

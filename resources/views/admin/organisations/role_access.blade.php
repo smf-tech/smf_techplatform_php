@@ -15,7 +15,8 @@
                     <h3>Role Name: {{$role->display_name}}</h3>
                     <form id="role-config" action="/updateroleconfig/{{$role->id}}" method="post" class="form-horizontal">
                         {{csrf_field()}}  
-                        <input type="hidden" name="org_id" value={{$orgId}} />   
+                        <input type="hidden" name="org_id" value={{$orgId}} />  
+                    </br> </br>
                         <div class="row form-group">
                             <div class="form-group col-md-12 row">
                                 <label  class="col-md-3" for="name">Projects:</label>
@@ -29,6 +30,44 @@
                                 
                             </div>
                         </div>
+                        
+                        <div class="row form-group">
+                            <div class="form-group col-md-12 row">
+                                <label for="email" class="col-md-3" >Jurisdiction Type:</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="jurisdiction_type_id" id="jurisdiction_type_id" jurisdictionId="" class="form-control" disabled/>
+                                    
+                                    {{-- <select  name="jurisdiction_type_id" id="jurisdiction_type_id">
+                                        <option value=""></option>
+                                        @foreach($jurisdictionTypes as $type)
+                                        <option value="{{$type->_id}}" @if($type == $role->project['jurisdiction_type_id']) selected='selected'   @endif>{{ json_encode($type->jurisdictions)}} 
+                                             $levels = $type->jurisdictions ?>
+                                        </option>
+                                        @endforeach
+                                    </select> --}}
+                                </div>
+                            </div>   
+                        </div>  
+
+                        <div id="jurisdiction_id"></div>
+
+                        <div class="row form-group">
+                            <div class="form-group col-md-12 row">
+                                <label for="email" class="col-md-3" >Level:</label>
+                                <div class="col-md-9">
+                                <select name="levelNames" id="levelNames" value="{{ $jurisdictionName }}">
+                                        {{-- <option value=""></option>
+                                        
+                                        @foreach($jurisdictions as $jurisdiction)
+                                            @if(in_array($jurisdiction->levelName,$levels))
+                                                <option value="{{$jurisdiction->id}}" @if($jurisdiction->id == $roleConfig['level']) selected='selected'   @endif>{{$jurisdiction->levelName}}</option>
+                                            @endif
+                                        @endforeach --}}
+                                    </select>
+                                </div>
+                            </div>   
+                        </div>  
+
                         <div class="row form-group">
                             <div class="form-group col-md-12 row">
                                     <label for="email" class="col-md-3" >Default Modules:</label>
@@ -71,21 +110,7 @@
                                     </select>
                                 </div>
                             </div>   
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="form-group col-md-12 row">
-                                <label for="email" class="col-md-3" >Jurisdiction Type:</label>
-                                <div class="col-md-9">
-                                    <select  name="jurisdiction_type_id" id="jurisdiction_type_id">
-                                        <option value=""></option>
-                                        @foreach($jurisdictionTypes as $type)
-                                        <option value="{{$type->_id}}" @if($type == $role->project['jurisdiction_type_id']) selected='selected'  @endif>{{json_encode($type->jurisdictions)}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>   
-                        </div>    
+                        </div>  
                         
                         <div class="row form-group">
                                 <div class="form-group col-md-12 row">

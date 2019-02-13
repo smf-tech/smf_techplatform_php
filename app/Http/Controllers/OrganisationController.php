@@ -15,6 +15,7 @@ use Illuminate\Database\Connection;
 use Maklad\Permission\Models\Role;
 use Maklad\Permission\Models\Permission;
 use App\JurisdictionType;
+use App\Jurisdiction;
 use App\Associate;
 
 class OrganisationController extends Controller
@@ -265,16 +266,22 @@ public function getProjects()
         }     
 
         $associates = Associate::all();
+        $jurisdiction = Jurisdiction::find($roleConfig['level']);
+        $jurisdictionName = strtolower($jurisdiction->levelName);
         
         DB::setDefaultConnection('mongodb');
         $org_roles=DB::collection('roles')->where('org_id', $orgId)->where('_id','<>',$role_id)->get();
-        return view('admin.organisations.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles','approver_role', 'jurisdictionTypes', 'jurisdictionType', 'associates','associate_id'));
+    return view('admin.organisations.role_access',compact('modules','orgId','role','projects','role_default_modules','role_projects','role_onapprove_modules','org_roles','approver_role', 'associates','associate_id','roleConfig','jurisdictionName'/*,'jurisdictionTypes', 'jurisdictionType','jurisdictions'*/));
 
     }  
 
     public function updateroleconfig(Request $request,$role_id){
+
         $data = $request->post();
         $org_id = $data['org_id'];
+
+        DB::collection('roles')->where('_id',$role_id)->update(['project_id' => $data['assigned_projects']]);
+
         $organisation=Organisation::find($org_id);
         $dbName=$organisation->name.'_'.$org_id;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
@@ -285,16 +292,21 @@ public function getProjects()
             'password'  => '',  
         ));
         DB::setDefaultConnection($dbName);
+
+        $jurisdiction = Jurisdiction::where('levelName',$data['levelNames'])->first();
+
         $config_data = array('projects' => isset($data['assigned_projects'])?$data['assigned_projects']:'',
                             'default_modules' =>isset($data['default_modules'])?$data['default_modules']:[],
                             'on_approve_modules' =>isset($data['on_approve'])?$data['on_approve']:[],
                             'approver_role' =>isset($data['approver_role'])?$data['approver_role']:[],
                             'associate' =>isset($data['associate'])?$data['associate']:[],
-                            'jurisdiction_type_id' => isset($data['jurisdiction_type_id']) ? $data['jurisdiction_type_id'] : '',
-                            'associate' => isset($data['associate']) ? $data['associate'] : ''
+                            'jurisdiction_type_id' => isset($data['jurisdictionId']) ? $data['jurisdictionId'] : '',
+                            'associate' => isset($data['associate']) ? $data['associate'] : '',
+                            'level' => $jurisdiction->id
                         );
         DB::collection('role_configs')->where('role_id', $role_id)
-                        ->update($config_data, ['upsert' => true]);                  
+                        ->update($config_data, ['upsert' => true]);  
+
         return redirect()->route('roleconfig', ['orgId' => $org_id, 'role_id' => $role_id])->with('message', 'RoleConfig Updated Successfuly!!!');
     }
 
