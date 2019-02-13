@@ -20,7 +20,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    @stack('css')
 </head>
 <body>
     <div id="app">
@@ -92,7 +93,7 @@
                         
                             <li><a href="/{{$orgId}}/jurisdictions">Jurisdictions</a></li>
                             <li><a href="/{{$orgId}}/jurisdiction-types">Jurisdiction Types</a></li>
-                            <li><a href="/{{$orgId}}/locations">Locations</a></li>
+                            <li><a href="/{{$orgId}}/locations/create">Locations</a></li>
     
                     </ul>
                         

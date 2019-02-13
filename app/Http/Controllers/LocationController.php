@@ -38,6 +38,14 @@ class LocationController extends Controller
         return view('admin.locations.location_index',compact('locations','orgId','modules'));
     }
 
+    public function get()
+    {
+        list($orgId, $dbName) = $this->setDatabaseConfig();
+        DB::setDefaultConnection($dbName);
+
+        return json_encode(['data' => Location::all()]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
