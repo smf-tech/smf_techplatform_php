@@ -168,7 +168,6 @@ class EntityController extends Controller
         DB::setDefaultConnection($dbName); 
 
         $entity = Entity::find($id);
-        // return $entity->Name;
         Schema::drop('entity_'.$id);   
         $entity->delete();
         return Redirect::back()->withMessage('Entity Deleted');   

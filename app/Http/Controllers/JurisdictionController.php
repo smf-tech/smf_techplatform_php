@@ -232,7 +232,10 @@ class JurisdictionController extends Controller
         ));
 
         DB::setDefaultConnection($dbName);
-        $juris = Jurisdiction::find($id)->delete();
+
+        $jurisdiction = Jurisdiction::find($id);
+        Schema::drop($jurisdiction->levelName);  
+        $jurisdiction->delete();
 
         session()->flash('status', 'Jurisdiction deleted successfully!');
         return redirect()->route('jurisdictions.index');                
