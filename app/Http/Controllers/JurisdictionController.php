@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Jurisdiction;
-
 use App\Project;
 use App\Organisation;
 use Illuminate\Support\Facades\DB;
@@ -93,6 +92,13 @@ class JurisdictionController extends Controller
         $juris = new Jurisdiction;
         $juris->levelName = $request->levelName;
         $juris->save();
+
+        Schema::connection($dbName)->create($juris->levelName, function($table)
+        {
+            $table->increments('id');
+            $table->string('name');            
+            $table->timestamps();
+       });
 
         session()->flash('status', 'Jurisdiction was created!');
         return redirect()->route('jurisdictions.index');
