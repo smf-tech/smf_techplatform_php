@@ -8,6 +8,7 @@ use App\Jurisdiction;
 use App\Project;
 use App\Organisation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Validator;
 use Redirect;
 use Auth;
