@@ -46,6 +46,7 @@
                                 <thead>
                                     <tr>
                                         <th></th>
+                                        <th>id</th>
                                         <th>State</th>
                                         <th>District</th>
                                         <th>Taluka</th>
