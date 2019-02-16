@@ -26,7 +26,8 @@
                             <td>{{$j->levelName}}</td>
                             <td>
                                 <div class="actions">
-                                    <a class="btn btn-primary"  href={{route('jurisdictions.edit',$j->id)}}><i class="fas fa-pen"></i></a>
+
+                                    <a class="btn btn-primary"  id="edit-jusrisdiction" value="{{$j->id}}" href={{route('jurisdictions.edit',$j->id)}}><i class="fas fa-pen"></i></a>
                                     <form action="{{ url('jurisdictions', $j->id) }}" method="POST" id="delete-jusrisdiction-form">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
@@ -38,7 +39,7 @@
                         @empty
                         <tr><td>no Jurisdictions</td></tr>
                         @endforelse
-                    </table>   
+                    </table>
                 </div>
             </div>
         </div>
@@ -49,13 +50,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete Confirmation</h5>
+                <h5 class="modal-title">Confirmation</h5>
                 <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button> -->
             </div>
             <div class="modal-body">
-                <p>The Jurisdiction can not be deleted for this has been associated with the Jurisdiction Type !</p>
+                <p>The Jurisdiction can not be edited/deleted for it has been associated with the Jurisdiction Type !</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

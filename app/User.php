@@ -10,6 +10,8 @@ use Laravel\Passport\HasApiTokens;
 use Maklad\Permission\Traits\HasRoles;
 use DesignMyNight\Mongodb\Auth\User as Authenticatable;
 use App\Traits\CreatorDetails;
+use Carbon\Carbon;
+use App\Events\UserCreating;
 
 class User  extends Authenticatable
 {
@@ -46,4 +48,5 @@ class User  extends Authenticatable
     public function findForPassport($identifier) {
         return User::orWhere('email', $identifier)->orWhere('phone', $identifier)->first();
     }
+ 
 }

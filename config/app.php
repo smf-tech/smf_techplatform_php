@@ -66,6 +66,7 @@ return [
     */
 
     'timezone' => 'UTC',
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -152,7 +153,7 @@ return [
          */
         Collective\Html\HtmlServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
-        Nexmo\Laravel\NexmoServiceProvider::class,
+        //Nexmo\Laravel\NexmoServiceProvider::class,
 
 
         /*
@@ -163,6 +164,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\UserServiceProvider::class,
 
     ],
 
@@ -214,7 +216,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        //'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
 
     ],
 

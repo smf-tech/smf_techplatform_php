@@ -12,6 +12,10 @@ use App\UserDetails;
 use Illuminate\Support\Facades\DB;
 use Maklad\Permission\Models\Role;
 use Maklad\Permission\Models\Permission;
+use Carbon\Carbon;
+
+ 
+
 class UserController extends Controller
 {
     /**
@@ -76,8 +80,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {    $clusters=$villages=$talukas=$districts=array(null);
-         $arrayItems=array();
+    {    
+       
+        $dob = $request->dob;
+        $dobCarbonObj = Carbon::createFromFormat('d-m-Y', $dob);
+        
+        
+        $clusters=$villages=$talukas=$districts=array(null);
+        $arrayItems=array();
         foreach($_REQUEST as $key=>$value){
             if(is_array($value)){
                array_push($arrayItems,$key);
@@ -102,7 +112,7 @@ class UserController extends Controller
             'email' => $data['email'],
             'password' =>  bcrypt($data['password']),
             'phone' => $data['phone'],
-            'dob' => $data['dob'],
+            'dob' => $dobCarbonObj->getTimestamp(),
             'gender' => $data['gender'],
             'org_id'=>$data['org_id'],
             'role_id'=>$data['role_id'],
@@ -111,11 +121,11 @@ class UserController extends Controller
    
       
         //make an entry in the roles users table
-         $role=DB::collection('roles')->where('_id',$data['role_id'])->get();
+        $role=DB::collection('roles')->where('_id',$data['role_id'])->get();
         $user->assignRole($role[0]['name']);
         UserDetails::create([
             'user_id' => $user['_id'],
-            // 'state_id' => implode(',', $states),
+            //'state_id' => implode(',', $states),
             'district_id' =>implode(',', $districts),
             'taluka_id' => implode(',', $talukas),
             'village_id' => implode(',', $villages),
@@ -152,10 +162,7 @@ class UserController extends Controller
         $orgId=$user['org_id'];
         $roleId=$user['role_id'];
         $userDet=UserDetails::where('user_id',$id)->get();
-        // $stateId=$userDet[0]->state_id;
-        
         $role=Role::find($roleId);
-        // $states=State::all();
         
         return view('admin.users.edit',compact(['user','orgs','orgId','role']));
     }
@@ -186,9 +193,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user,$id)
     {
-        DB::table('users')->where('_id',$id)->delete();
-        return redirect()->route('users.index')->withMessage('Role Deleted');
+        $user = User::find($id);
+        $role_id = $user['role_id'];
+        $role = Role::find($role_id);
+        
+        $user->removeRole($role->name);
+        $user->delete();
+        session()->flash('status', 'User deleted successfully!');
+        return redirect()->route('users.index');
     }
 }

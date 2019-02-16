@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Jurisdiction;
 use App\Organisation;
 use App\User;
+//use App\Role;
 use Maklad\Permission\Models\Role;
 use Maklad\Permission\Models\Permission;
 
@@ -44,8 +45,8 @@ class PermissionTableSeeder extends Seeder
         ]
         ];
 
-        foreach($permissions as $key=>$value){
-            Permission::create($value);
+         foreach($permissions as $key=>$value){
+             Permission::create($value);
         }
 
         $level=[
@@ -64,9 +65,9 @@ class PermissionTableSeeder extends Seeder
             ];
    
    
-        foreach($level as $key=>$value){
-            Jurisdiction::create($value);
-        }
+        // foreach($level as $key=>$value){
+        //     Jurisdiction::create($value);
+        // }
         $orgdata = ['name'=>'rootorg','service'=>'test','orgshow'=>0];
         Organisation::create($orgdata);
         $org=Organisation::where('name', 'rootorg')->get()->first();

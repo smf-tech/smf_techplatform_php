@@ -31,15 +31,15 @@
                                                <input type="email" name="email" placeholder="email"class="form-control"/>
                                                </div>
                                        </div>
-                            </div>
-                                    <div class="row">
-                                            <div class="form-group  col-md-7 row">
-                                                    <label for="password" class="col-md-3">Password</label>
-                                                        <div class="col-md-9">
-                                                     <input type="password" name="password" placeholder="password"class="form-control"/>
-                                                        </div>
+                                       </div>
+                                        <div class="row">
+                                                <div class="form-group  col-md-7 row">
+                                                        <label for="password" class="col-md-3">Password</label>
+                                                            <div class="col-md-9">
+                                                            <input type="password" name="password" placeholder="password"class="form-control"/>
+                                                            </div>
                                                 </div>
-                                    </div>
+                                        </div>
                                   
                                        
             
@@ -64,9 +64,16 @@
                                         <label for="dob" class="col-md-3 col-form-label">{{ __('Date of Birth') }}</label>
         
                                         <div class="form-group col-md-9">
-                                           {{-- <input id="dob" type="text" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" value="{{ old('dob') }}" required> --}} 
-                                           <input type="date" id="dob" name="dob"  class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" value="{{ old('dob') }}" > 
-                                           @if ($errors->has('dob'))
+                                           <!-- {{-- <input id="dob" type="text" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" value="{{ old('dob') }}" required> --}}  -->
+                                           <!-- <input type="date" id="dob" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob"> -->
+                                           
+                                           <div class="input-group date" data-provide="datepicker">
+                                                <input  name="dob" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-th"></span>
+                                                </div>
+                                            </div>
+                                            @if ($errors->has('dob'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('dob') }}</strong>
                                             </span>
@@ -82,15 +89,14 @@
                                             <div class="form-group col-md-8">
                                                 <select name="gender" id="gender" class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}">
                                                    <option value="male">Male</option>
-                                                    <option value="female">Female</option>
-                                                    <option value="other">Other</option>
+                                                   <option value="female">Female</option>
+                                                   <option value="other">Other</option>
                                                 </select>
                                                 @if ($errors->has('gender'))
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $errors->first('gender') }}</strong>
                                                     </span>
                                                 @endif     
-                                               
                                             </div>                      
                                         </div>
                                         <div class="col-md-6 row form-group{{ $errors->has('org_id') ? ' has-error' : '' }} ">
@@ -102,7 +108,7 @@
                                                         @foreach($orgs as $org)
                                                                 <option value={{$org->id}}>{{$org->name}}</option>
                                                                 
-                                                             @endforeach 
+                                                        @endforeach 
                                                     </select>
                     
                                                     @if ($errors->has('org_id'))
@@ -152,4 +158,18 @@
         </div>
     </div>
 </div>
+<!-- <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script> -->
+  <!-- <script type="text/javascript">
+
+    $('.date').datepicker({  
+
+       format: 'dd-mm-yyyy'
+
+     });  
+
+</script>-->
 @endsection

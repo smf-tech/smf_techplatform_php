@@ -22,18 +22,18 @@
                             </ul>
                         </div>
                     @endif
-                        <h3>Edit Jurisdiction</h3>
-                        {!! Form::model($juris, ['route' => ['jurisdictions.update', $juris->id ], 'method'=>'PUT', 'id' => 'jurisdiction-edit-form']) !!}
-                        
-                        {{csrf_field()}} 
-                        <legend></legend>
-                            <div class="form-group">
-                                <label for="levelName">Level Name</label>
-                                <input type="text" name="levelName" placeholder="Level name"class="form-control" value="{{$juris->levelName}}"/>
-                            </div>
-                            <input type="submit" class="btn btn-success"/>
+                    <h3>Edit Jurisdiction</h3>
+                    {!! Form::model($juris, ['route' => ['jurisdictions.update', $juris->id ], 'method'=>'PUT', 'id' => 'jurisdiction-edit-form']) !!}
                     
-                        {!! Form::close() !!} 
+                    {{csrf_field()}} 
+                    <legend></legend>
+                        <div class="form-group">
+                            <label for="levelName">Level Name</label>
+                            <input type="text" name="levelName" placeholder="Level name"class="form-control" value="{{$juris->levelName}}"/>
+                        </div>
+                        <input type="submit" class="btn btn-success"/>
+                
+                    {!! Form::close() !!} 
                 </div>
             </div>
         </div>

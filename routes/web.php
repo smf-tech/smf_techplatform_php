@@ -39,6 +39,7 @@ Route::group(
     Route::resource('organisation','OrganisationController');
     Route::resource('{orgId}/reports','ReportController');
     Route::resource('users','UserController');
+    Route::delete('user/{id}', array('as' => 'user.destroy','uses' => 'UserController@destroy'));
     Route::resource('state','StateController');
     //Route::resource('district','DistrictController');
     //Route::resource('taluka','TalukaController');

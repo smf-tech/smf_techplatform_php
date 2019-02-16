@@ -507,10 +507,13 @@ $('#removeJurisdictionTypeForEdit').click(function(){
 ** the Jurisdiction is associated with Jurisdiction Type
 */
 
-$(document).on('click', '#delete-jusrisdiction', function() {
+$(document).on('click', '#edit-jusrisdiction,#delete-jusrisdiction', function() {
 
-		var delJurisId = $(this).val();
-    //alert(delJurisId);
+    var delJurisId = $(this).attr('value');
+    var elemt_id = $(this).attr('id');
+    var href_url = $(this).attr('href');
+   
+    
     $.ajax({
       url: '/checkJurisdictionTypeExist',
       type: "GET",
@@ -522,8 +525,12 @@ $(document).on('click', '#delete-jusrisdiction', function() {
             $('#myModal').modal('show');
             return false;
           } else {
-           $('#delete-jusrisdiction-form').attr('action', '/jurisdictions/'+delJurisId).submit();
-          } 
+            if (elemt_id == 'delete-jusrisdiction') {
+              $('#delete-jusrisdiction-form').attr('action', '/jurisdictions/'+delJurisId).submit();
+            } else {
+              window.location.href = href_url;
+            }
+        } 
       },
       error: function (data) {
           console.log('Error:', data);
@@ -574,3 +581,12 @@ $("#assigned_projects").change(function() {
     });
 }).change();
 
+/**
+ * Datepicker script for user DOB
+ */
+$.fn.datepicker.defaults.format = "dd-mm-yyyy";
+ $(function() {
+   $(".datepicker").datepicker({
+   format: 'dd-mm-yyyy',
+   });
+ });
