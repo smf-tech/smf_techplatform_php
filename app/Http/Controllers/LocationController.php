@@ -43,7 +43,7 @@ class LocationController extends Controller
         list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
 
-        return json_encode(['data' => Location::all()]);
+        return json_encode(['data' => Location::with('state', 'district', 'taluka', 'village')->get()]);
     }
 
     /**

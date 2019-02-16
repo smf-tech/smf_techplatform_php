@@ -10,10 +10,10 @@ $(document).ready(function () {
                 orderable: false
             },
             { data: "_id" },
-            { data: "State" },
-            { data: "District" },
-            { data: "Taluka" },
-            { data: "Village" }
+            { data: "state.name" },
+            { data: "district.name" },
+            { data: "taluka.name" },
+            { data: "village.name" }
         ],
         "columnDefs":[
             {"targets": [1], "visible": false, "searchable": false}

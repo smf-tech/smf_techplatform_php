@@ -20,7 +20,7 @@ class JurisdictionTypeController extends Controller
     {
         list($orgId, $dbName) = $this->setDatabaseConfig();
         DB::setDefaultConnection($dbName);
-
+//        $this->importDataIntoLocation();echo 'imported';exit;
         $modules= DB::collection('modules')->get();
         $jurisdictionTypes = JurisdictionType::all();
 

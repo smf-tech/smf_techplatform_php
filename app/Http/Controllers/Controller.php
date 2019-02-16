@@ -91,4 +91,33 @@ class Controller extends BaseController
 
         return $data;
     }
+
+    public function importDataIntoLocation()
+    {
+        $filePath = public_path('master-data/locations.csv');
+        if (!file_exists($filePath) || !is_readable($filePath)) {
+            return false;
+        }
+        $header = null;
+        $data = [];
+        if (($handle = fopen($filePath, 'r')) !== false) {
+            while (($row = fgetcsv($handle, 5000)) !== false) {
+                $location = \App\Location::create(['jurisdiction_type_id' => '5c62442ad42f281a3c000a38']);
+
+                $state = \App\State::find($row[0]);
+                $district = \App\District::find($row[1]);
+                $taluka = \App\Taluka::find($row[2]);
+                $village = \App\Village::find($row[3]);
+
+                $location->state()->associate($state);
+                $location->district()->associate($district);
+                $location->taluka()->associate($taluka);
+                $location->village()->associate($village);
+                $location->save();
+            }
+            fclose($handle);
+        }
+
+        return true;
+    }
 }
