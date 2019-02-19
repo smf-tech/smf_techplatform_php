@@ -17,9 +17,10 @@ class LocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
-        // Obtaining Organisation id of logged in user
+
+
         $orgId = Auth::user()->org_id;
         $organisation=Organisation::find($orgId);
         $dbName=$organisation->name.'_'.$orgId;
@@ -33,9 +34,27 @@ class LocationController extends Controller
         DB::setDefaultConnection($dbName);
         $modules= DB::collection('modules')->get();
 
-        $locations = Location::all();
+        $jurisdictions= JurisdictionType::all();
 
-        return view('admin.locations.location_index',compact('locations','orgId','modules'));
+        return view('admin.locations.index',compact('jurisdictions','orgId','modules'));
+        
+        // // Obtaining Organisation id of logged in user
+        // $orgId = Auth::user()->org_id;
+        // $organisation=Organisation::find($orgId);
+        // $dbName=$organisation->name.'_'.$orgId;
+        // \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
+        //     'driver'    => 'mongodb',
+        //     'host'      => '127.0.0.1',
+        //     'database'  => $dbName,
+        //     'username'  => '',
+        //     'password'  => '',  
+        // ));
+        // DB::setDefaultConnection($dbName);
+        // $modules= DB::collection('modules')->get();
+
+        // $locations = Location::all();
+
+        // return view('admin.locations.location_index',compact('locations','orgId','modules'));
     }
 
     public function get()
@@ -69,7 +88,7 @@ class LocationController extends Controller
 
         $jurisdictions= JurisdictionType::all();
 
-        return view('admin.locations.create_location',compact('jurisdictions','orgId','modules'));
+        return view('admin.locations.index',compact('jurisdictions','orgId','modules'));
     }
 
     /**
