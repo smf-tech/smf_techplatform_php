@@ -584,9 +584,10 @@ $("#assigned_projects").change(function() {
 /**
  * Datepicker script for user DOB
  */
-$.fn.datepicker.defaults.format = "dd-mm-yyyy";
+/*$.fn.datepicker.defaults.format = "dd-mm-yyyy";
  $(function() {
    $(".datepicker").datepicker({
    format: 'dd-mm-yyyy',
    });
  });
+ */

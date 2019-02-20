@@ -19,4 +19,20 @@ $(document).ready(function () {
             {"targets": [1], "visible": false, "searchable": false}
         ]
     });
+
+    // $('#location tbody tr').prepend('<td><input type="checkbox"></td>');
+
+    $('#location tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
+ 
+    $('#deleteRow').click( function () {
+        table.row('.selected').remove().draw( false );
+    } );
 });

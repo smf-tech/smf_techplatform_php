@@ -42,6 +42,8 @@
                                 <br>
                             </div>
                             </br>
+                            <button id="deleteRow">Delete Selected Row</button>
+                        </br>
                             <table id="location" class="display" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
