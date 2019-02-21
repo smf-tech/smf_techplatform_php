@@ -27,17 +27,8 @@ class SurveyController extends Controller
                 $k = $value;
         }    
       
-        //form the connection string to the DB
-        $organisation=Organisation::find($request->orgId);
-        $dbName=$organisation->name.'_'.$organisation->id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        
+        list($orgId, $dbName) = $this->connectTenantDatabase($request->orgId);
        
         $id = DB::collection('surveys')->insertGetId(
             ['name'=>$k ,'json'=>$request->json,'creator_id'=> $request->creator_id,
@@ -63,18 +54,7 @@ class SurveyController extends Controller
         $orgId = $uri[1];
         $survey_id = $uri[3];
 
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$organisation->id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
 
         //Returns fields _id,json of survey having survey id=$survey_id
         $survey = Survey::where('_id','=',$survey_id)->get(['json']);   
@@ -97,7 +77,7 @@ class SurveyController extends Controller
         }
 
         $primaryKeySet = array();
-        return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','modules','survey_id'));
+        return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id'));
     }
     public function editKeys()
     {
@@ -108,17 +88,7 @@ class SurveyController extends Controller
         
         $orgId = $uri[1];
         $survey_id = $uri[3];
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$organisation->id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
 
         //Returns fields _id,primaryKeys,json of survey having survey id=$survey_id
         $survey = Survey::where('_id','=',$survey_id)->get(['form_keys','json']);
@@ -143,7 +113,7 @@ class SurveyController extends Controller
             }
         }
    
-            return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','modules','survey_id'));
+            return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id'));
     }
 
     public function storeKeys(Request $request)
@@ -153,64 +123,33 @@ class SurveyController extends Controller
         //Returns $request->primaryKeys[]
         $primaryKeys = $request->except(['_token','surveyID']); 
 
-        $organisation_id = Auth::user()->org_id;
-        $organisation = Organisation::find($organisation_id);
-        $dbName=$organisation->name.'_'.$organisation_id;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         DB::collection('surveys')->where('_id',$survey_id)->update($primaryKeys);
 
         //Redirects to index function
-        return redirect($organisation_id.'/forms');
+        return redirect($orgId . '/forms');
     }
     public function sendResponse(Request $request)
     {
         $uri = explode("/",$_SERVER['REQUEST_URI']);
-        $organisation=Organisation::find($uri[1]);
-        $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$organisation->id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($uri[1]);
         DB::collection('survey_results')->insert([ 'survey_id'=>$request->surveyId,'user_id'=>$request->userId,'json_response'=>$request->jsonString]);
 
         return null;
     }
     public function display(Request $request)
-    {     $uri = explode("/",$_SERVER['REQUEST_URI']);
-        
-        $organisation=Organisation::find($uri[1]);
-        $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$organisation->id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+    {
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+
+        list($orgId, $dbName) = $this->connectTenantDatabase($uri[1]);
 
         $json = $request->json;
         $json=json_decode($json);
         $json=json_encode($json);
         $survey_id = $request->surveyID;
 
-        return view('layouts.survey',compact('json','survey_id','orgId','modules'));
+        return view('layouts.survey',compact('json','survey_id','orgId'));
     }
     /**
      * Display a listing of the resource.
@@ -221,23 +160,10 @@ class SurveyController extends Controller
     {   
         //getOranisation
         $uri = explode("/",$_SERVER['REQUEST_URI']);
-
-        $organisation=Organisation::find($uri[1]);
-        $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$organisation->id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
-
+        list($orgId, $dbName) = $this->connectTenantDatabase($uri[1]);
         $surveys=Survey::paginate(5);
        
-        return view('admin.surveys.survey_index',compact('surveys','orgId','modules'));
+        return view('admin.surveys.survey_index',compact('surveys','orgId'));
     }
 
     public function viewResults(Request $request)
@@ -246,19 +172,9 @@ class SurveyController extends Controller
         $uri = explode("/",$_SERVER['REQUEST_URI']);
 
         $organisation=Organisation::find($uri[1]);
-        $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$organisation->id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase($uri[1]);
         $survey_results=SurveyResult::where('survey_id',$survey_id)->get();
-        return view('user.formResults',compact('survey_results','orgId','modules'));
+        return view('user.formResults',compact('survey_results','orgId'));
     }
 
     public function showCreateForm()
@@ -267,42 +183,23 @@ class SurveyController extends Controller
 
         $organisation=Organisation::find($uri[1]);
         $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$organisation->id;
         $org_roles = $this->getOrganisationRoles($orgId);
 
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
 
 		$projects = DB::collection('projects')->get(); 
         $categories = Category::where('type','Form')->get();         
         $microservices = Microservice::where('is_active',true)->get(); 
         $entities = Entity::where('is_active',true)->get(); 
 
-        return view('index',compact(['orgId','modules','microservices','org_roles','projects','categories','entities']));
+        return view('index',compact(['orgId', 'microservices','org_roles','projects','categories','entities']));
     }
 
     public function editForm($orgId,$survey_id)
     {
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-
         $org_roles = $this->getOrganisationRoles($orgId);
 
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
         
         $survey = DB::collection('surveys')->where('_id',$survey_id)->get();
 
@@ -311,14 +208,13 @@ class SurveyController extends Controller
 
         $surveys = $survey[0]['project_id'].' '.$survey[0]['category_id'].' '.$survey[0]['microservice_id'].' '.$survey[0]['creator_id'].' '.$survey[0]['active'].' '.$survey[0]['editable'].' '.$survey[0]['multiple_entry'].' '.$survey[0]['entity_id'];
         $roles = $survey[0]['assigned_roles'];
-     
-        $modules= DB::collection('modules')->get();
+
 		$projects = DB::collection('projects')->get(); 
         $categories = Category::where('type','Form')->get(); 
         $microservices = Microservice::where('is_active',true)->get(); 
         $entities = Entity::where('is_active',true)->get(); 
 
-        return view('admin.surveys.edit',compact('surveyID','surveys','roles','microservices','entities','surveyJson','orgId','modules','org_roles','projects','categories'));
+        return view('admin.surveys.edit',compact('surveyID','surveys','roles','microservices','entities','surveyJson','orgId', 'org_roles','projects','categories'));
     }
     public function saveEditedForm(Request $request)
     {
@@ -329,19 +225,8 @@ class SurveyController extends Controller
         {
             if($key == 'title')
                 $k = $value;
-        }    
-      
-        //form the connection string to the DB
-        $organisation=Organisation::find($request->orgId);
-        $dbName=$organisation->name.'_'.$organisation->id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        }
+        list($orgId, $dbName) = $this->connectTenantDatabase($request->orgId);
         DB::collection('surveys')->where('_id',$request->surveyID)->update(
             ['name'=>$k ,'json'=>$request->json,
             'active'=>$request->active,'editable'=>$request->editable,
@@ -424,24 +309,9 @@ class SurveyController extends Controller
      */
     public function destroy($survey_id)
     {
-        $organisation_id = Auth::user()->org_id;
-        $organisation = Organisation::find($organisation_id);
-        $dbName=$organisation->name.'_'.$organisation_id;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         DB::collection('surveys')->where('_id',$survey_id)->delete();
 
-        $modules= DB::collection('modules')->get();
-        
         return Redirect::back()->withMessage('Form Deleted');
-        
     }
 }

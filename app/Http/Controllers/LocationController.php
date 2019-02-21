@@ -19,48 +19,16 @@ class LocationController extends Controller
      */
     public function index() 
     {
-
-
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $jurisdictions= JurisdictionType::all();
 
-        return view('admin.locations.index',compact('jurisdictions','orgId','modules'));
-        
-        // // Obtaining Organisation id of logged in user
-        // $orgId = Auth::user()->org_id;
-        // $organisation=Organisation::find($orgId);
-        // $dbName=$organisation->name.'_'.$orgId;
-        // \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-        //     'driver'    => 'mongodb',
-        //     'host'      => '127.0.0.1',
-        //     'database'  => $dbName,
-        //     'username'  => '',
-        //     'password'  => '',  
-        // ));
-        // DB::setDefaultConnection($dbName);
-        // $modules= DB::collection('modules')->get();
-
-        // $locations = Location::all();
-
-        // return view('admin.locations.location_index',compact('locations','orgId','modules'));
+        return view('admin.locations.index',compact('jurisdictions','orgId'));
     }
 
     public function get()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         return json_encode(['data' => Location::with('state', 'district', 'taluka', 'village')->get()]);
     }
@@ -73,19 +41,7 @@ class LocationController extends Controller
     public function create()
     {
         // Obtaining Organisation id of logged in user
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
-
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         $jurisdictions= JurisdictionType::all();
 
         return view('admin.locations.index',compact('jurisdictions','orgId','modules'));
@@ -98,26 +54,14 @@ class LocationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {    
-        // $request contains _token, jurisdictionTypeId, vlaues of locations: location0,location1,location2,level0_location0, jurisdictionTypes e.g. state,unit, cluster, noOfJurisdictionTypes
-        
+    {
         // Obtaining Organisation id of logged in user
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         // Converting the string $request->jurisdictionTypes to an array of substrings using delimiter ','
         $jurisdictionTypes = explode(',',$request->jurisdictionTypes);
 
-        $location = new Location;        
+        $location = new Location;
 
         $jurisdictionType = JurisdictionType::find($request->jurisdictionTypeId);
 
@@ -172,18 +116,7 @@ class LocationController extends Controller
         $locationId = $uri[3];
 
         // Obtaining Organisation id of logged in user
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $jurisdictions= JurisdictionType::all();
 
@@ -192,7 +125,7 @@ class LocationController extends Controller
         // Converting $location->level from string to object
         $location->level = json_decode($location->level);
         
-        return view('admin.locations.edit',compact('jurisdictions','location','orgId','modules'));
+        return view('admin.locations.edit',compact('jurisdictions','location','orgId'));
     }
 
     /**
@@ -210,18 +143,7 @@ class LocationController extends Controller
 
         // $request contains _method: PUT, _token, jurisdictionTypeId, values of locations: location0,location1,location2, jurisdictionTypes e.g. state,unit,cluster
         
-        // Obtaining Organisation id of logged in user
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         // Converting the string $request->jurisdictionTypes to an array of substrings using delimiter ','
         $jurisdictionTypes = explode(',',$request->jurisdictionTypes);
@@ -265,18 +187,7 @@ class LocationController extends Controller
         // $orgId = $uri[1];
         $locationId = $uri[3];
         // Obtaining Organisation id of logged in user
-        $organisation_id = Auth::user()->org_id;
-        $organisation = Organisation::find($organisation_id);
-        $dbName=$organisation->name.'_'.$organisation_id;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         Location::find($locationId)->delete();
         

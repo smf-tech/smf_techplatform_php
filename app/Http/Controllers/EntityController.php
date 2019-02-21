@@ -14,47 +14,18 @@ use Auth;
 class EntityController extends Controller
 {
     public function index()
-    {    
-        // $uri = explode("/",$_SERVER['REQUEST_URI']);
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        // $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$orgId;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+    {
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $entities=Entity::all();
-        return view('admin.entities.entity_index',compact('entities','orgId','modules'));
-        
+        return view('admin.entities.entity_index',compact('entities','orgId'));
     }
 
     public function create()
     {
-        $uri = explode("/",$_SERVER['REQUEST_URI']);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
-        $organisation=Organisation::find($uri[1]);
-        $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$organisation->id;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
-
-        return view('admin.entities.create_entity',compact('orgId','modules'));
-      
+        return view('admin.entities.create_entity',compact('orgId'));
     }
 
     public function store(Request $request)
@@ -63,24 +34,12 @@ class EntityController extends Controller
             'Name' => 'unique:entities,name',
         ]);
 
-        if ($validator->fails()) 
-        {
+        if ($validator->fails()) {
             return Redirect::back()->withErrors(['Entity already exists']);
         }
-        
-        $organisation_id = Auth::user()->org_id;
-        $org = Organisation::find($organisation_id);
-        $dbName=$org->name.'_'.$organisation_id;
-        
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName); 
-      
+
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         $entity = new Entity;
         $entity->Name = $request->entityName;
         $entity->display_name = $request->displayName;
@@ -93,31 +52,16 @@ class EntityController extends Controller
             $table->string('User ID');
             $table->timestamps();
        });
-       
-       
 
         return redirect()->route('entity.index')->withMessage('Entity Created');
     }
     public function edit($entity_id)
     {
         // return Entity::find($entity_id);
-        $orgId = Auth::user()->org_id;
-        $organisation = Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-
-        $modules= DB::collection('modules')->get();
         $entity = Entity::find($entity_id);
-        // return $entity;
-       return view('admin.entities.edit',compact('orgId','modules','entity'));
+       return view('admin.entities.edit',compact('orgId', 'entity'));
     }
 
     /**
@@ -129,23 +73,12 @@ class EntityController extends Controller
      */
     public function update(Request $request, $entity_id)
     {
-        $organisation_id = Auth::user()->org_id;
-        $organisation = Organisation::find($organisation_id);
-        $dbName=$organisation->name.'_'.$organisation_id;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $entity = Entity::find($entity_id);
         $entity->Name=$request->Name;
-        $entity->display_name=$request->display_name;    
-        $entity->is_active = (bool)$request->active;   
+        $entity->display_name=$request->display_name;
+        $entity->is_active = (bool)$request->active;
         $entity->save();
 
         return redirect()->route('entity.index')->withMessage('Entity Updated');
@@ -153,23 +86,11 @@ class EntityController extends Controller
 
     public function destroy($id)
     {
-        $organisation_id = Auth::user()->org_id;
-        $org = Organisation::find($organisation_id);
-
-        $dbName=$org->name.'_'.$organisation_id;
-        
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName); 
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $entity = Entity::find($id);
-        Schema::drop('entity_'.$id);   
+        Schema::drop('entity_'.$id);
         $entity->delete();
-        return Redirect::back()->withMessage('Entity Deleted');   
+        return Redirect::back()->withMessage('Entity Deleted');
     }
 }

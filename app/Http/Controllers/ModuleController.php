@@ -15,8 +15,8 @@ class ModuleController extends Controller
      */
     public function index()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         $modules = Module::all();
         return view('admin.modules.index', compact('orgId', 'modules'));
     }
@@ -28,8 +28,8 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         return view('admin.modules.create', compact('orgId'));
     }
 
@@ -41,8 +41,8 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         Module::create($request->validate([
             'name' => 'required|unique:modules'
         ]));
@@ -61,8 +61,8 @@ class ModuleController extends Controller
      */
     public function edit($orgId, $module)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
+
         $module = Module::find($module);
         return view('admin.modules.edit', compact('orgId', 'module'));
     }
@@ -77,8 +77,7 @@ class ModuleController extends Controller
      */
     public function update(Request $request, $orgId, $module)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
 
         Module::find($module)->update($request->validate(['name' => 'required']));
         return redirect()->route(
@@ -96,8 +95,8 @@ class ModuleController extends Controller
      */
     public function destroy($orgId, $module)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
+
         Module::find($module)->delete();
         return back()->with('status', 'Module has been deleted successfully.');
     }

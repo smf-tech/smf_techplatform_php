@@ -16,17 +16,8 @@ class ReportController extends Controller
 {
     public function index()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
-
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         $reports = Report::all();
-        
-        // foreach($reports as $report)    {
-        //     // echo $report;
-        //     echo "-------------------------------------------------";
-        //     var_dump($report->categories['name']);
-        // }
-        // return ;
 
         return view('admin.reports.index', compact('orgId', 'reports'));
     }
@@ -38,9 +29,7 @@ class ReportController extends Controller
      */
     public function create()
     {   
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
-
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         $categories = Category::where('type','Reports')->get();
 
         return view('admin.reports.create', compact('orgId','categories'));
@@ -54,11 +43,8 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
-
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         $validator = Validator::make($request->all(), ['name' => 'required|unique:reports','url' => 'required:reports'])->validate();
-
         $report = DB::collection('reports')->insert(
             [
             'name'=>$request->name,
@@ -93,9 +79,7 @@ class ReportController extends Controller
      */
     public function edit(Request $request, $orgId, $id)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
-
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
         $report = Report::find($id);
         $categories = Category::where('type','Reports')->get();
 
@@ -112,13 +96,9 @@ class ReportController extends Controller
      */
     public function update(Request $request, $orgId, $id)
     {  
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
-
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
         $report = Report::find($id);
-
         $validator = Validator::make($request->all(), ['name' => 'required:reports','url' => 'required:reports'])->validate();
-
         $report = DB::collection('reports')->where('_id',$request->surveyID)->update(
             [
             'name'=>$request->name,
@@ -142,9 +122,7 @@ class ReportController extends Controller
      */
     public function destroy($orgId, $id)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
-        
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
         $report = Report::find($id)->delete();
         session()->flash('status', 'Report deleted successfully!');
 

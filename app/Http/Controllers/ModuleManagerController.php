@@ -11,17 +11,7 @@ class ModuleManagerController extends Controller
     public function getModuleData($org_id,$module_id){
             //form the db_Connection name
           
-            $organisation=Organisation::find($org_id);
-            $orgId=$org_id;
-            $dbName=$organisation->name.'_'.$organisation->id;
-            \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-                'driver'    => 'mysql',
-                'host'      => '127.0.0.1',
-                'database'  => $dbName,
-                'username'  => 'root',
-                'password'  => '',  
-            )); 
-            DB::setDefaultConnection($dbName); 
+            list($orgId, $dbName) = $this->connectTenantDatabase($org_id);
             $modules =    DB::collection('modules')->get();      
             $module_name =   DB::collection('modules')->where('_id',$module_id); 
             $module_content =  DB::collection($module_name[0]->name);

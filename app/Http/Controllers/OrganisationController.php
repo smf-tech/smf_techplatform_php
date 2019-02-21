@@ -50,20 +50,11 @@ class OrganisationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {  
-        
+    {
         $org=Organisation::create($request->except(['_token']));
-        $dbName=$org->name.'_'.$org->id;
-        
+
        try {
-            \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-                'driver'    => 'mongodb',
-                'host'      => '127.0.0.1',
-                'database'  => $dbName,
-                'username'  => '',
-                'password'  => '',  
-            ));
-            DB::setDefaultConnection($dbName);
+            list($orgId, $dbName) = $this->connectTenantDatabase($org);
             Schema::connection($dbName)->create('jurisdictions', function($table) {
                 $table->increments('id');
                 $table->string('levelName');
@@ -88,15 +79,10 @@ class OrganisationController extends Controller
             DB::setDefaultConnection('mongodb');
             $this->destroy($org->id);
             return redirect()->route('organisation.index')->withMessage('Oganisation Not Created');
- 
         }
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName.'1', array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
+        $mongoDBConfig = config('database.connections.mongodb');
+        $mongoDBConfig['database'] = $dbName;
+        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName.'1', $mongoDBConfig);
 
         Schema::connection($dbName.'1')->create('modules', function($table)
         {
@@ -139,22 +125,13 @@ class OrganisationController extends Controller
 }
 
 public function getProjects()
-{    
-    $organisation_id = Auth::user()->org_id;
+{
+    $organisationId = Auth::user()->org_id;
+    $projects = Organisation::find($organisationIdId);
 
-    $projects = Organisation::find($organisation_id);
+    list($orgId, $dbName) = $this->connectTenantDatabase($organisationIdId);
 
-    $dbName = $projects->name.'_'.$organisation_id;
-    \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-        'driver'    => 'mongodb',
-        'host'      => '127.0.0.1',
-        'database'  => $dbName,
-        'username'  => '',
-        'password'  => '',  
-    ));
-    DB::setDefaultConnection($dbName); 
-
-    $projects = DB::collection('projects')->get(); 
+    $projects = DB::collection('projects')->get();
     return view('admin.projects.projects_index',compact('projects'));
 }
     /**
@@ -214,38 +191,18 @@ public function getProjects()
 
     public function orgroles(Request $request,$org_id)
     {
-        $organisation=Organisation::find($org_id);
-        $dbName=$organisation->name.'_'.$org_id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase($org_id);
+        
         DB::setDefaultConnection('mongodb');
-        $roles=Role::where('org_id', $org_id)->get();
-        $orgId = $org_id;
-        return view('admin.organisations.roles_index',compact('roles','modules','orgId'));
+        $roles=Role::where('org_id', $orgId)->get();
+
+        return view('admin.organisations.roles_index',compact('roles', 'orgId'));
     }
 
     public function configureRole(Request $request,$orgId,$role_id)
     {
-        
-        $organisation=Organisation::find($orgId);
         $role = Role::find($role_id);
-        
-        $dbName=$organisation->name.'_'.$orgId;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
        
         $modules= DB::collection('modules')->get();
         $projects= DB::collection('projects')->get();
@@ -286,16 +243,7 @@ public function getProjects()
 
         DB::collection('roles')->where('_id',$role_id)->update(['project_id' => $data['assigned_projects']]);
 
-        $organisation=Organisation::find($org_id);
-        $dbName=$organisation->name.'_'.$org_id;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $jurisdiction = Jurisdiction::where('levelName',$data['levelNames'])->first();
 
@@ -318,13 +266,12 @@ public function getProjects()
     {
         $projectId = $request->projectId;
         
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         $project = Project::find($projectId);
         $jurisTypeId = $project->jurisdiction_type_id;
         
         if (isset($jurisTypeId) && !empty($jurisTypeId)) {
-
             $jurisdictionTypes = JurisdictionType::find($jurisTypeId);
             return json_encode($jurisdictionTypes);
         }

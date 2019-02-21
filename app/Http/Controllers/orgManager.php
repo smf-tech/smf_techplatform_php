@@ -36,22 +36,9 @@ class orgManager extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {  
-        
-        $org=Organisation::find($request->orgId);
-        $dbName=$org->name.'_'.$org->id;
-     
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName); 
+    {
+        list($orgId, $dbName) = $this->connectTenantDatabase($request->orgId);
         $validator = Validator::make($request->all(), ['name' => 'required|unique:modules'])->validate();
-        //$obj['name'] = $request->name;
-        //DB::collection('modules')->insert($obj);
         DB::table('modules')->insert(['name' => $request->name]);
         return redirect()->route('orgManager.show',$org->id);
     }
@@ -65,18 +52,7 @@ class orgManager extends Controller
      */
     public function show($id)
     {
-        $org=Organisation::find($id);
-        $dbName=$org->name.'_'.$org->id;
-     
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-
-        DB::setDefaultConnection($dbName); 
+        list($orgId, $dbName) = $this->connectTenantDatabase($id);
 
         $modules = DB::collection('modules')->get();      
         return view('admin.orgManager.index',compact(['modules','id']));

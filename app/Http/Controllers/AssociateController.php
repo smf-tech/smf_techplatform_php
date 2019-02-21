@@ -17,12 +17,9 @@ class AssociateController extends Controller
      */
     public function index()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
-
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         $associates = Associate::all();
-        return view('admin.associates.associates_index',compact('associates','orgId','modules'));
+        return view('admin.associates.associates_index',compact('associates','orgId'));
     }
 
     /**
@@ -32,12 +29,8 @@ class AssociateController extends Controller
      */
     public function create()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
-
-        $modules= DB::collection('modules')->get();
-
-        return view('admin.associates.create_associate',compact('orgId','modules'));
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+        return view('admin.associates.create_associate',compact('orgId'));
     }
 
     /**
@@ -48,10 +41,9 @@ class AssociateController extends Controller
      */
     public function store(Request $request)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
-        $data = $request->except(['_token']); 
+        $data = $request->except(['_token']);
         Associate::create($data);
 
         return redirect()->route('associates.index',['orgId' => $orgId]);
@@ -76,16 +68,13 @@ class AssociateController extends Controller
      */
     public function edit()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $uri = explode("/",$_SERVER['REQUEST_URI']);
         $associateId = $uri[3];
         $associate = Associate::find($associateId);
 
-        $modules= DB::collection('modules')->get();
-
-        return view('admin.associates.edit',compact('orgId','modules','associate'));
+        return view('admin.associates.edit',compact('orgId', 'associate'));
     }
 
     /**
@@ -97,8 +86,7 @@ class AssociateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $uri = explode("/",$_SERVER['REQUEST_URI']);
         $associateId = $uri[3];
@@ -116,14 +104,12 @@ class AssociateController extends Controller
      */
     public function destroy()
     {
-        
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $uri = explode("/",$_SERVER['REQUEST_URI']);
         $associateId = $uri[3];
         Associate::find($associateId)->delete();
 
-        return Redirect::back()->withMessage('Associate Deleted');                
+        return Redirect::back()->withMessage('Associate Deleted');
     }
 }

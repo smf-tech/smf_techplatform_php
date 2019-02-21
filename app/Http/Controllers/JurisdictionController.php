@@ -23,23 +23,10 @@ class JurisdictionController extends Controller
      */
     public function index()
     {
-        
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         $juris = Jurisdiction::all();
-        return view('admin.jurisdictions.jurisdiction_index',compact('juris','orgId','modules'));
-        //return view('admin.jurisdictions.jurisdiction_index',compact('juris'));
+        return view('admin.jurisdictions.jurisdiction_index',compact('juris','orgId'));
     }
 
     /**
@@ -49,22 +36,9 @@ class JurisdictionController extends Controller
      */
     public function create()
     {
-        $uri = explode("/",$_SERVER['REQUEST_URI']);
-        
-        $organisation=Organisation::find($uri[1]);
-        $orgId=$organisation->id;
-        $dbName=$organisation->name.'_'.$organisation->id;
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
-        return view('admin.jurisdictions.create_jurisdiction', compact('orgId','modules') );
+        return view('admin.jurisdictions.create_jurisdiction', compact('orgId'));
     }
 
     /**
@@ -75,19 +49,8 @@ class JurisdictionController extends Controller
      */
     public function store(Request $request, Jurisdiction $juris)
     {
-        $organisation_id = Auth::user()->org_id;
-        $org = Organisation::find($organisation_id);
-        $dbName = $org->name.'_'.$organisation_id;
-        
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         $validator = Validator::make($request->all(), ['levelName' => 'required|unique:jurisdictions'])->validate();
 
         $juris = new Jurisdiction;
@@ -97,7 +60,7 @@ class JurisdictionController extends Controller
         Schema::connection($dbName)->create($juris->levelName, function($table)
         {
             $table->increments('id');
-            $table->string('name');            
+            $table->string('name');
             $table->timestamps();
        });
 
@@ -124,23 +87,10 @@ class JurisdictionController extends Controller
      */
     public function edit($id)
     {
-        $orgId = Auth::user()->org_id;
-        $organisation = Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $juris = Jurisdiction::find($id);
-        return view('admin.jurisdictions.edit',compact('orgId','modules','juris'));
+        return view('admin.jurisdictions.edit',compact('orgId', 'juris'));
 
     }
 
@@ -153,18 +103,7 @@ class JurisdictionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $organisation_id = Auth::user()->org_id;
-        $organisation = Organisation::find($organisation_id);
-        $dbName = $organisation->name.'_'.$organisation_id;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         $validator = Validator::make($request->all(), ['levelName' => 'required'])->validate();
         $juris=Jurisdiction::find($id);
         $juris->id=$request->id;
@@ -185,8 +124,7 @@ class JurisdictionController extends Controller
     public function checkJurisdictionTypeExist(Request $request)
     {
         $id = $request->delJurisId;
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $juris = Jurisdiction::find($id);
         $jurisName = $juris->levelName;
@@ -194,15 +132,12 @@ class JurisdictionController extends Controller
                          ->whereIn('jurisdictions', [$jurisName])->get();
         $flattened = $jurisTypeName->flatten();
         $flattened->forget(0);
-        
+
         if (in_array($jurisName,$flattened->all())) {
-            
             return json_encode(array(
                 'success' => true,
             ));
-            
         } else {
-            
             return json_encode(array(
                 'success' => false,
             ));
@@ -218,23 +153,10 @@ class JurisdictionController extends Controller
      */
     public function destroy($id)
     {
-        $organisation_id = Auth::user()->org_id;
-        $org = Organisation::find($organisation_id);
-
-        $dbName=$org->name.'_'.$organisation_id;
-        
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',
-        ));
-
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $jurisdiction = Jurisdiction::find($id);
-        Schema::drop($jurisdiction->levelName);  
+        Schema::drop($jurisdiction->levelName);
         $jurisdiction->delete();
 
         session()->flash('status', 'Jurisdiction deleted successfully!');

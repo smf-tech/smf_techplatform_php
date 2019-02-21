@@ -19,22 +19,10 @@ class MicroservicesController extends Controller
      */
     public function index()
     {
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $microservices = Microservice::paginate(5);
-        return view('admin.microservices.microservices_index',compact('orgId','modules','microservices'));
+        return view('admin.microservices.microservices_index',compact('orgId', 'microservices'));
     }
 
     /**
@@ -44,21 +32,9 @@ class MicroservicesController extends Controller
      */
     public function create()
     {
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
-
-        return view('admin.microservices.create_microservice',compact('orgId','modules'));
+        return view('admin.microservices.create_microservice',compact('orgId'));
     }
 
     /**
@@ -77,18 +53,7 @@ class MicroservicesController extends Controller
             return Redirect::back()->withErrors(['Microservice already exists']);
         }
         
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         // return $request;
             $microservice = new Microservice;
             $microservice->name = $request->name;
@@ -119,22 +84,10 @@ class MicroservicesController extends Controller
      */
     public function edit($microservice_id)
     {
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
-        $modules= DB::collection('modules')->get();
+        list($orgId, $dbName) = $this->connectTenantDatabase();
         $microservice = Microservice::find($microservice_id);
 
-        return view('admin.microservices.edit',compact('orgId','modules','microservice'));
+        return view('admin.microservices.edit',compact('orgId', 'microservice'));
     }
 
     /**
@@ -146,18 +99,7 @@ class MicroservicesController extends Controller
      */
     public function update(Request $request, $microservice_id)
     {
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         $microservice = Microservice::find($microservice_id);
 
@@ -180,18 +122,7 @@ class MicroservicesController extends Controller
      */
     public function destroy($microservice_id)
     {
-        $orgId = Auth::user()->org_id;
-        $organisation=Organisation::find($orgId);
-        $dbName=$organisation->name.'_'.$orgId;
-
-        \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
 
         Microservice::find($microservice_id)->delete();
         return redirect()->route('microservice.index')->withSuccessMessage('State Deleted');

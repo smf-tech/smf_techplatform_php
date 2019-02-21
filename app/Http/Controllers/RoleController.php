@@ -39,11 +39,9 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-        // $permissions = Permission::all();
+    {
         $orgs = Organisation::where('orgshow','<>',0)->get();
-        // $levels = Jurisdiction::all();
-        
+
         return view('admin.roles.create_role',compact(['orgs']));
     }
 
@@ -61,7 +59,6 @@ class RoleController extends Controller
             'display_name'=>$request->display_name,
             'description'=>$request->description,
             'org_id'=>$request->org_id,
-            // 'jurisdiction_id' => $request->level_id,
             'user_ids'=>[],
             'project_id'=>$project_id
         ]);
@@ -89,20 +86,18 @@ class RoleController extends Controller
      */
     public function edit(Request $request,$id)
     {
-         $role = Role::find($id);        
+         $role = Role::find($id);
          $orgs = Organisation::where('orgshow','<>',0)->get();
-        //  $levels = Jurisdiction::all();
-        //  $role_jurisdictions=RoleJurisdiction::where('role_id',$role->id)->get();
          $project_id = '';
          if (isset($role->project_id) && !empty($role->project_id)) {
             $project_id = $role->project_id;
-         } 
+         }
          $org_id = $role->org_id;
          $data['orgID'] = $org_id;
          $request->merge($data);
          $non_ajax_call_flag = true;
          $projects_arr = $this->getAjaxOrgId($request,$non_ajax_call_flag);
-         
+
          return view('admin.roles.edit',compact(['role','orgs','project_id','projects_arr']));
     }
 
@@ -119,10 +114,9 @@ class RoleController extends Controller
         $role->display_name=$request->display_name;
         $role->description=$request->description;
         $role->org_id=$request->org_id;
-        // $role->jurisdiction_id=$request->level_id;
         $role->project_id=$request->project_id;
         $role->save();
-        
+
         session()->flash('status', 'Role was updated!');
         return redirect()->route('role.index');
     }
@@ -151,18 +145,8 @@ class RoleController extends Controller
 
     public function getAjaxOrgId(Request $request, $non_ajax_call_flag = null)
     {    
-      $org_id = $request->orgID;
-      $organisation = Organisation::find($org_id);
-      $dbName = $organisation->name.'_'.$org_id;
-      \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName, array(
-            'driver'    => 'mongodb',
-            'host'      => '127.0.0.1',
-            'database'  => $dbName,
-            'username'  => '',
-            'password'  => '',  
-        ));
-        
-        DB::setDefaultConnection($dbName);
+        $org_id = $request->orgID;
+        list($orgId, $dbName) = $this->connectTenantDatabase($org_id);
         $projects = DB::collection('projects')->get();
         if (isset($non_ajax_call_flag)) {
             return $projects;

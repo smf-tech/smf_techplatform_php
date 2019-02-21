@@ -18,8 +18,8 @@ class JurisdictionTypeController extends Controller
      */
     public function index()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
 //        $this->importDataIntoLocation();echo 'imported';exit;
         $modules= DB::collection('modules')->get();
         $jurisdictionTypes = JurisdictionType::all();
@@ -34,8 +34,8 @@ class JurisdictionTypeController extends Controller
      */
     public function create()
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         $modules = DB::collection('modules')->get();
         $jurisdictions = Jurisdiction::all()->unique('levelName', true);
         return view('admin.jurisdiction-types.create', compact('orgId', 'modules', 'jurisdictions'));
@@ -49,8 +49,8 @@ class JurisdictionTypeController extends Controller
      */
     public function store(Request $request)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig();
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+
         JurisdictionType::create($request->validate([
             'jurisdictions' => 'required'
         ]));
@@ -69,8 +69,8 @@ class JurisdictionTypeController extends Controller
      */
     public function edit($orgId, $jurisdictionTypeId)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
+
         $modules = DB::collection('modules')->get();
         $jurisdictionType = JurisdictionType::where('_id', $jurisdictionTypeId)->first();
         $jurisdictions = Jurisdiction::all()->unique('levelName', true);
@@ -87,8 +87,8 @@ class JurisdictionTypeController extends Controller
      */
     public function update(Request $request, $orgId, $jurisdictionTypeId)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
+
         JurisdictionType::where('_id', $jurisdictionTypeId)->update($request->validate(['jurisdictions' => 'required']));
         return redirect()->route(
                     'jurisdiction-types.index',
@@ -105,8 +105,8 @@ class JurisdictionTypeController extends Controller
      */
     public function destroy($orgId, $jurisdictionTypeId)
     {
-        list($orgId, $dbName) = $this->setDatabaseConfig($orgId);
-        DB::setDefaultConnection($dbName);
+        list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
+
         JurisdictionType::where('_id', $jurisdictionTypeId)->delete();
         return back()->with('status', 'Jurisdiction Type has been deleted successfully.');
     }

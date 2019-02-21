@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\StructureMaster;
 use App\MachineMaster;
 use App\MachineMou;
+use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
@@ -22,24 +23,25 @@ class Controller extends BaseController
      * @param string $orgId
      * @return array
      */
-    public function setDatabaseConfig($orgId = null)
+    public function connectTenantDatabase($orgId = null)
     {
-        if ($orgId === null) {
-            $orgId = Auth::user()->org_id;
+        if ($orgId instanceof Organisation) {
+            $organisation = $orgId;
+        } else {
+            if ($orgId === null) {
+                $orgId = Auth::user()->org_id;
+            }
+            $organisation = Organisation::find($orgId);
         }
-        $organisation = Organisation::find($orgId);
 
         $dbName = $organisation->name . '_' . $orgId;
+        $mongoDBConfig = config('database.connections.mongodb');
+        $mongoDBConfig['database'] = $dbName;
         \Illuminate\Support\Facades\Config::set(
-                'database.connections.' . $dbName,
-                [
-                    'driver'    => 'mongodb',
-                    'host'      => '127.0.0.1',
-                    'database'  => $dbName,
-                    'username'  => '',
-                    'password'  => '',
-                ]
-            );
+            'database.connections.' . $dbName,
+            $mongoDBConfig
+        );
+        DB::setDefaultConnection($dbName);
         return [$orgId, $dbName];
     }
 
