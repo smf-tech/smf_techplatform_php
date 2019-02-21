@@ -580,7 +580,6 @@ $("#assigned_projects").change(function() {
       }
     });
 }).change();
-
 /**
  * Datepicker script for user DOB
  */

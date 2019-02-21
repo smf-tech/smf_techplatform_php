@@ -2,9 +2,11 @@
 
 @section('content')
 <div class="container">
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -28,12 +30,12 @@
                             <div class="form-group">
                                 <label for="entityActive">Is active</label>
                                 @if($entity->is_active == true)
-                                <input type="checkbox" name="active" class="form-control"  checked/>
+                                <input type="checkbox" name="active"  checked/>
                                 @else
-                                <input type="checkbox" name="active" class="form-control" />
+                                <input type="checkbox" name="active" />
                                 @endif
                             </div>       
-                            <input type="submit" class="btn btn-success"/>
+                            <input type="submit" class="btn btn-primary btn-user btn-block"/>
                     
                         {!! Form::close() !!} 
                         
@@ -41,6 +43,8 @@
             </div>
         </div>
        
+    </div>
+    </div>
     </div>
 </div>
 @endsection

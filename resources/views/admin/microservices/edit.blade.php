@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="container">
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-             
-
-                <div class="panel-body">
+            <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
+                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
@@ -34,23 +34,21 @@
                         <label for="microserviceRoute">Route</label>
                         <input type="text" name="route" placeholder="Route of the Microservice"class="form-control" value="{{$microservice->route}}"/>
                 </div>        
-                <div class="form-group">
-                    <label for="microserviceActive">Is active</label>
-                    @if($microservice->is_active == true)
-                    <input type="checkbox" name="active" class="form-control"  checked/>
+                <div class="form-check">
+                @if($microservice->is_active == true)
+                    <input type="checkbox" name="active"  checked/>
                     @else
-                    <input type="checkbox" name="active" class="form-control" />
+                    <input type="checkbox" name="active" />
                     @endif
-            </div>                 
-                                        
-                            <input type="submit" class="btn btn-success"/>
-                       
-                    
-                        {!! Form::close() !!} 
-                        
+                    <label for="microserviceActive">Active</label>
+                </div>                 
+                    <input type="submit" class="btn btn-primary btn-user btn-block"/>
+                    {!! Form::close() !!} 
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </div>
 @endsection

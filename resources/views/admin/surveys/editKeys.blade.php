@@ -1,4 +1,4 @@
-@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
+@extends('layouts.userBased')
 @section('content')
 <div>
         <form action="{{url('form/storeKeys')}}" method="post">

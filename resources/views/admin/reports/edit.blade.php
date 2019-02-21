@@ -2,9 +2,11 @@
 
 @section('content')
 <div class="container">
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
                 <div class="panel-heading"></div>
                     <div class="panel-body">
                         @if (session('status'))
@@ -50,12 +52,15 @@
                                 Active
                             </label>
                         </div>
+                        
                         <div class="form-group" style="clear:both;"></div>
-                        <input type="submit" class="btn btn-success" value="Update"/>
+                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Update"/>
                         {!! Form::close() !!}
                     </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </div>
 @endsection

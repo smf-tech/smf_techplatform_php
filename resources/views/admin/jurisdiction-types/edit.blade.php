@@ -2,9 +2,11 @@
 
 @section('content')
 <div class="container">
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;"> 
                 <div class="panel-body">
                     <h3>Edit Jurisdiction Type</h3>
                     @if (count($jurisdictions))
@@ -22,7 +24,7 @@
                                     <b style="color:red">{{$errors->first()}}</b>
                                 @endif
                             </div>
-                            <input type="submit" class="btn btn-success"/>
+                            <input type="submit" class="btn btn-primary btn-user btn-block"/>
                         </form>
                     @else
                         <p>Please create Jurisdiction first to edit Jurisdiction Types.</p>
@@ -31,6 +33,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </div>
 @endsection

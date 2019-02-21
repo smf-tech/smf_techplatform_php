@@ -2,9 +2,11 @@
 
 @section('content')
 <div class="container">
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
 
                 <div class="panel-body">
                     @if (session('message'))
@@ -16,7 +18,7 @@
                     <form id="role-config" action="/updateroleconfig/{{$role->id}}" method="post" class="form-horizontal">
                         {{csrf_field()}}  
                         <input type="hidden" name="org_id" value={{$orgId}} />  
-                    </br> </br>
+                    <br/> <br/>
                         <div class="row form-group">
                             <div class="form-group col-md-12 row">
                                 <label  class="col-md-3" for="name">Projects:</label>
@@ -127,8 +129,7 @@
                            </div>    
                         
                         </div>
-
-                            <input type="submit" class="btn btn-success"/>
+                            <input type="submit" class="btn btn-primary btn-user btn-block"/>
                             <br/>
                     </form>
                         
@@ -136,5 +137,7 @@
             </div>
         </div>
     </div>
+    <!-- </div>
+    </div> -->
 </div>
 @endsection

@@ -2,160 +2,142 @@
 
 @section('content')
 <div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+    <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
                 <div class="panel-heading">Dashboard</div>
-
+                <br/>
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Create user</h3>
+                        <h3>Create User</h3>
                     <form action="{{route('users.store')}}" method="post" class="form-horizontal">
                            {{csrf_field()}}     
-                        <legend></legend>
-                            <div class="row form-group">
-                                    <div class="form-group col-md-6 row">
-                                            <label  class="col-md-3" for="name"  >Name</label>
-                                            <div class="col-md-9" >
-                                                   <input type="text" name="name" placeholder="name" class="form-control"/>
-                                            </div>
-                                           
-                                        </div>
-                                        <div class="form-group col-md-6 row">
-                                               <label for="email" class="col-md-3" >email</label>
-                                               <div class="col-md-9">
-                                               <input type="email" name="email" placeholder="email"class="form-control"/>
-                                               </div>
-                                       </div>
-                                       </div>
-                                        <div class="row">
-                                                <div class="form-group  col-md-7 row">
-                                                        <label for="password" class="col-md-3">Password</label>
-                                                            <div class="col-md-9">
-                                                            <input type="password" name="password" placeholder="password"class="form-control"/>
-                                                            </div>
-                                                </div>
-                                        </div>
-                                  
-                                       
-            
-                           
-                             <div class="row" >
-                                    <div class="form-group row col-md-6">
-                                            <label class="col-md-3"  for="phone">{{ __('Phone Number') }}</label>
-                                        
-                
-                                            <div class="col-md-9">
-                                                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" required>
-                                                @if ($errors->has('phone'))
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $errors->first('phone') }}</strong>
-                                                </span>
-                                                @endif
-                                            </div>
-                                        </div>
-        
-        
-                                     <div class="form-group  row col-md-6 ">
-                                        <label for="dob" class="col-md-3 col-form-label">{{ __('Date of Birth') }}</label>
-        
-                                        <div class="form-group col-md-9">
-                                           <!-- {{-- <input id="dob" type="text" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" value="{{ old('dob') }}" required> --}}  -->
-                                           <!-- <input type="date" id="dob" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob"> -->
-                                           
-                                           <div class="input-group date" data-provide="datepicker">
-                                                <input  name="dob" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}">
-                                                <div class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-th"></span>
-                                                </div>
-                                            </div>
-                                            @if ($errors->has('dob'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('dob') }}</strong>
-                                            </span>
-                                            @endif    
-                                        </div>                       
-                                    </div>
-                             </div>
-                                
-                            <div class="form-group row">
-                                    <div class="form-group col-md-6 row">
-                                            <label for="gender" class="col-md-4 col-form-label ">{{ __('Gender') }}</label>
-                
-                                            <div class="form-group col-md-8">
-                                                <select name="gender" id="gender" class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}">
-                                                   <option value="male">Male</option>
-                                                   <option value="female">Female</option>
-                                                   <option value="other">Other</option>
-                                                </select>
-                                                @if ($errors->has('gender'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('gender') }}</strong>
-                                                    </span>
-                                                @endif     
-                                            </div>                      
-                                        </div>
-                                        <div class="col-md-6 row form-group{{ $errors->has('org_id') ? ' has-error' : '' }} ">
-                                                <label for="org_id" class="col-md-4 col-form-label ">Organisation</label>
-                    
-                                                <div class="form-group col-md-8">
-                                                    <select id="org_id"  class="form-control" name="org_id" required>
-                                                        <option value="0"></option>   
-                                                        @foreach($orgs as $org)
-                                                                <option value={{$org->id}}>{{$org->name}}</option>
-                                                                
-                                                        @endforeach 
-                                                    </select>
-                    
-                                                    @if ($errors->has('org_id'))
-                                                        <span class="help-block">
-                                                            <strong>{{ $errors->first('org_id') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
+                        <div class="form-group row">
+                            <label  class="col-md-3" for="name"  >Name</label>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input id="name" type="text" class="form-control form-control-user" placeholder="Name" name="name" value="{{ old('name') }}" required autofocus>
+                                @if ($errors->has('name'))
+                                <span class="help-block">
+                                <strong>{{ $errors->first('name') }}</strong>
+                                </span>
+                                @endif
                             </div>
-                             
-
-                                <div class="form-group row">
-                                        <div class="col-md-6 row form-group{{ $errors->has('role_id') ? ' has-error' : '' }}">
-                                                <label for="role_id" class="col-md-4 col-form-label ">Role</label>
-                                               
-                                              
-                                                <div class="form-group col-md-8">
-                                                    <select id="role_id"  class="form-control" name="role_id" required>
-                                                    <option value="0"></option>
-                                                    @foreach($roles as $role)
-                                                          <!-- <option value="0"></option> -->
-                                                          <option value={{$role->id}}>{{$role->name}}</option>
-                                                    @endforeach
-                                                    </select>
+                        </div>
+                <!-- </div> -->
+                <div class="form-group row">
+                <label for="email" class="col-md-3" >Email</label>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <input id="email" type="email" class="form-control form-control-user" name="email" value="{{ old('email') }}" required placeholder="E-Mail Address">
+                    @if ($errors->has('email'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
+                    </div>
+                </div>
+                <div class="form-group row">
+                <label for="password" class="col-md-3">Password</label>
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input id="password" type="password" class="form-control form-control-user" name="password" required placeholder="Password">
+                      @if ($errors->has('password'))
+                          <span class="help-block">
+                              <strong>{{ $errors->first('password') }}</strong>
+                          </span>
+                      @endif
+                  </div>
+                 
+                </div>
+                <div class="form-group row">
+                <label class="col-md-3"  for="phone">{{ __('Phone Number') }}</label>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                <input id="phone" type="text" class="form-control form-control-user" name="phone" value="{{ old('phone') }}" required placeholder="Phone Number">
+                  @if ($errors->has('phone'))
+                  <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first('phone') }}</strong>
+                  </span>
+                  @endif
+                  </div>
+                </div>
+                <div class="form-group row date" data-provide="datepicker">
+                
+                <label for="dob" class="col-md-3 col-form-label">{{ __('Date Of Birth') }}</label>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input  name="dob" class="form-control form-control-user" placeholder="Date Of Birth">
                     
-                                                    @if ($errors->has('role_id'))
-                                                        <span class="help-block">
-                                                            <strong>{{ $errors->first('role_id') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                </div>
-                                  
-                                   <div class=" form-group row">
-                                     <div  id="jurisdiction"   class="col-md-8">
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                    @if ($errors->has('dob'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('dob') }}</strong>
+                    </span>
+                    @endif
+                  </div>
+                </div>
+                <div class="form-group row">
+                 <label for="gender" class="col-md-4 col-form-label ">{{ __('Gender') }}</label>
+                 <div class="col-sm-6 mb-3 mb-sm-0">
+                    <select name="gender" class="form-control" type="select" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                    </div>
+                    @if ($errors->has('gender'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('gender') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group row">
+                <label for="org_id" class="col-md-4 col-form-label ">Organisation</label>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  
+                    <select id="org_id" name="org_id" class="form-control"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required>
+                      <option value=0></option>
+                          @foreach($orgs as $org)
+                              <option value={{$org->id}}>{{$org->name}}</option>
+                          @endforeach 
+                    </select>
+                    @if ($errors->has('org_id'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('org_id') }}</strong>
+                        </span>
+                    @endif
+                 
+                  </div>
+                </div>
+                <div class="form-group row">
+                <label for="role_id" class="col-md-4 col-form-label ">Role</label>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                
+                    <select id="role_id"  class="form-control" name="role_id" required>
+                    </select>
+                    @if ($errors->has('role_id'))
+                      <span class="help-block">
+                          <strong>{{ $errors->first('role_id') }}</strong>
+                      </span>
+                    @endif  
+                    
+                    </div>
+                </div>
 
-                                     </div>
-                                    </div>
-                            <input type="submit" class="btn btn-success"/>
-                            <br/>
-                         </form>
+                <button type="submit" class="btn btn-primary btn-user btn-block">Submit</button>
+                <hr>
+                </form>
                         
                 </div>
             </div>
         </div>
+     
+    </div>
+    </div>
     </div>
 </div>
 <!-- <script>
