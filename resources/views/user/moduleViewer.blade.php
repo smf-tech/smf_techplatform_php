@@ -1,4 +1,4 @@
-@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
+@extends('layouts.userBased',compact('orgId'))
 
 @section('content')
 <div class="container">

@@ -79,16 +79,6 @@
                 <div class="wrapper">
                         <!-- Sidebar -->
                         <nav id="sidebar">
-                              
-                          
-                    
-                            <ul class="list-unstyled components accordion" id="accordionExample">
-                                @forelse($modules as $module)
-                            <li><a href="/{{$orgId}}/{{$module['name']}}">{{$module['name']}}</a></li>
-                                @empty
-                                    <li>   No Modules</li>
-                                @endforelse
-                            </ul>
                         </nav>
                     
                     </div>

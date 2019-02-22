@@ -1,4 +1,4 @@
-@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules,'surveyJson'=>$surveyJson,'surveyID'=>$surveyID]))
+@extends('layouts.userBased',compact('orgId','surveyJson','surveyID'))
 @section('content')
 
 <div>

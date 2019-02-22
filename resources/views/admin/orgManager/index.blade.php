@@ -38,15 +38,7 @@
                             <th>Id</th>
                             <th>Name</th>
                             
-                        </tr>
-                        @forelse($modules as $module)
-                        <tr>
-                            <td>{{$module['_id']}}</td>
-                            <td>{{$module['name']}}</td>
-                        </tr>
-                        @empty
-                        <tr><td>no modules</td></tr>
-                        @endforelse   
+                        </tr> 
                     </table>   
                 </div>
             </div>

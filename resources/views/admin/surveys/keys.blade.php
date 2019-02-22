@@ -1,4 +1,4 @@
-@extends('layouts.userBased',compact(['orgId'=>$orgId,'modules'=>$modules]))
+@extends('layouts.userBased',compact('orgId'))
 @section('content')
 {{-- <head>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
