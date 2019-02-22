@@ -21,7 +21,7 @@ class MicroservicesController extends Controller
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
 
-        $microservices = Microservice::paginate(5);
+        $microservices = Microservice::all();
         return view('admin.microservices.microservices_index',compact('orgId', 'microservices'));
     }
 
