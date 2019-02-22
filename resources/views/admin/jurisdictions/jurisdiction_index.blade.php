@@ -48,13 +48,13 @@
                 <td>
                     <div class="actions">
                     <div style="float:left !important;">
-                        <a class="btn btn-primary"  id="edit-jusrisdiction" value="{{$j->id}}" href={{route('jurisdictions.edit',$j->id)}}><i class="fas fa-pen"></i></a>
+                        <a class="btn btn-primary btn-circle btn-sm"  id="edit-jusrisdiction" value="{{$j->id}}" href={{route('jurisdictions.edit',$j->id)}}><i class="fas fa-pen"></i></a>
                         </div>
                         <div style="float:left !important;padding-left:5px;">
                         <form action="{{ url('jurisdictions', $j->id) }}" method="POST" id="delete-jusrisdiction-form">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
-                            <button type="submit" class="btn btn-danger btn-delete" id="delete-jusrisdiction" name="delJusrisButton" value="{{$j->id}}"><i class="fas fa-trash-alt"></i></button>
+                            <button type="submit" class="btn btn-danger btn-circle btn-sm" id="delete-jusrisdiction" name="delJusrisButton" value="{{$j->id}}"><i class="fas fa-trash"></i></button>
                         </form>
                         </div>
                         <div style="clear:both;"></div>    

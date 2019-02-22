@@ -51,13 +51,13 @@
             <td>
                 <div class="actions">
                   <div style="float:left !important;">
-                      <a class="btn btn-primary" href={{route('users.edit',$user->id)}}><i class="fas fa-pen"></i></a>
+                      <a class="btn btn-primary btn-circle btn-sm" href={{route('users.edit',$user->id)}}><i class="fas fa-pen"></i></a>
                   </div>
                   <div style="float:left !important;padding-left:5px;">
                     <form action="{{ url('user',$user->id) }}" method="POST">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
                     </form>
                   </div>
                   <div style="clear:both;"></div>

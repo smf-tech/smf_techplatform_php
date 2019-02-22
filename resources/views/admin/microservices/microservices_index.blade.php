@@ -31,22 +31,22 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Base_url</th>
-                            <th>Route</th>
-                            <th>Is active</th>
-                            <th></th>
+                            <th style="width:10%">Name</th>
+                            <th style="width:10%">Description</th>
+                            <th style="width:10%">Base_url</th>
+                            <th style="width:10%">Route</th>
+                            <th style="width:10%">Is active</th>
+                            <th style="width:10%"></th>
                         </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                    <th>Name</th>
-                            <th>Description</th>
-                            <th>Base_url</th>
-                            <th>Route</th>
-                            <th>Is active</th>
-                            <th></th>
+                    <th style="width:10%">Name</th>
+                            <th style="width:10%">Description</th>
+                            <th style="width:10%">Base_url</th>
+                            <th style="width:10%"> Route</th>
+                            <th style="width:10%">Is active</th>
+                            <th style="width:10%"></th>
                     </tr>
                     </tfoot>
                     <tbody>
