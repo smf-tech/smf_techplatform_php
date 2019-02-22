@@ -7,8 +7,7 @@
     <div class="row">
     <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
-                <div class="panel-heading">Dashboard</div>
-                <br/>
+               
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -81,7 +80,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                 <label for="gender" class="col-md-4 col-form-label ">{{ __('Gender') }}</label>
+                 <label for="gender" class="col-md-3 col-form-label">{{ __('Gender') }}</label>
                  <div class="col-sm-6 mb-3 mb-sm-0">
                     <select name="gender" class="form-control" type="select" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <option value="male">Male</option>
@@ -96,7 +95,7 @@
                     @endif
                 </div>
                 <div class="form-group row">
-                <label for="org_id" class="col-md-4 col-form-label ">Organisation</label>
+                <label for="org_id" class="col-md-3 col-form-label">Organisation</label>
                 <div class="col-sm-6 mb-3 mb-sm-0">
                   
                     <select id="org_id" name="org_id" class="form-control"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required>
@@ -114,7 +113,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                <label for="role_id" class="col-md-4 col-form-label ">Role</label>
+                <label for="role_id" class="col-md-3 col-form-label">Role</label>
                 <div class="col-sm-6 mb-3 mb-sm-0">
                 
                     <select id="role_id"  class="form-control" name="role_id" required>
@@ -129,7 +128,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-user btn-block">Submit</button>
-                <hr>
+                
                 </form>
                         
                 </div>

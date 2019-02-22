@@ -7,8 +7,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
-                <div class="panel-heading">Dashboard</div>
-                <br/>
+               
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -31,14 +30,14 @@
                             </div>
                             <div class="form-group sub-con">
                             <div class="form-group" >
-                                <h4>Organisation</h4>
+                            <label for="organisation">Organisation</label>
                                 <select name="org_id" id ="orgidedit" class="form-control">
                                     @foreach($orgs as $org)
                                         <option value={{$org->id}}  {{ ($org->id===$role->org_id) ?"selected":""}}>{{strtoupper($org->name)}}</option>
                                     @endforeach 
                                 </select>
                                 <br/>
-                                <h4>Projects</h4>
+                                <label for="projects">Projects</label>
                                 <select name="project_id" id="project_id" class="form-control">
                                     @foreach($projects_arr as $proj_arr)
                                         <?php $selected_attrb_flag = false; ?>

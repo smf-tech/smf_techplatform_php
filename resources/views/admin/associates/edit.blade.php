@@ -14,40 +14,35 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Edit Associate</h3></br>
+                        <h3>Edit Associate</h3>
                         {!! Form::open(['route' => [ 'associates.update', $orgId, $associate->id ], 'method'=>'PUT', 'id' => 'associate-edit-form']) !!}
                         {{csrf_field()}} 
-                        <legend></legend>       
-                                        
+                        <legend></legend>                           
                              <div class="form-group">
-                                    <h4>Name</h4>
-                                        <input type="text" name="name" value="{{$associate->name}}" class="form-control"/>
-                                        {{-- @if($errors->has('name'))
-                                            <b style="color:red">{{$errors->first('name')}}</b>
-                                        @endif --}}
-                                        </br>
-
-                                    <h4>Type</h4>
-                                    <select name="type" class="form-control">
+                                    <label for="Name">Associate Name</label>
+                                    <input type="text" name="name" value="{{$associate->name}}" class="form-control"/>
+                                    <b style="color:red">{{$errors->first('name')}}</b>
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Type</label>
+                                <select name="type" class="form-control">
                                         <option value="0"></option>
                                         <option value="donor" @if($associate->type == 'donor') selected="selected" @endif > Donor </option>                                                                                               
                                         <option value="vendor" @if($associate->type == 'vendor') selected="selected" @endif> Vendor </option>                                                                                               
                                         <option value="partner" @if($associate->type == 'partner') selected="selected" @endif> Partner </option>
-                                    </select>                                  
-                                    </br>
-
-                                    <h4>Contact Person : </h4>
-                                        <input type ="text" name="contact_person" value="{{$associate->contact_person}}" class="form-control"></input>
-                                    </br>
-
-                                <h4>Contact Number : </h4>
-                                    <input type ="text" name="contact_number" value="{{$associate->contact_number}}" class="form-control"></input>
-                                </br>
-                               
+                                    </select>
                             </div>
+                            <div class="form-group">
+                                <label for="entityActive">Contact Person</label>
+                                <input type ="text" name="contact_person" value="{{$associate->contact_person}}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="entityActive">Contact Number</label>
+                                <input type ="text" name="contact_number" value="{{$associate->contact_number}}" class="form-control">
+                            </div>    
                             <input type="submit" class="btn btn-primary btn-user btn-block"/>
                     
-                        {!! Form::close() !!}
+                        {!! Form::close() !!} 
                         
                 </div>
             </div>

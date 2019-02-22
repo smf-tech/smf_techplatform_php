@@ -600,8 +600,22 @@ pre code {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  margin-top: 6rem;
   margin-right: -0.75rem;
-  margin-left: 21rem;
+  margin-left: 17rem;
+  min-height: 72vh;
+}
+
+.row-login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-top: 6rem;
+  margin-right: -0.75rem;
+  margin-left: 13rem;
+  min-height: 72vh;
 }
 
 .no-gutters {
@@ -1529,6 +1543,12 @@ pre code {
     flex: 0 0 66.66667%;
     max-width: 66.66667%;
   }
+  .col-xl-8-landing {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 66.66667%;
+    flex: 0 0 70.66667%;
+    max-width: 70.66667%;
+  }
   .col-xl-9 {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 75%;
@@ -1540,6 +1560,12 @@ pre code {
     -ms-flex: 0 0 83.33333%;
     flex: 0 0 83.33333%;
     max-width: 83.33333%;
+  }
+  .col-xl-10-login {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 83.33333%;
+    flex: 0 0 72.33333%;
+    max-width: 72.33333%;
   }
   .col-xl-11 {
     -webkit-box-flex: 0;
@@ -3215,7 +3241,8 @@ fieldset:disabled a.btn {
 
 .btn-block {
   display: block;
-  width: 100%;
+  /* width: 100%; */
+  width: 35%;
 }
 
 .btn-block + .btn-block {
@@ -3225,7 +3252,8 @@ fieldset:disabled a.btn {
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
-  width: 100%;
+  /* width: 100%; */
+  width: 35%;
 }
 
 .fade {

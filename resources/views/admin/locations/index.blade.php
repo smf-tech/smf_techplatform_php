@@ -48,38 +48,40 @@
                                 </select>
                                 <br>
                             </div>
-                            </br>
-                            <button id="deleteRow">Delete Selected Row</button>
-                        </br>
-                        <table id="location" class="display table table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>id</th>
-                            <th>State</th>
-                            <th>District</th>
-                            <th>Taluka</th>
-                            <th>Village</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th></th>
-                        <th>id</th>
-                        <th>State</th>
-                        <th>District</th>
-                        <th>Taluka</th>
-                        <th>Village</th>
-                    </tr>
-                    </tfoot>
-                    <!-- <tbody>
-                    </tbody> -->
-                </table>
+                            <div>
+                            <button id="deleteRow" class="btn btn-primary btn-icon-split btn-sm"><span class="icon text-white-50">
+                            <i class="fas fa-trash"></i></span><span class="text">Delete Selected Row</span></button>
+                            </div>
+                            <div>&nbsp;</div>
+                            <table id="location" class="display table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>id</th>
+                                    <th>State</th>
+                                    <th>District</th>
+                                    <th>Taluka</th>
+                                    <th>Village</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th></th>
+                                <th>id</th>
+                                <th>State</th>
+                                <th>District</th>
+                                <th>Taluka</th>
+                                <th>Village</th>
+                            </tr>
+                            </tfoot>
+                            <!-- <tbody>
+                            </tbody> -->
+                        </table>
                 </form>
                 </div>
             </div>
         </div>
-    </div>
+    
 
 </div>
 <!-- /.container-fluid -->

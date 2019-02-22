@@ -7,8 +7,6 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
-                <div class="panel-heading">Dashboard</div>
-                <br/>
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -16,22 +14,19 @@
                         </div>
                     @endif
                         <h3>Create Organisation</h3>
-                    <form action="{{route('organisation.store')}}" method="post">
+                        <form action="{{route('organisation.store')}}" method="post">
                            {{csrf_field()}}     
-                        <legend></legend>
-                             <div class="form-group">
+                            <legend></legend>
+                            <div class="form-group">
                                  <label for="name">Name</label>
                                  <input type="text" name="name" placeholder="name"class="form-control"/>
-                             </div>
-                            
-                             <div class="form-group">
+                            </div>
+                            <div class="form-group">
                                 <label for="service">Service</label>
                                  <input type="text" name="service" placeholder="service"class="form-control"/>
-                             </div>
-                           
-                            
+                            </div>
                             <input type="submit" class="btn btn-primary btn-user btn-block"/>
-                         </form>
+                        </form>
                         
                 </div>
             </div>

@@ -7,8 +7,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default" style="padding-left:50px;padding-top:40px;padding-bottom:75px;">
-                <div class="panel-heading">Dashboard</div>
-                 <br/>
+                
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -28,11 +27,8 @@
                                 <label for="service">Service</label>
                                  <input type="text" name="service" placeholder="service"class="form-control" value="{{$org->service}}"/>
                             </div>
-                           
-                            
                             <input type="submit" class="btn btn-primary btn-user btn-block"/>
                             {!! Form::close() !!} 
-                        
                 </div>
             </div>
         </div>
