@@ -32,13 +32,13 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th></th>
+                <th>Action</th>
             </tr>
         </thead>
         <tfoot>
          <tr>
             <th>Name</th>
-            <th></th>
+            <th>Action</th>
          </tr>
         </tfoot>
         <tbody>

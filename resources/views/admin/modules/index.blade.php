@@ -33,14 +33,14 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th></th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                     </tfoot>
                     <tbody>

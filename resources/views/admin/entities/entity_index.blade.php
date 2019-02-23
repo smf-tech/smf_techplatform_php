@@ -34,7 +34,7 @@
                <th>Entity Name</th>
                <th>Display Name</th>
                <th>Is Active</th>
-               <th></th>
+               <th>Action</th>
             </tr>
             </thead>
             <tfoot>
@@ -42,7 +42,7 @@
                 <th>Entity Name</th>
                <th>Display Name</th>
                <th>Is Active</th>
-               <th></th>
+               <th>Action</th>
             </tr>
             </tfoot>
             <tbody>

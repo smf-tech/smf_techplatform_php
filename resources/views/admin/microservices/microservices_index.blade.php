@@ -36,7 +36,7 @@
                             <th>Base_url</th>
                             <th>Route</th>
                             <th>Is active</th>
-                            <th></th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -46,7 +46,7 @@
                             <th>Base_url</th>
                             <th>Route</th>
                             <th>Is active</th>
-                            <th></th>
+                            <th>Action</th>
                     </tr>
                     </tfoot>
                     <tbody>
