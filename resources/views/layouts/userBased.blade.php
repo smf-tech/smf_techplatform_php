@@ -185,10 +185,11 @@
         <!-- Core plugin JavaScript-->
         <!-- <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script> -->
         <!-- Scripts -->
+        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
         <!-- modal pop up script begins-->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" ></script>
         <!-- modal pop up script ends-->
         <script src="https://surveyjs.azureedge.net/1.0.56/survey.ko.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js" type="text/javascript" charset="utf-8"></script>
@@ -208,5 +209,15 @@
         <script src="{{ asset('js/index.js') }}"></script> 
         {{-- <script src="{{ asset('js/create_survey.js') }}" class="{{ Auth::user()->id }}" id="id"></script> --}}
         @stack('scripts')
+        
+       	<script type="text/javascript">
+    	$(function(){
+    		$('.sidebar .nav-item .nav-link').filter(function(){
+                return this.href==location.href}).parent().addClass('active').siblings().removeClass('active');
+    		$('.sidebar .nav-item .nav-link').click(function(){
+    			$(this).parent().addClass('active').siblings().removeClass('active');	
+    		})
+    	})
+    	</script>
     </body>
 </html>

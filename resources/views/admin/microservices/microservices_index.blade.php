@@ -31,22 +31,22 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th style="width:10%">Name</th>
-                            <th style="width:10%">Description</th>
-                            <th style="width:10%">Base_url</th>
-                            <th style="width:10%">Route</th>
-                            <th style="width:10%">Is active</th>
-                            <th style="width:10%"></th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Base_url</th>
+                            <th>Route</th>
+                            <th>Is active</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                    <th style="width:10%">Name</th>
-                            <th style="width:10%">Description</th>
-                            <th style="width:10%">Base_url</th>
-                            <th style="width:10%"> Route</th>
-                            <th style="width:10%">Is active</th>
-                            <th style="width:10%"></th>
+                    <th>Name</th>
+                            <th>Description</th>
+                            <th>Base_url</th>
+                            <th>Route</th>
+                            <th>Is active</th>
+                            <th></th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -63,7 +63,7 @@
                             @endif
                             <td>
                                 <div class="actions">
-                                    <div style="float:left !important;">
+                                    <div style="float:left !important;padding-left:5px;">
                                         <a class="btn btn-primary btn-circle btn-sm"  href={{route('microservice.edit',$microservice->id)}}><i class="fas fa-pen"></i></a>
                                     </div>
                                     <div style="float:left !important;padding-left:5px;">    
@@ -71,7 +71,7 @@
                                         <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
                                         {!!Form::close()!!}
                                     </div>
-                                    <div style="clear:both;"></div>    
+                                    <div style="clear:both !important;"></div>    
                                 </div>
                             </td>
                         </tr>

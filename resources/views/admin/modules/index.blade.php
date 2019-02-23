@@ -50,7 +50,7 @@
                             <td>{{ $module->name }}</td>
                             <td>
                                 <div class="actions">
-                                    <div style="float:left !important;">
+                                    <div style="float:left !important;padding-left:5px;">
                                         <a class="btn btn-primary btn-circle btn-sm" href="{{ route('modules.edit', ['orgId' => $orgId, 'module' => $module->id]) }}"><i class="fas fa-pen"></i></a>
                                     </div>
                                     <div style="float:left !important;padding-left:5px;">    
@@ -58,7 +58,7 @@
                                         <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
                                     {!!Form::close()!!}
                                     </div>
-                                    <div style="clear:both;"></div> 
+                                    <div style="clear:both !important;"></div> 
                                 </div>
                             </td>
                         </tr>

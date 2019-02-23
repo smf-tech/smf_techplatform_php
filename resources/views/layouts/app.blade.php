@@ -142,6 +142,14 @@
     <script src="{{asset('js/demo/datatables-demo.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('js/index.js')}}"></script>
-    
+    <script type="text/javascript">
+    	$(function(){
+    		$('.sidebar .nav-item .nav-link').filter(function(){
+                return this.href==location.href}).parent().addClass('active').siblings().removeClass('active');
+    		$('.sidebar .nav-item .nav-link').click(function(){
+    			$(this).parent().addClass('active').siblings().removeClass('active');	
+    		})
+    	})
+    	</script>
   </body>
 </html>
