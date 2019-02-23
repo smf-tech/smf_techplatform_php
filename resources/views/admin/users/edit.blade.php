@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Edit Role</h3>
+                        <h3>Edit User</h3>
                  
                       
                         
@@ -71,7 +71,15 @@
                                             </span>
                                         @endif
                                     </div>
-                                </div>
+                            </div>
+                            <div class="form-check">
+                                @if($user->approve_status == 'approved')
+                                    <input type="checkbox" name="approved"  checked disabled/>
+                                    @else
+                                    <input type="checkbox" name="approved" />
+                                    @endif
+                                    <label for="userActive">Is Approved</label>
+                                </div>     
                             <input type="submit" class="btn btn-primary btn-user btn-block"/>
                        
                     

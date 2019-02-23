@@ -161,7 +161,6 @@ class UserController extends Controller
         $orgs=Organisation::where('orgshow','<>',0)->get();
         $orgId=$user['org_id'];
         $roleId=$user['role_id'];
-        $userDet=UserDetails::where('user_id',$id)->get();
         $role=Role::find($roleId);
         
         return view('admin.users.edit',compact(['user','orgs','orgId','role']));
@@ -181,6 +180,9 @@ class UserController extends Controller
         $user->email=$request->email;
         $user->org_id=$request->org_id;
         $user->role_id=$request->role_id;
+        if($request->has('approved')){
+            $user->approve_status = 'approved';  
+        }
         $user->save();
 
         session()->flash('status', 'User was edited!');
