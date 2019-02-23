@@ -20,11 +20,14 @@ class JurisdictionTypeController extends Controller
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
 
+//        ini_set('max_execution_time', 0);
 //        $this->importDataIntoLocation();echo 'imported';exit;
-        $modules= DB::collection('modules')->get();
+//        $this->importDataInStructureMaster();echo 'imported in structure_master';exit;
+//        $this->importDataInMachineMaster();echo 'imported in machine_master';exit;
+//        $this->importDataInMachineMou();echo 'imported in machine_mou';exit;
         $jurisdictionTypes = JurisdictionType::all();
 
-        return view('admin.jurisdiction-types.index', compact('orgId', 'modules', 'jurisdictionTypes'));
+        return view('admin.jurisdiction-types.index', compact('orgId', 'jurisdictionTypes'));
     }
 
     /**
@@ -36,9 +39,8 @@ class JurisdictionTypeController extends Controller
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
 
-        $modules = DB::collection('modules')->get();
         $jurisdictions = Jurisdiction::all()->unique('levelName', true);
-        return view('admin.jurisdiction-types.create', compact('orgId', 'modules', 'jurisdictions'));
+        return view('admin.jurisdiction-types.create', compact('orgId', 'jurisdictions'));
     }
 
     /**
@@ -71,10 +73,9 @@ class JurisdictionTypeController extends Controller
     {
         list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
 
-        $modules = DB::collection('modules')->get();
         $jurisdictionType = JurisdictionType::where('_id', $jurisdictionTypeId)->first();
         $jurisdictions = Jurisdiction::all()->unique('levelName', true);
-        return view('admin.jurisdiction-types.edit', compact('orgId', 'modules', 'jurisdictionType', 'jurisdictions'));
+        return view('admin.jurisdiction-types.edit', compact('orgId', 'jurisdictionType', 'jurisdictions'));
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App;
 
 use App\Traits\CreatorDetails;
 use App\MachineTracking;
+use App\State;
+use App\District;
 
 class MachineMou extends \Jenssegers\Mongodb\Eloquent\Model
 {
@@ -13,8 +15,6 @@ class MachineMou extends \Jenssegers\Mongodb\Eloquent\Model
 
     protected $fillable = [
         'mou_id',
-        'state',
-        'district',
         'machine_type',
         'machine_code',
         'provider_name',
@@ -41,4 +41,14 @@ class MachineMou extends \Jenssegers\Mongodb\Eloquent\Model
         'rate3_to',
         'rate3_value'
     ];
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
 }

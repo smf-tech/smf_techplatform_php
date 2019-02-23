@@ -47,27 +47,85 @@ class Controller extends BaseController
 
     public function importCSVData($model)
     {
-        $filePath = '';
         switch ($model) {
             case $model === StructureMaster::class:
-                $filePath = public_path('master-data/structure_master.csv');
+                $this->importDataInStructureMaster();
                 break;
             case $model === MachineMaster::class:
-                $filePath = public_path('master-data/machine_master.csv');
+                $this->importDataInMachineMaster();
                 break;
             case $model === MachineMou::class:
-                $filePath = public_path('master-data/machine_mou.csv');
+                $this->importDataInMachineMou();
                 break;
         }
-        if (empty($filePath)) {
-            return;
-        }
+        return true;
+    }
+
+    public function importDataInStructureMaster()
+    {
+        $filePath = public_path('master-data/structure_master.csv');
         $data = $this->csvToArray($filePath);
-        if (!$data) {
-            return;
-        }
         for ($i = 0; $i < count($data); $i++) {
-            $model::firstOrCreate($data[$i]);
+            $structureMaster = StructureMaster::firstOrCreate($data[$i]);
+            if (isset($data[$i]['state'])) {
+                $state = \App\State::where('name', $data[$i]['state'])->first();
+                $structureMaster->state()->associate($state);
+            }
+            if (isset($data[$i]['district'])) {
+                $district = \App\District::where('name', $data[$i]['district'])->first();
+                $structureMaster->district()->associate($district);
+            }
+            if (isset($data[$i]['taluka'])) {
+                $taluka = \App\Taluka::where('name', $data[$i]['taluka'])->first();
+                $structureMaster->taluka()->associate($taluka);
+            }
+            if (isset($data[$i]['village'])) {
+                $village = \App\Village::where('name', $data[$i]['village'])->first();
+                $structureMaster->village()->associate($village);
+            }
+            $structureMaster->save();
+        }
+        return true;
+    }
+
+    public function importDataInMachineMaster()
+    {
+        $filePath = public_path('master-data/machine_master.csv');
+        $data = $this->csvToArray($filePath);
+        for ($i = 0; $i < count($data); $i++) {
+            $machineMaster = MachineMaster::firstOrCreate($data[$i]);
+            if (isset($data[$i]['state'])) {
+                $state = \App\State::where('name', $data[$i]['state'])->first();
+                $machineMaster->state()->associate($state);
+            }
+            if (isset($data[$i]['district'])) {
+                $district = \App\District::where('name', $data[$i]['district'])->first();
+                $machineMaster->district()->associate($district);
+            }
+            if (isset($data[$i]['taluka'])) {
+                $taluka = \App\Taluka::where('name', $data[$i]['taluka'])->first();
+                $machineMaster->taluka()->associate($taluka);
+            }
+            $machineMaster->save();
+        }
+        return true;
+    }
+
+    public function importDataInMachineMou()
+    {
+        $filePath = public_path('master-data/machine_mou.csv');
+        $data = $this->csvToArray($filePath);
+        for ($i = 0; $i < count($data); $i++) {
+            $machineMou = MachineMou::firstOrCreate($data[$i]);
+            if (isset($data[$i]['state'])) {
+                $state = \App\State::where('name', ucfirst(strtolower($data[$i]['state'])))->first();
+                $machineMou->state()->associate($state);
+            }
+            if (isset($data[$i]['district'])) {
+                $district = \App\District::where('name', ucfirst(strtolower($data[$i]['district'])))->first();
+                $machineMou->district()->associate($district);
+            }
+            $machineMou->save();
         }
         return true;
     }
@@ -81,7 +139,7 @@ class Controller extends BaseController
         $header = null;
         $data = [];
         if (($handle = fopen($filename, 'r')) !== false) {
-            while (($row = fgetcsv($handle, 1000)) !== false) {
+            while (($row = fgetcsv($handle, 10000)) !== false) {
                 if (!$header) {
                     $header = $row;
                 } else {

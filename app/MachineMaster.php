@@ -3,6 +3,9 @@
 namespace App;
 
 use App\Traits\CreatorDetails;
+use App\State;
+use App\District;
+use App\Taluka;
 
 class MachineMaster extends \Jenssegers\Mongodb\Eloquent\Model
 {
@@ -13,9 +16,6 @@ class MachineMaster extends \Jenssegers\Mongodb\Eloquent\Model
         'make_and_model',
         'rto_number',
         'chassis_number',
-        'state',
-        'district',
-        'taluka',
         'provider_name',
         'providers_contact',
         'ownership_type',
@@ -30,5 +30,20 @@ class MachineMaster extends \Jenssegers\Mongodb\Eloquent\Model
         'date_of_signing_contract',
         'mou_cancellation'
     ];
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function taluka()
+    {
+        return $this->belongsTo(Taluka::class);
+    }
 
 }
