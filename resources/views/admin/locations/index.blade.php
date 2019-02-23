@@ -87,6 +87,6 @@
 <!-- /.container-fluid -->
 @endsection
 
-@push('scripts')
+<!-- @push('scripts')
 <script src="{{ asset('js/location.js') }}"></script>
-@endpush
+@endpush -->

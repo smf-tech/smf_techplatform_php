@@ -1700,7 +1700,7 @@ pre code {
 
 .table th,
 .table td {
-  padding: 0.75rem;
+  padding: 0.70rem;
   vertical-align: top;
   border-top: 1px solid #dddfeb;
 }
@@ -11121,8 +11121,13 @@ a:focus {
     margin-right: 0.25rem;
   }
   .sidebar .nav-item .nav-link span {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     display: inline;
+  }
+  .sidebar .nav-item .nav-link span.active,
+  .sidebar .nav-item .nav-link.active,
+  .sidebar-dark .nav-item .nav-link.active {
+    font-weight: 800!important;
   }
   .sidebar .nav-item .nav-link[data-toggle="collapse"]::after {
     width: 1rem;

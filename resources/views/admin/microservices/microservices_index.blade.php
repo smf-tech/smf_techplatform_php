@@ -36,7 +36,7 @@
                             <th>Base_url</th>
                             <th>Route</th>
                             <th>Is active</th>
-                            <th></th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -46,7 +46,7 @@
                             <th>Base_url</th>
                             <th>Route</th>
                             <th>Is active</th>
-                            <th></th>
+                            <th>Action</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -63,15 +63,15 @@
                             @endif
                             <td>
                                 <div class="actions">
-                                    <div style="float:left !important;">
-                                        <a class="btn btn-primary"  href={{route('microservice.edit',$microservice->id)}}><i class="fas fa-pen"></i></a>
+                                    <div style="float:left !important;padding-left:5px;">
+                                        <a class="btn btn-primary btn-circle btn-sm"  href={{route('microservice.edit',$microservice->id)}}><i class="fas fa-pen"></i></a>
                                     </div>
                                     <div style="float:left !important;padding-left:5px;">    
                                         {!!Form::open(['action'=>['MicroservicesController@destroy',$microservice->id],'method'=>'DELETE','class'=>'pull-right' ])!!}
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                        <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
                                         {!!Form::close()!!}
                                     </div>
-                                    <div style="clear:both;"></div>    
+                                    <div style="clear:both !important;"></div>    
                                 </div>
                             </td>
                         </tr>
