@@ -83,8 +83,8 @@
           //document.getElementsByClassName('nav-link')[1].innerText = 'Form Designer';
         
           var buttonElements = document.getElementsByTagName('button');
-            buttonElements[3].innerHTML= '<span data-bind="text: title">Form Settings</span>';
-            buttonElements[4].innerHTML= '<span data-bind="text: title">Save Form</span>';
+            buttonElements[4].innerHTML= '<span data-bind="text: title">Form Settings</span>';
+            buttonElements[5].innerHTML= '<span data-bind="text: title">Save Form</span>';
         
           document.getElementById('objectSelector')[0].innerHTML = 'Form';
         
