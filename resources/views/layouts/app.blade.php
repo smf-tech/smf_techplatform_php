@@ -37,19 +37,21 @@
         <hr class="sidebar-divider my-0">
         <!-- Heading -->
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item {{ (request()->segment(1) == 'users') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('/users') }}">
             <i class="fas fa-users"></i>
             <span>Users</span>
+            <!-- <span>{{request()->segment(1)}}</span>
+            <span>{{request()->segment(2)}}</span> -->
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{ (request()->segment(1) == 'role') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('/role') }}">
             <i class="fab fa-critical-role"></i>
             <span>Roles</span>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{ (request()->segment(1) == 'organisation') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('/organisation') }}">
             <i class="fas fa-sitemap"></i>
             <span>Organisations</span>
@@ -142,14 +144,14 @@
     <script src="{{asset('js/demo/datatables-demo.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('js/index.js')}}"></script>
-    <script type="text/javascript">
-    	$(function(){
-    		$('.sidebar .nav-item .nav-link').filter(function(){
-                return this.href==location.href}).parent().addClass('active').siblings().removeClass('active');
-    		$('.sidebar .nav-item .nav-link').click(function(){
-    			$(this).parent().addClass('active').siblings().removeClass('active');	
-    		})
-    	})
-    	</script>
+    <!--<script type="text/javascript">
+    	// $(function(){
+    	// 	$('.sidebar .nav-item .nav-link').filter(function(){
+      //         return this.href==location.href}).parent().addClass('active').siblings().removeClass('active');
+    	// 	$('.sidebar .nav-item .nav-link').click(function(){
+    	// 		$(this).parent().addClass('active').siblings().removeClass('active');	
+    	// 	})
+    	// })
+    	//</script>-->
   </body>
 </html>

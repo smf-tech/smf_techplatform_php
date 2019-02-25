@@ -38,68 +38,69 @@
                 <hr class="sidebar-divider my-0">
                 <!-- Heading -->
                 <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
+                
+                <li class="nav-item {{ (request()->segment(2) == 'forms' || request()->segment(2) == 'editForm') ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/forms">
                         <span>Forms</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ ((request()->segment(2) == 'microservices') || (request()->segment(1) == 'microservice')) ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/microservices">
                         <span>Microservices</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ ((request()->segment(2) == 'entities') || (request()->segment(2) == 'entity') || (request()->segment(1) == 'entity') ) ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/entities">
                         <span>Entities</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ (request()->segment(2) == 'categories' || request()->segment(2) == 'category' || request()->segment(1) == 'category' ) ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/categories">
                         <span>Categories</span>
                     </a>
                 </li>
                 <!-- Divider -->
                 <hr class="sidebar-divider">
-                <li class="nav-item">
+                <li class="nav-item {{ (request()->segment(2) == 'jurisdictions' || request()->segment(2) == 'jurisdiction' || request()->segment(1) == 'jurisdictions') ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/jurisdictions">
                         <span>Jurisdictions</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ (request()->segment(2) == 'jurisdiction-types') ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/jurisdiction-types">
                         <span>Jurisdiction Types</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ (request()->segment(2) == 'locations') ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/locations/create">
                         <span>Locations</span>
                     </a>
                 </li>
                 <!-- Divider -->
                 <hr class="sidebar-divider">
-                <li class="nav-item">
+                <li class="nav-item {{ (request()->segment(2) == 'projects' || request()->segment(2) == 'project' || request()->segment(1) == 'project') ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/projects">
                         <span>Projects</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ ((request()->segment(2) == 'roles')) ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/roles">
                         <span>Roles Configuration</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ ((request()->segment(2) == 'associates')) ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/associates">
                         <span>Associates</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ ((request()->segment(2) == 'modules')) ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/modules">
                         <span>Modules</span>
                     </a>
                 </li>
                 <!-- Divider -->
                 <hr class="sidebar-divider">
-                <li class="nav-item">
+                <li class="nav-item {{ ((request()->segment(2) == 'reports')) ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/reports">
                         <span>Reports</span>
                     </a>
@@ -210,14 +211,14 @@
         {{-- <script src="{{ asset('js/create_survey.js') }}" class="{{ Auth::user()->id }}" id="id"></script> --}}
         @stack('scripts')
         
-       	<script type="text/javascript">
-    	$(function(){
-    		$('.sidebar .nav-item .nav-link').filter(function(){
-                return this.href==location.href}).parent().addClass('active').siblings().removeClass('active');
-    		$('.sidebar .nav-item .nav-link').click(function(){
-    			$(this).parent().addClass('active').siblings().removeClass('active');	
-    		})
-    	})
-    	</script>
+        <!--<script type="text/javascript">
+    	// $(function(){
+    	// 	$('.sidebar .nav-item .nav-link').filter(function(){
+        //         return this.href==location.href}).parent().addClass('active').siblings().removeClass('active');
+    	// 	$('.sidebar .nav-item .nav-link').click(function(){
+    	// 		$(this).parent().addClass('active').siblings().removeClass('active');	
+    	// 	})
+    	// })
+    	</script>-->
     </body>
 </html>
