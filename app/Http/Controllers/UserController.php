@@ -83,7 +83,7 @@ class UserController extends Controller
     {    
        
         $dob = $request->dob;
-        $dobCarbonObj = Carbon::createFromFormat('d-m-Y', $dob);
+        $dobCarbonObj = new Carbon($dob);
         
         
         $clusters=$villages=$talukas=$districts=array(null);
