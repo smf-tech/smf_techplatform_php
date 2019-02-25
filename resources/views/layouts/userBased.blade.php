@@ -39,7 +39,7 @@
                 <!-- Heading -->
                 <!-- Nav Item - Pages Collapse Menu -->
                 
-                <li class="nav-item {{ (request()->segment(2) == 'forms' || request()->segment(2) == 'editForm') ? 'active' : '' }}">
+                <li class="nav-item {{ (request()->segment(2) == 'forms' || request()->segment(2) == 'editForm' || request()->segment(2) == 'setKeys') ? 'active' : '' }}">
                     <a class="nav-link" href="/{{$orgId}}/forms">
                         <span>Forms</span>
                     </a>
