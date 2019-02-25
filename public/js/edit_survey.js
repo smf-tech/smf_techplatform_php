@@ -79,14 +79,19 @@
         
           var x = document.getElementsByClassName('svd_commercial_container')[0];
             x.style.display = "none";
+
+            $('.navbar-default .nav-item a').first().html('Form Designer');
+            $('#svd-survey-settings').find('span').html('Form Settings');
+            $('#svd-save').find('span').html('Save Form');
+            $('#objectSelector').find('option').html('Form');
         
           //document.getElementsByClassName('nav-link')[1].innerText = 'Form Designer';
         
-          var buttonElements = document.getElementsByTagName('button');
-            buttonElements[4].innerHTML= '<span data-bind="text: title">Form Settings</span>';
-            buttonElements[5].innerHTML= '<span data-bind="text: title">Save Form</span>';
+          // var buttonElements = document.getElementsByTagName('button');
+          //   buttonElements[4].innerHTML= '<span data-bind="text: title">Form Settings</span>';
+          //   buttonElements[5].innerHTML= '<span data-bind="text: title">Save Form</span>';
         
-          document.getElementById('objectSelector')[0].innerHTML = 'Form';
+          // document.getElementById('objectSelector')[0].innerHTML = 'Form';
         
           var orgId=window.location.pathname.split('/')[1];
         
