@@ -210,15 +210,5 @@
         <script src="{{ asset('js/index.js') }}"></script> 
         {{-- <script src="{{ asset('js/create_survey.js') }}" class="{{ Auth::user()->id }}" id="id"></script> --}}
         @stack('scripts')
-        
-        <!--<script type="text/javascript">
-    	// $(function(){
-    	// 	$('.sidebar .nav-item .nav-link').filter(function(){
-        //         return this.href==location.href}).parent().addClass('active').siblings().removeClass('active');
-    	// 	$('.sidebar .nav-item .nav-link').click(function(){
-    	// 		$(this).parent().addClass('active').siblings().removeClass('active');	
-    	// 	})
-    	// })
-    	</script>-->
     </body>
 </html>
