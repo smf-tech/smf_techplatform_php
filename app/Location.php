@@ -14,7 +14,7 @@ class Location extends \Jenssegers\Mongodb\Eloquent\Model
     
     protected $table = 'locations';
 
-    protected $fillable=['jurisdiction_type_id'];
+    protected $fillable=['jurisdiction_type_id','state_id','district_id','taluka_id','village_id','cluster_id','unit_id','created_by'];
 
 
     public function state()

@@ -71,7 +71,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/{{$orgId}}/locations/create">
+                    <a class="nav-link" href="/{{$orgId}}/locations">
                         <span>Locations</span>
                     </a>
                 </li>

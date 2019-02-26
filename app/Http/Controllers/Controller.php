@@ -162,7 +162,7 @@ class Controller extends BaseController
         $data = [];
         if (($handle = fopen($filePath, 'r')) !== false) {
             while (($row = fgetcsv($handle, 5000)) !== false) {
-                $location = \App\Location::create(['jurisdiction_type_id' => '5c62442ad42f281a3c000a38']);
+                $location = \App\Location::create(['jurisdiction_type_id' => '5c6a331948b6714224001917']);
 
                 $state = \App\State::find($row[0]);
                 $district = \App\District::find($row[1]);
