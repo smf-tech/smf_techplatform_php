@@ -13,7 +13,7 @@
                                 @for($i=0;$i<$numberOfKeys;$i++)
                                 <label><b>                
                                 <input type="checkbox" value="{{$keys[$i]}}" name="primaryKeys[]"/>&nbsp;&nbsp;{{$keys[$i]}}
-                                <b></label>
+                                </b></label>
                                 <br/>
                                 @endfor
                                 <input type="hidden" name="surveyID" value="{{$survey_id}}" />
