@@ -79,9 +79,6 @@ class OrganisationController extends Controller
         $mongoDBConfig = config('database.connections.mongodb');
         $mongoDBConfig['database'] = $dbName;
         \Illuminate\Support\Facades\Config::set('database.connections.'.$dbName.'1', $mongoDBConfig);
-        $this->importCSVData(\App\StructureMaster::class);
-        $this->importCSVData(\App\MachineMaster::class);
-        $this->importCSVData(\App\MachineMou::class);
 
         Schema::connection($dbName.'1')->create('modules', function($table)
         {
