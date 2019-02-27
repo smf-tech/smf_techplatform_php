@@ -31,12 +31,20 @@ class SurveyController extends Controller
         list($orgId, $dbName) = $this->connectTenantDatabase($request->orgId);
        
         $id = DB::collection('surveys')->insertGetId(
-            ['name'=>$k ,'json'=>$request->json,'creator_id'=> $request->creator_id,
-            'active'=>$request->active,'editable'=>$request->editable,
-            'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
-            'category_id'=>$request->category_id,'project_id'=>$request->project_id,
-            'microservice_id'=>$request->microservice_id,
-            'entity_id'=>$request->entity_id]
+            [
+                'name' => $k ,
+                'json' => $request->json,
+                'creator_id' => $request->creator_id,
+                'active' => $request->active,
+                'editable' => $request->editable,
+                'multiple_entry' => $request->multiple_entry,
+                'assigned_roles' => $request->assigned_roles,
+                'category_id' => $request->category_id,
+                'project_id' => $request->project_id,
+                'microservice_id' => $request->microservice_id,
+                'entity_id' => $request->entity_id,
+                'created_at' => \Carbon\Carbon::now()->getTimestamp()
+            ]
         );
 
         foreach($id as $key=>$value)
