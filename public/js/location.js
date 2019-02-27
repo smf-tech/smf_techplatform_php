@@ -1,9 +1,5 @@
 $(document).ready(function () {
     var table = null;  
-//   $(document).on('change','#jurisdictionType',function(){
-//       if (table != null) {
-//           table.destroy(true);
-//       }
       var locationNames = $('#locationIndex').find(":selected").text();
       var jurisdictions = locationNames.split(", ");
       var tableHeaders;
@@ -53,10 +49,9 @@ $(document).ready(function () {
           selector: 'td:first-child'
       },
   });
-//   });
 
 $(document).on('change','#jurisdictionType',function(){
-            //   table.destroy(true);
+            
             $("#location").dataTable().fnDestroy()
       var locationNames = $('#locationIndex').find(":selected").text();
       var jurisdictions = locationNames.split(", ");
@@ -178,7 +173,7 @@ $(document).on('change','#jurisdictionType',function(){
                   $('#addModalBody').append(jurisdiction+': <select id="'+jurisdiction+'" name="'+jurisdiction+'_id" class="form-control">');
                   $('#'+jurisdiction).append('<option value="" class="form-control"></option>');             
                       obj[jurisdiction].forEach((element) => {
-                  $('#'+jurisdiction).append('<option value="'+element._id+'" class="form-control">'+element.name+'</option>');             
+                  $('#'+jurisdiction).append('<option value="'+element._id.$oid+'" class="form-control">'+element.name+'</option>');             
                   });
                   $('#addModalBody').append('</select></br>');
                   });

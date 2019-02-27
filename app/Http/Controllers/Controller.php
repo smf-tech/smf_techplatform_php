@@ -34,7 +34,7 @@ class Controller extends BaseController
             $organisation = Organisation::find($orgId);
         }
 
-        $dbName = $organisation->name . '_' . $orgId;
+        $dbName = $organisation->name . '_' . $organisation->id;
         $mongoDBConfig = config('database.connections.mongodb');
         $mongoDBConfig['database'] = $dbName;
         \Illuminate\Support\Facades\Config::set(

@@ -82,9 +82,11 @@ Route::group(
     Route::get('{orgId}/projects','ProjectController@index');
     Route::get('{orgId}/project/create','ProjectController@create');
 
-    Route::resource('{orgId}/locations','LocationController', [
-        'parameters' => ['location' => 'locationId'],
-    ]);  
+    Route::post('{orgId}/locations','LocationController@store');
+    Route::get('{orgId}/locations','LocationController@index');
+    // , [
+    //     'parameters' => ['location' => 'locationId'],
+    // ]);  
 
     Route::resource('jurisdictions','JurisdictionController');
     Route::get('{orgId}/jurisdictions','JurisdictionController@index');

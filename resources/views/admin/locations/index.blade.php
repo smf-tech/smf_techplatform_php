@@ -11,7 +11,8 @@
                         </div>
                     @endif
                         <h3>Location</h3></br></br>
-                    <form action="{{route('locations.store',['orgId' => $orgId])}}" method="post">
+                    {{-- <form action="{{route('locations.store',['orgId' => $orgId])}}" method="post"> --}}
+                            <form action="locations" method="post">
                            {{csrf_field()}}     
                         <legend></legend>
                             <div id="locationIndex">
@@ -23,8 +24,6 @@
                                            {{ $jurisdictionLevels = "" }}
                                            {{ $i = true }}
                                            {{ $first = $loop->first }}
-                                           {{-- {{ $levels = array() }} --}}
-                                           {{-- {{ $levels = $jurisdiction->jurisdictions }} --}}
 
                                            @foreach($jurisdiction->jurisdictions as $type)
                                            {{-- Storing each value of jurisdictions array as a comma separated string --}}
@@ -41,30 +40,14 @@
                                 <br>
                             </div>
                             </br>
-                        <input type="hidden" name="createdBy" value="{{Auth::user()->id}}">
-                            {{-- <button id="deleteRow">Delete Selected Row</button> --}}
-                            <input type="submit" value="Delete Selected Row" id="deleteRow">
-                            <button type="button" data-toggle="modal" data-target="#editModal" id="editRow">Edit Selected Row</button>
-                            <button type="button" data-toggle="modal" data-target="#addModal" id="addRow">Add New Row</button>
+                        <input type="hidden" name="created_by" value="{{Auth::user()->id}}">
+                            <input type="submit" class="btn btn-primary btn-icon-split" value="Delete Selected Row" id="deleteRow">
+                            <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#editModal" id="editRow"><i class="fas fa-pen">Edit Selected Row</i></button>
+                            <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#addModal" id="addRow"><i class="fas fa-plus">Add New Row</i></button>
 
                         </br>
                             <table id="location" class="display" cellspacing="0" width="100%">
-                                {{-- <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>id</th>
-                                        <th>state_id</th>
-                                        <th>State</th>
-                                        <th>district_id</th>
-                                        <th>District</th>
-                                        <th>taluka_id</th>
-                                        <th>Taluka</th>
-                                        <th>village_id</th>
-                                        <th>Village</th>
-                                    </tr>
-                                </thead> --}}
                             </table>
-                    {{-- </form> --}}
 
 
                     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -82,7 +65,6 @@
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                   <input type="submit" class="btn btn-success" id="update" value="Update">
-                                  {{-- <button type="button" class="btn btn-primary" id="update">Update</button> --}}
                                 </div>
                               </div>
                             </div>
@@ -107,7 +89,6 @@
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                       <input type="submit" class="btn btn-success" id="add" value="Add">
-                                      {{-- <button type="button" class="btn btn-primary" id="add">Add</button> --}}
                                     </div>
                                   </div>
                                 </div>
