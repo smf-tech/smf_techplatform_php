@@ -130,10 +130,11 @@ class SurveyController extends Controller
 
         //Returns $request->primaryKeys[]
         $primaryKeys = $request->except(['_token','surveyID']); 
-
+        
         list($orgId, $dbName) = $this->connectTenantDatabase();
-
-        DB::collection('surveys')->where('_id',$survey_id)->update($primaryKeys);
+        if (!empty($primaryKeys)) {
+            DB::collection('surveys')->where('_id',$survey_id)->update($primaryKeys);
+        }
 
         //Redirects to index function
         return redirect($orgId . '/forms');
