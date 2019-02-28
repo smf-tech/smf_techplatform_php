@@ -37,6 +37,7 @@ class SurveyController extends Controller
                 'creator_id' => $request->creator_id,
                 'active' => $request->active,
                 'editable' => $request->editable,
+                'deletable' => $request->deletable,
                 'multiple_entry' => $request->multiple_entry,
                 'assigned_roles' => $request->assigned_roles,
                 'category_id' => $request->category_id,
@@ -130,7 +131,7 @@ class SurveyController extends Controller
 
         //Returns $request->primaryKeys[]
         $primaryKeys = $request->except(['_token','surveyID']); 
-        
+
         list($orgId, $dbName) = $this->connectTenantDatabase();
         if (!empty($primaryKeys)) {
             DB::collection('surveys')->where('_id',$survey_id)->update($primaryKeys);
@@ -239,6 +240,7 @@ class SurveyController extends Controller
         DB::collection('surveys')->where('_id',$request->surveyID)->update(
             ['name'=>$k ,'json'=>$request->json,
             'active'=>$request->active,'editable'=>$request->editable,
+            'deletable' => $request->deletable,
             'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
             'category_id'=>$request->category_id,'project_id'=>$request->project_id,
             'microservice_id'=>$request->microservice_id,

@@ -24,6 +24,12 @@
 					@endforeach
 				</select>
 			</div>
+			<a href="/{{$orgId}}/category/create" class="btn btn-primary btn-icon-split">
+				<span class="icon text-white-50">
+					<i class="fas fa-plus"></i>
+				</span>
+				{{-- <span class="text">Create Entity</span> --}}
+				</a>
 			<div class="col-sm-3 mb-3 mb-sm-0" style="text-align:center;border:0px solid red;">
 				<div style="text-align:left;border:0px solid blue;padding-left:5px;margin-left:50px;">
 					<label><b> Project: </b></label>
@@ -37,6 +43,12 @@
 					@endforeach
 				</select>
 			</div>
+			<a href="/{{$orgId}}/project/create" class="btn btn-primary btn-icon-split">
+				<span class="icon text-white-50">
+					<i class="fas fa-plus"></i>
+				</span>
+				{{-- <span class="text">Create Entity</span> --}}
+				</a>
 		</div>
         <div class="form-group row">
 			<div class="col-sm-3 mb-3 mb-sm-0" style="text-align:center;border:0px solid red;">
@@ -52,6 +64,12 @@
 					@endforeach
 				</select>
 			</div>
+			<a href="/microservice/create" class="btn btn-primary btn-icon-split">
+				<span class="icon text-white-50">
+					<i class="fas fa-plus"></i>
+				</span>
+				{{-- <span class="text">Create Entity</span> --}}
+				</a>
 			<div class="col-sm-3 mb-3 mb-sm-0" style="text-align:center;border:0px solid red;">
 				<div style="text-align:left;border:0px solid blue;padding-left:5px;margin-left:50px;">
 					<label><b> Entities: </b></label>
@@ -65,6 +83,12 @@
 					@endforeach
 				</select>
 			</div>
+			<a href="/{{$orgId}}/entity/create" class="btn btn-primary btn-icon-split">
+				<span class="icon text-white-50">
+					<i class="fas fa-plus"></i>
+				</span>
+				{{-- <span class="text">Create Entity</span> --}}
+				</a>
 		</div>
 		<div class="form-group row">
 			<div class="col-sm-3 mb-3 mb-sm-0" style="text-align:center;border:0px solid red;">
@@ -93,7 +117,15 @@
 			<div class="col-sm-2">
 				<label><b> Is Editable:</b></label>
 				<?php
-					echo Form::checkbox('editable', '',false,['id'=>'editable']);   
+					echo Form::checkbox('editable','',false,['id'=>'editable']);   
+				?>
+			</div>
+			<div class="col-sm-2">
+				<label><b> Is Deletable:</b></label>
+				
+				{{-- <input type="checkbox" name="deletable"/> --}}
+				<?php
+					 echo Form::checkbox('deletable','',false,['id'=>'deletable']);   
 				?>
 			</div>
 			<div class="col-sm-3 mb-3 mb-sm-0" style="text-align:center;border:0px solid red;">

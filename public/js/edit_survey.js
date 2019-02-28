@@ -104,6 +104,7 @@
               active = $('#active').is(":checked");
               editable = $('#editable').is(":checked");
               multiple_entry = $('#multiple_entry').is(":checked");
+              var deletable = $('#deletable').is(":checked");
               var assigned_roles = $('#assigned_roles').val();
         
               var projectId = $('#pid').val();
@@ -121,6 +122,7 @@
                         orgId:orgId,
                         active:active,
                         editable:editable,
+                        deletable:deletable,
                         multiple_entry:multiple_entry,
                         assigned_roles:assigned_roles,
         				category_id:categoryId,

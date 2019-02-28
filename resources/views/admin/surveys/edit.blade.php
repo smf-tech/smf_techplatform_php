@@ -73,7 +73,7 @@
 			</div>
 			<div class="col-sm-2">
 				<select id='entity_id' style="max-width:100%;">
-                    <option value='' selected disabled hidden>--Please Select--</option>
+                    <option value=''>--Please Select--</option>
                     @foreach($entities as $entity)
                         @if($survey_details[7] == $entity['_id'])
                             <option value={{$entity['_id']}} selected="selected">{{ $entity['display_name'] }}</option>
@@ -116,6 +116,12 @@
 				<label><b> Is Editable:</b></label>
 				<?php
 					echo Form::checkbox('editable', '',false,['id'=>'editable']);   
+				?>
+			</div>
+			<div class="col-sm-2">
+				<label><b> Is Deletable:</b></label>
+				<?php
+					echo Form::checkbox('deletable', '',false,['id'=>'deletable']);   
 				?>
 			</div>
 			<div class="col-sm-3 mb-3 mb-sm-0" style="text-align:center;border:0px solid red;">

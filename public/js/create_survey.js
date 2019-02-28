@@ -99,6 +99,7 @@ var creatorId = $('#id').attr('class');
       var editable = $('#editable').is(":checked");
       var multiple_entry = $('#multiple_entry').is(":checked");
       var assigned_roles = $('#assigned_roles').val();
+      var deletable = $('#deletable').is(':checked');
 
     var projectId = $('#pid').val();
     var categoryId = $('#cat_id').val();
@@ -114,6 +115,7 @@ var creatorId = $('#id').attr('class');
                 orgId:orgId,
                 active:active,
                 editable:editable,
+                deletable:deletable,
                 multiple_entry:multiple_entry,
                 assigned_roles:assigned_roles,
 				category_id:categoryId,
