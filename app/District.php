@@ -10,7 +10,7 @@ class District extends \Jenssegers\Mongodb\Eloquent\Model
 
     use CreatorDetails;
     
-    protected $fillable=['Name','state_id'];
+    protected $fillable=['Name','state_id','abbr'];
 
 //    public function state()
 //    {

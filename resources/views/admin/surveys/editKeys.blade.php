@@ -9,7 +9,7 @@
                         <div class="panel-body">
                             <form action="{{url('form/storeKeys')}}" method="post">
                                 {{csrf_field()}}     
-                                <h2>Selecting Primary Keys</h2><br/>
+                                <h2>Selecting Unique Keys</h2>
                                 @for($i=0;$i<$numberOfKeys;$i++)
                                     @if(in_array($keys[$i],$primaryKeySet))
                                         <label><b>                
@@ -21,6 +21,32 @@
                                         </b></label><br/>
                                     @endif
                                 @endfor
+                                <br/><br/>
+                                <h3>Form Title Structure</h3>
+                                <div class="form-group">
+                                    <label for="pretextName">PreText</label>
+                                    <input type="text" name="pretext_title" placeholder="Title Pretext" class="form-control" value="{{$pretext_title}}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title_fields">Title Fields</label>
+                                    <select multiple="multiple" name="title_fields[]" id="title_fields" style="max-width:100%;">
+                                        @for($i=0;$i<$numberOfKeys;$i++)
+                                        <option value="{{$keys[$i]}}" >{{$keys[$i]}}</option>
+                                        @endfor
+                                    </select>
+                                </div>                                 
+                                <div class="form-group">
+                                    <label for="posttextName">PostText</label>
+                                    <input type="text" name="posttext_title" placeholder="Title Posttext" class="form-control" value="{{$posttext_title}}"/>
+                                </div>   
+                                <div class="form-group">
+                                    <label for="separator">Separator</label>
+                                    <select name="separator" id ="separator" class="form-control">
+                                        <option value=''disabled hidden>--Please Select--</option>
+                                        <option value=" " @if($separator == '') selected @endif >Blank Space</option>
+                                        <option value="-" @if($separator == '-') selected @endif>Hyphen</option>
+                                    </select>
+                                </div>                                  
                                 <input type="hidden" name="surveyID" value="{{$survey_id}}" />
                                 <br/>
                                 <input type="submit" class="btn btn-primary"/>

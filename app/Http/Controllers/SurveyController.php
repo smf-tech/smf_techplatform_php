@@ -100,10 +100,15 @@ class SurveyController extends Controller
         list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
 
         //Returns fields _id,primaryKeys,json of survey having survey id=$survey_id
-        $survey = Survey::where('_id','=',$survey_id)->get(['form_keys','json']);
+        $survey = Survey::where('_id','=',$survey_id)->get(['form_keys','json','title_fields','pretext_title','posttext_title','separator']);
 
         //obtains only the primary keys from $survey as an array
         $primaryKeySet = $survey[0]->form_keys;
+
+        $title_fields = $survey[0]->title_fields;
+        $pretext_title = $survey[0]->pretext_title;
+        $posttext_title = $survey[0]->posttext_title;
+        $separator = $survey[0]->separator;
 
         // Converts json string to array
         $data = json_decode($survey[0]->json,true);        
@@ -122,7 +127,7 @@ class SurveyController extends Controller
             }
         }
    
-            return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id'));
+            return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id','title_fields','pretext_title','posttext_title','separator'));
     }
 
     public function storeKeys(Request $request)
@@ -130,16 +135,27 @@ class SurveyController extends Controller
         $survey_id = $request->surveyID;
 
         //Returns $request->primaryKeys[]
-        $primaryKeys = $request->except(['_token','surveyID']); 
+        //$primaryKeys = $request->except(['_token','surveyID']);
+        $primaryKeys = $request->filled('form_keys') ? $request->input('form_keys'):[]; 
+        $pretext_title = $request->filled('pretext_title') ? $request->input('pretext_title'):'';
+        $title_fields = $request->filled('title_fields')? $request->input('title_fields'):[]; 
+        $posttext_title = $request->filled('posttext_title')? $request->input('posttext_title'):''; 
+        $separator = is_null($request->input('separator'))?'':$request->input('separator');  
 
         list($orgId, $dbName) = $this->connectTenantDatabase();
         if (!empty($primaryKeys)) {
-            DB::collection('surveys')->where('_id',$survey_id)->update($primaryKeys);
+            DB::collection('surveys')->where('_id',$survey_id)->update(['form_keys'=>$primaryKeys]);
         }
+
+        DB::collection('surveys')->where('_id',$survey_id)->update(['pretext_title'=>$pretext_title,
+                                                                    'title_fields'=>$title_fields,
+                                                                    'posttext_title'=>$posttext_title,
+                                                                    'separator'=>$separator]);
 
         //Redirects to index function
         return redirect($orgId . '/forms');
     }
+
     public function sendResponse(Request $request)
     {
         $uri = explode("/",$_SERVER['REQUEST_URI']);

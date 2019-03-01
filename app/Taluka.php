@@ -10,7 +10,7 @@ class Taluka extends \Jenssegers\Mongodb\Eloquent\Model
 
 use CreatorDetails;
     
-    protected $fillable=['Name','state_id','district_id'];
+    protected $fillable=['Name','state_id','district_id','abbr'];
 
 //    public function district()
 //    {
