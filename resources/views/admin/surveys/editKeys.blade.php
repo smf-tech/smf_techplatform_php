@@ -29,11 +29,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="title_fields">Title Fields</label>
-                                    <select multiple="multiple" name="title_fields[]" id="title_fields" style="max-width:100%;">
-                                        @for($i=0;$i<$numberOfKeys;$i++)
-                                        <option value="{{$keys[$i]}}" >{{$keys[$i]}}</option>
-                                        @endfor
-                                    </select>
+                                    <input type="text" class="form-control" id="tokenfield" value="" name="title_fields"/>
                                 </div>                                 
                                 <div class="form-group">
                                     <label for="posttextName">PostText</label>
@@ -59,3 +55,28 @@
     </div>
 </div>
 @endsection
+
+@push('css')
+    {{-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  --}}
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"> 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.min.css">
+@endpush
+
+@push('scripts')
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+    <script type="text/javascript">
+        var primaryKeys = new Array('<?php echo implode(",", $keys); ?>');
+        primaryKeys = primaryKeys[0].split(",");
+$('#tokenfield').tokenfield(    
+  {
+  autocomplete: {
+    source: primaryKeys,
+    delay: 100
+  },
+  showAutocompleteOnFocus: true
+});
+console.log($('#tokenfield').tokenfield('getTokensList'));
+    </script>
+@endpush
