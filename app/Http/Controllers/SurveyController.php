@@ -91,7 +91,8 @@ class SurveyController extends Controller
         }
 
         $primaryKeySet = array();
-        return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id','title_fields','pretext_title','posttext_title','separator'));
+        $title_fields_str='';
+        return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id','title_fields','title_fields_str','pretext_title','posttext_title','separator'));
     }
     public function editKeys()
     {
@@ -131,13 +132,14 @@ class SurveyController extends Controller
                 $numberOfKeys++;
             }
         }
-            return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id','title_fields','pretext_title','posttext_title','separator'));
+        $title_fields_str = implode(',',$title_fields);
+        return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id','title_fields','title_fields_str','pretext_title','posttext_title','separator'));
     }
 
     public function storeKeys(Request $request)
     {
-        if($request->filled('pretext_title')) {
-            $title_fields = explode(', ',$request->title_fields);
+        if($request->filled('title_fields')) {
+            $title_fields = explode(',',$request->title_fields);
         } else {
             $title_fields = [];
         }
