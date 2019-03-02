@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="title_fields">Title Fields</label>
-                                    <input type="text" class="form-control" id="tokenfield" value="" name="title_fields"/>
+                                <input type="text" class="form-control" id="tokenfield" value="{{$title_fields_str}}" name="title_fields"/>
                                 </div>                                 
                                 <div class="form-group">
                                     <label for="posttextName">PostText</label>
