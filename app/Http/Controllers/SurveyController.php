@@ -132,7 +132,10 @@ class SurveyController extends Controller
                 $numberOfKeys++;
             }
         }
-        $title_fields_str = implode(',',$title_fields);
+        $title_fields_str = '';
+        if ($title_fields != null) {
+            $title_fields_str = implode(',',$title_fields);
+        }
         return view('admin.surveys.editKeys',compact('primaryKeySet','keys','numberOfKeys','orgId','survey_id','title_fields','title_fields_str','pretext_title','posttext_title','separator'));
     }
 
@@ -242,6 +245,7 @@ class SurveyController extends Controller
 
         $surveyJson = $survey[0]['json'];
         $surveyID = $survey[0]['_id'];
+        $editable = $survey[0]['editable'];
 
         $surveys = $survey[0]['project_id'].' '.$survey[0]['category_id'].' '.$survey[0]['microservice_id'].' '.$survey[0]['creator_id'].' '.$survey[0]['active'].' '.$survey[0]['editable'].' '.$survey[0]['multiple_entry'].' '.$survey[0]['entity_id'];
         $roles = $survey[0]['assigned_roles'];
@@ -251,7 +255,7 @@ class SurveyController extends Controller
         $microservices = Microservice::where('is_active',true)->get(); 
         $entities = Entity::where('is_active',true)->get(); 
 
-        return view('admin.surveys.edit',compact('surveyID','surveys','roles','microservices','entities','surveyJson','orgId', 'org_roles','projects','categories'));
+        return view('admin.surveys.edit',compact('surveyID','surveys','roles','microservices','entities','surveyJson','orgId', 'org_roles','projects','categories', 'editable'));
     }
     public function saveEditedForm(Request $request)
     {
