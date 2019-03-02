@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Organisation;
 use Illuminate\Support\Facades\DB;
 use Validator;
+use Auth;
 
 class orgManager extends Controller
 {
@@ -39,7 +40,7 @@ class orgManager extends Controller
     {
         list($orgId, $dbName) = $this->connectTenantDatabase($request->orgId);
         $validator = Validator::make($request->all(), ['name' => 'required|unique:modules'])->validate();
-        DB::table('modules')->insert(['name' => $request->name]);
+        DB::table('modules')->insert(['name' => $request->name,'userName' => Auth::user()->id]);
         return redirect()->route('orgManager.show',$org->id);
     }
 

@@ -8,7 +8,7 @@ class Survey extends \Jenssegers\Mongodb\Eloquent\Model
     use CreatorDetails;
     
     protected $fillable = [
-        'name', 'json', 'project_id','category_id','creator_id','microservice_id','entity_id',//slug',
+        'name', 'json', 'project_id','category_id','microservice_id','entity_id',//slug',
     ];
 
     /**

@@ -60,7 +60,8 @@ class RoleController extends Controller
             'description'=>$request->description,
             'org_id'=>$request->org_id,
             'user_ids'=>[],
-            'project_id'=>$project_id
+            'project_id'=>$project_id,
+            'userName'=>Auth::user()->id
         ]);
 
         session()->flash('status', 'Role was created!');

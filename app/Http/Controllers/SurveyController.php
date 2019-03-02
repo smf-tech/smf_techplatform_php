@@ -34,7 +34,7 @@ class SurveyController extends Controller
             [
                 'name' => $k ,
                 'json' => $request->json,
-                'creator_id' => $request->creator_id,
+                'userName' => $request->creator_id,
                 'active' => $request->active,
                 'editable' => $request->editable,
                 'deletable' => $request->deletable,

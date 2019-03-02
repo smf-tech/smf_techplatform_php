@@ -40,7 +40,8 @@ class ProjectController extends Controller
         $project = DB::collection('projects')->insert(
             [
             'name'=>$result['name'],
-            'jurisdiction_type_id'=>$result['jurisdictionType']
+            'jurisdiction_type_id'=>$result['jurisdictionType'],
+            'userName'=>Auth::user()->id
             ]
         );
 

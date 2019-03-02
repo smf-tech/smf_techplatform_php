@@ -8,6 +8,7 @@ use App\Report;
 use App\User;
 use Validator;
 use App\Category;
+use Auth;
 
 #use Maklad\Permission\Models\Report;
 //use Maklad\Permission\Models\Permission;
@@ -51,7 +52,8 @@ class ReportController extends Controller
             'description'=>$request->description,
             'url'=>$request->url,
             'category_id' => $request->category,
-            'active'=>$request->active
+            'active'=>$request->active,
+            'userName'=>Auth::user()->id
             ]
         );
 
