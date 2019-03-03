@@ -20,6 +20,9 @@ class User  extends Authenticatable
     use HasApiTokens;
     use CreatorDetails;
 
+    const CREATED_AT = 'createdDateTime';
+    const UPDATED_AT = 'updatedDateTime';
+
 
     /**
      * The attributes that are mass assignable.

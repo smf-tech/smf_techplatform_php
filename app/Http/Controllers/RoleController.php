@@ -10,7 +10,7 @@ use App\Jurisdiction;
 use App\RoleJurisdiction;
 use App\User;
 use Illuminate\Support\Facades\DB;
-
+use Auth;
 use Maklad\Permission\Models\Role;
 // use Maklad\Permission\Models\Permission;
 
@@ -59,9 +59,7 @@ class RoleController extends Controller
             'display_name'=>$request->display_name,
             'description'=>$request->description,
             'org_id'=>$request->org_id,
-            'user_ids'=>[],
             'project_id'=>$project_id,
-            'userName'=>Auth::user()->id
         ]);
 
         session()->flash('status', 'Role was created!');
