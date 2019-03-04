@@ -7,8 +7,8 @@ class Survey extends \Jenssegers\Mongodb\Eloquent\Model
 {
     use CreatorDetails;
 
-    const CREATED_AT = 'createdDateTime';
-    const UPDATED_AT = 'updatedDateTime';
+    // const CREATED_AT = 'createdDateTime';
+    // const UPDATED_AT = 'updatedDateTime';
     
     protected $fillable = [
         'name', 'json', 'project_id','category_id','microservice_id','entity_id',//slug',
