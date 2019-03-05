@@ -53,7 +53,7 @@
             @forelse($surveys as $survey)
                 <tr>
                     <td>
-                        {{ $survey->name }}
+                        {{ is_array($survey->name) ? $survey->name['default'] ? $survey->name }}
                     </td>
                     <td>
                         {{ $survey->category['name'] }}
