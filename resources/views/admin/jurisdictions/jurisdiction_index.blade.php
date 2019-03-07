@@ -57,6 +57,9 @@
                             <button type="submit" class="btn btn-danger btn-circle btn-sm" id="delete-jusrisdiction" name="delJusrisButton" value="{{$j->id}}"><i class="fas fa-trash"></i></button>
                         </form>
                         </div>
+                        <div style="float:left !important;padding-left:5px;">
+                            <a class="btn btn-success btn-circle btn-sm" value="{{$j->id}}" href="/{{$orgId}}/jurisdictions/{{$j->id}}"><i class="fas fa-plus"></i></a>
+                        </div>
                         <div style="clear:both !important;"></div>    
                     </div>   
                 </td>

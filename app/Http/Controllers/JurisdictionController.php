@@ -76,7 +76,19 @@ class JurisdictionController extends Controller
      */
     public function show($id)
     {
-        //
+        list($orgId, $dbName) = $this->connectTenantDatabase();
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+        $jurisdicId = $uri[3];
+        $jurisData = Jurisdiction::where('_id', $jurisdicId)->get();
+        
+        foreach ($jurisData as $jrd) {
+          //echo $jrd->levelName;exit;
+          $controllerName = $jrd->levelName;
+          $levelNameData = $jrd->levelName;
+        }
+        return redirect()->route('jurisdictionlevel.index',['levelNameData'=>$levelNameData]);
+        //return view('admin.jurisdiction-levels.index', compact(['collectionData', 'levelNameData', 'orgId']));  
+        
     }
 
     /**
