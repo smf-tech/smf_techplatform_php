@@ -10,44 +10,75 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <h3>Location</h3></br></br>
-                    {{-- <form action="{{route('locations.store',['orgId' => $orgId])}}" method="post"> --}}
-                            <form action="locations" method="post">
-                           {{csrf_field()}}     
-                        <legend></legend>
-                            <div id="locationIndex">
-                                <h4>Jurisdiction Type</h4>
-                                <select id="jurisdictionType" name="jurisdiction_type_id" class="form-control">
-                                       <option value=""></option>
-
-                                        @foreach($jurisdictions as $jurisdiction)
-                                           {{ $jurisdictionLevels = "" }}
-                                           {{ $i = true }}
-                                           {{ $first = $loop->first }}
-
-                                           @foreach($jurisdiction->jurisdictions as $type)
-                                           {{-- Storing each value of jurisdictions array as a comma separated string --}}
-                                               @if($i != true)
-                                               {{ $jurisdictionLevels = $jurisdictionLevels.", ".$type }}
-                                               @else
-                                               {{ $jurisdictionLevels = $type }}
-                                               {{ $i = false }}
-                                               @endif
-                                           @endforeach
-                                <option id={{$jurisdiction->id}} value={{$jurisdiction->id}} {{ $first ? 'selected="selected"' : '' }}> {{ $jurisdictionLevels }}</option>
-                                        @endforeach
-                                </select>
-                                <br>
+                    <h3>Location</h3><br/>
+                    
+                    <form action="locations" method="post">
+                    {{csrf_field()}}     
+                    
+                        <div id="locationIndex">
+                          <div style="float:left;">
+                          <div style="text-align:left;">
+                            <div style="border:0px solid red;float:left;padding-top:10px;margin-right:15px;" class="text">
+                            <span style="font-size:1.3rem;">Jurisdiction Type</span>
                             </div>
-                            </br>
-                        <input type="hidden" name="created_by" value="{{Auth::user()->id}}">
-                            <input type="submit" class="btn btn-primary btn-icon-split" value="Delete Selected Row" id="deleteRow">
-                            <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#editModal" id="editRow"><i class="fas fa-pen">Edit Selected Row</i></button>
-                            <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#addModal" id="addRow"><i class="fas fa-plus">Add New Row</i></button>
+                            <div style="border:0px solid blue;float:right;">
+                              <select id="jurisdictionType" style="max-width:100%;" name="jurisdiction_type_id" class="form-control">
+                                    <option value=""></option>
 
-                        </br>
-                            <table id="location" class="display" cellspacing="0" width="100%">
-                            </table>
+                                      @foreach($jurisdictions as $jurisdiction)
+                                        {{ $jurisdictionLevels = "" }}
+                                        {{ $i = true }}
+                                        {{ $first = $loop->first }}
+
+                                        @foreach($jurisdiction->jurisdictions as $type)
+                                        
+                                            @if($i != true)
+                                            {{ $jurisdictionLevels = $jurisdictionLevels.", ".$type }}
+                                            @else
+                                            {{ $jurisdictionLevels = $type }}
+                                            {{ $i = false }}
+                                            @endif
+                                        @endforeach
+                                        <option id={{$jurisdiction->id}} value={{$jurisdiction->id}} {{ $first ? 'selected="selected"' : '' }}> {{ $jurisdictionLevels }}</option>
+                                      @endforeach
+                              </select>
+                            </div>
+                            <div style="clear:both;">&nbsp;</div>
+                          </div>
+                          <!-- <div style="clear:both;">&nbsp;</div> -->
+                          </div>
+                          <div style="clear:both;"></div>
+                          <div style="clear:both;"></div>
+                          <div style="float:left;">
+                          <input type="hidden" name="created_by" value="{{Auth::user()->id}}">
+                    
+                        <!--<input type="submit" class="btn btn-primary btn-icon-split" value="Delete Selected Row" id="deleteRow"> -->
+
+                        <button onclick = "this.form.submit();" type="button" class="btn btn-primary btn-icon-split" id="deleteRow">
+                          <span class="icon text-white-50">
+                          <i class="fas fa-trash"></i>
+                          </span>
+                          <span class="text">Delete Selected Row</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#editModal" id="editRow">
+                          <span class="icon text-white-50">
+                            <i class="fas fa-pen"></i>
+                          </span>
+                          <span class="text">Edit Selected Row</span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#addModal" id="addRow">
+                          <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
+                          <span class="text">Add New Row</span>
+                        </button>
+
+                          
+                          </div>
+                          <div style="clear:both;"></div>
+                        </div>
+                        <div>&nbsp;</div>
+                        
+                        <table id="location" class="display" cellspacing="0" width="100%">
+                        </table>
 
 
                     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
