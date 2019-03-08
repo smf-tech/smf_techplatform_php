@@ -52,7 +52,7 @@ class ReportController extends Controller
             'description'=>$request->description,
             'url'=>$request->url,
             'category_id' => $request->category,
-            'active'=>$request->active,
+            'active'=> ( $request->active == 1) ? true:false,
             'userName'=>Auth::user()->id
             ]
         );
@@ -98,16 +98,19 @@ class ReportController extends Controller
      */
     public function update(Request $request, $orgId, $id)
     {  
+        $uri = explode("/",$_SERVER['REQUEST_URI']);
+        $recordId = $uri[3];
+
         list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
         $report = Report::find($id);
         $validator = Validator::make($request->all(), ['name' => 'required:reports','url' => 'required:reports'])->validate();
-        $report = DB::collection('reports')->where('_id',$request->surveyID)->update(
+        $report = DB::collection('reports')->where('_id',$recordId)->update(
             [
             'name'=>$request->name,
             'description'=>$request->description,
             'url'=>$request->url,
             'category_id' => $request->category,
-            'active'=>$request->active
+            'active'=> ( $request->active == 1 ) ? true:false
             ]
         );
 
