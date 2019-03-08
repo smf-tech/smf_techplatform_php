@@ -93,6 +93,7 @@ Route::group(
     Route::resource('jurisdictions','JurisdictionController');
     Route::get('{orgId}/jurisdictions','JurisdictionController@index');
     Route::get('{orgId}/jurisdiction/create','JurisdictionController@create');
+    Route::get('{orgId}/jurisdictions/{id}','JurisdictionController@show');
     Route::delete('jurisdictions/{id}', array('as' => 'jurisdictions.destroy','uses' => 'JurisdictionController@destroy'));
     Route::resource('{orgId}/jurisdiction-types', 'JurisdictionTypeController')->except(['show']);
     Route::resource('{orgId}/associates','AssociateController', [
