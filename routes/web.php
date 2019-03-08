@@ -40,11 +40,13 @@ Route::group(
     Route::resource('{orgId}/reports','ReportController');
     Route::resource('users','UserController');
     Route::delete('user/{id}', array('as' => 'user.destroy','uses' => 'UserController@destroy'));
-    Route::resource('state','StateController');
-    //Route::resource('district','DistrictController');
-    //Route::resource('taluka','TalukaController');
-    //Route::resource('cluster','ClusterController');
-    //Route::resource('village','VillageController');
+    
+    Route::resource('/jurisdictionlevel','JurisdictionLevelController');
+    Route::get('jurisdictionlevel/{levelNameData}', array('uses'=>'JurisdictionLevelController@index'));
+    Route::get('{orgId}/jurisdictionlevel/create/{levelNameData}','JurisdictionLevelController@create');
+    Route::post('jurisdictionlevel/store','JurisdictionLevelController@store');
+    Route::delete('/jurisdictionlevel/{id}', array('uses' => 'JurisdictionLevelController@destroy'));
+
     Route::resource('orgManager','orgManager');
     Route::get('{org_id}/{module_id}','ModuleManagerController@getModuleData')->where(['org_id' => '[0-9]+', 'module_id' => '[0-9]+']);
     Route::get('{orgId}/forms/create', 'SurveyController@showCreateForm');
@@ -91,6 +93,7 @@ Route::group(
     Route::resource('jurisdictions','JurisdictionController');
     Route::get('{orgId}/jurisdictions','JurisdictionController@index');
     Route::get('{orgId}/jurisdiction/create','JurisdictionController@create');
+    Route::get('{orgId}/jurisdictions/{id}','JurisdictionController@show');
     Route::delete('jurisdictions/{id}', array('as' => 'jurisdictions.destroy','uses' => 'JurisdictionController@destroy'));
     Route::resource('{orgId}/jurisdiction-types', 'JurisdictionTypeController')->except(['show']);
     Route::resource('{orgId}/associates','AssociateController', [
