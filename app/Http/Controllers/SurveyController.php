@@ -246,6 +246,8 @@ class SurveyController extends Controller
         $surveyJson = $survey[0]['json'];
         $surveyID = $survey[0]['_id'];
         $editable = $survey[0]['editable'];
+        $deletable = $survey[0]['deletable'];
+        $multiple_entry = $survey[0]['multiple_entry'];
 
         $surveys = $survey[0]['project_id'].' '.$survey[0]['category_id'].' '.$survey[0]['microservice_id'].' '.$survey[0]['creator_id'].' '.$survey[0]['active'].' '.$survey[0]['editable'].' '.$survey[0]['multiple_entry'].' '.$survey[0]['entity_id'];
         $roles = $survey[0]['assigned_roles'];
@@ -255,7 +257,7 @@ class SurveyController extends Controller
         $microservices = Microservice::where('is_active',true)->get(); 
         $entities = Entity::where('is_active',true)->get(); 
 
-        return view('admin.surveys.edit',compact('surveyID','surveys','roles','microservices','entities','surveyJson','orgId', 'org_roles','projects','categories', 'editable'));
+        return view('admin.surveys.edit',compact('surveyID','surveys','roles','microservices','entities','surveyJson','orgId', 'org_roles','projects','categories', 'editable','deletable','multiple_entry'));
     }
     public function saveEditedForm(Request $request)
     {

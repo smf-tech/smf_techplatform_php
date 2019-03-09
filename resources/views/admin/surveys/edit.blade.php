@@ -145,14 +145,14 @@
 			<div class="col-sm-2">
 				<label><b> Is Deletable:</b></label>
 				<?php
-					echo Form::checkbox('deletable', '',false,['id'=>'deletable']);   
+					echo Form::checkbox('deletable', '',$deletable,['id'=>'deletable']);   
 				?>
 			</div>
 			<div class="col-sm-3 mb-3 mb-sm-0" style="text-align:center;border:0px solid red;">
 				<div style="text-align:left;border:0px solid blue;padding-left:5px;margin-left:50px;">
 					<label><b> Is Multiple Entry Allowed:</b>
 					<?php
-						echo Form::checkbox('multiple_entry','',false, ['id'=>'multiple_entry']);    
+						echo Form::checkbox('multiple_entry','',$multiple_entry, ['id'=>'multiple_entry']);    
 					?>
 					</label>
 				</div>
