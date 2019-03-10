@@ -131,7 +131,7 @@
 				<div style="text-align:left;border:0px solid blue;padding-left:5px;margin-left:50px;">
 					<label><b> Is Active:</b>
 					<?php
-						echo Form::checkbox('active', '',true,['id'=>'active']);   
+						echo Form::checkbox('active', '',$active,['id'=>'active']);   
 					?>
 					</label>
 				</div>
