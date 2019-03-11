@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::all();
+        $users=User::where('is_admin','<>',true)->get();
         
         return view('admin.users.user_index',compact('users'));
     }
