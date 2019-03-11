@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Auth;
+use Carbon\Carbon;
 
 trait CreatorDetails
 {
@@ -22,7 +23,10 @@ trait CreatorDetails
     // create a event to happen on saving
     static::saving(function($table)  {
         // $table->userName = is_object(Auth::user()) ? Auth::user()->id : 'rootorgadmin'; 
-        $table->created_by = is_object(Auth::user()) ? Auth::user()->id : 'rootorgadmin'; 
+        $table->userName = is_object(Auth::user()) ? Auth::user()->id : 'rootorgadmin';
+        $currentTimestamp = Carbon::now()->getTimestamp();
+        $table->createdDateTime = $currentTimestamp;
+        $table->updatedDateTime = $currentTimestamp; 
     });
     }
 

@@ -44,7 +44,8 @@ class SurveyController extends Controller
                 'project_id' => $request->project_id,
                 'microservice_id' => $request->microservice_id,
                 'entity_id' => $request->entity_id,
-                'created_at' => \Carbon\Carbon::now()->getTimestamp()
+                'createdDateTime' => \Carbon\Carbon::now()->getTimestamp(),
+                'updatedDateTime' => \Carbon\Carbon::now()->getTimestamp()
             ]
         );
 
@@ -278,7 +279,8 @@ class SurveyController extends Controller
             'multiple_entry'=>$request->multiple_entry,'assigned_roles'=>$request->assigned_roles,
             'category_id'=>$request->category_id,'project_id'=>$request->project_id,
             'microservice_id'=>$request->microservice_id,
-            'entity_id'=>$request->entity_id
+            'entity_id'=>$request->entity_id,
+            'updatedDateTime'=> \Carbon\Carbon::now()->getTimestamp()
             ]
         );
 
