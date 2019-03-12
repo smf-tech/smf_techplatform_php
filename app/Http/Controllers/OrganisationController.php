@@ -163,7 +163,7 @@ public function getProjects()
     public function update(Request $request, $id)
     {
         $org=Organisation::find($id);
-        $org->name=$request->name;
+        //$org->name=$request->name;
         $org->service=$request->service;
        
         $org->save();
@@ -179,8 +179,14 @@ public function getProjects()
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {   $org=Organisation::find($id);
+    {   
+        $org=Organisation::find($id);
+        $dbName = $org->name . '_' . $org->id;
+        list($orgId, $dbName) = $this->connectTenantDatabase($id);
+        Schema::dropAllTables();
+        DB::setDefaultConnection('mongodb');
         DB::table('roles')->where('org_id',$id)->delete();
+        DB::table('users')->where('org_id',$id)->delete();
         DB::table('organisations')->where('_id',$id)->delete();
         return redirect()->route('organisation.index')->withMessage('Oganisation Deleted');
     }
