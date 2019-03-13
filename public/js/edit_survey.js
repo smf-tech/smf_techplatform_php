@@ -102,7 +102,11 @@
               var orgId=window.location.pathname.split('/')[1];
         
               active = $('#active').is(":checked");
+              
               editable = $('#editable').is(":checked");
+              //$('#editable').prop('checked')
+              //alert('check this val'+editable);
+              //console.log('check this val'+editable);
               multiple_entry = $('#multiple_entry').is(":checked");
               var deletable = $('#deletable').is(":checked");
               var assigned_roles = $('#assigned_roles').val();

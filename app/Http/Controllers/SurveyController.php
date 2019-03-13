@@ -243,7 +243,8 @@ class SurveyController extends Controller
         list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
         
         $survey = DB::collection('surveys')->where('_id',$survey_id)->get();
-
+        //echo '<pre>';
+        //print_r($survey[0]['editable']);exit;
         $surveyJson = $survey[0]['json'];
         $surveyID = $survey[0]['_id'];
         $editable = $survey[0]['editable'];
@@ -251,7 +252,7 @@ class SurveyController extends Controller
         $multiple_entry = $survey[0]['multiple_entry'];
         $active = $survey[0]['active'];
 
-        $surveys = $survey[0]['project_id'].' '.$survey[0]['category_id'].' '.$survey[0]['microservice_id'].' '.$survey[0]['creator_id'].' '.$survey[0]['active'].' '.$survey[0]['editable'].' '.$survey[0]['multiple_entry'].' '.$survey[0]['entity_id'];
+        $surveys = $survey[0]['project_id'].' '.$survey[0]['category_id'].' '.$survey[0]['microservice_id'].' '.$survey[0]['active'].' '.$survey[0]['editable'].' '.$survey[0]['multiple_entry'].' '.$survey[0]['entity_id'];
         $roles = $survey[0]['assigned_roles'];
 
 		$projects = DB::collection('projects')->get(); 

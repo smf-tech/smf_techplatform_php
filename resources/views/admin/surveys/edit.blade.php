@@ -93,7 +93,7 @@
 				<select id='entity_id' style="max-width:100%;">
                     <option value=''>--Please Select--</option>
                     @foreach($entities as $entity)
-                        @if($survey_details[7] == $entity['_id'])
+                        @if($survey_details[6] == $entity['_id'])
                             <option value={{$entity['_id']}} selected="selected">{{ $entity['display_name'] }}</option>
                         @else
                             <option value={{$entity['_id']}}>{{ $entity['display_name'] }}</option>
@@ -131,29 +131,53 @@
 				<div style="text-align:left;border:0px solid blue;padding-left:5px;margin-left:50px;">
 					<label><b> Is Active:</b>
 					<?php
-						echo Form::checkbox('active', '',$active,['id'=>'active']);   
+						//echo Form::checkbox('active', '',$active,['id'=>'active']); 
+						if ($active !== 'false') {
+							$checkVal = true;
+						} else {
+							$checkVal = false;
+						}  
 					?>
+					<input type="checkbox" name="active" id="active" <?php if($checkVal) { ?> checked <?php   } ?> />
 					</label>
 				</div>
 			</div>
 			<div class="col-sm-2">
 				<label><b> Is Editable:</b></label>
 				<?php
-					echo Form::checkbox('editable', '',$editable,['id'=>'editable']);   
+				//echo Form::checkbox('editable', '',$editable,['id'=>'editable']);  
+			    if ($editable !== 'false') {
+                    $checkVal = true;
+				} else {
+                    $checkVal = false;
+				}
 				?>
+				<input type="checkbox" name="editable" id="editable" <?php if($checkVal) { ?> checked <?php   } ?> />
 			</div>
 			<div class="col-sm-2">
 				<label><b> Is Deletable:</b></label>
 				<?php
-					echo Form::checkbox('deletable', '',$deletable,['id'=>'deletable']);   
+					//echo Form::checkbox('deletable', '',$deletable,['id'=>'deletable']); 
+					if ($deletable !== 'false') {
+						$checkVal = true;
+					} else {
+						$checkVal = false;
+					}  
 				?>
+				<input type="checkbox" name="deletable" id="deletable" <?php if($checkVal) { ?> checked <?php   } ?> />
 			</div>
 			<div class="col-sm-3 mb-3 mb-sm-0" style="text-align:center;border:0px solid red;">
 				<div style="text-align:left;border:0px solid blue;padding-left:5px;margin-left:50px;">
 					<label><b> Is Multiple Entry Allowed:</b>
 					<?php
-						echo Form::checkbox('multiple_entry','',$multiple_entry, ['id'=>'multiple_entry']);    
+						//echo Form::checkbox('multiple_entry', '',$multiple_entry, ['id'=>'multiple_entry']);    
+						if ($multiple_entry !== 'false') {
+							$checkVal = true;
+						} else {
+							$checkVal = false;
+						} 
 					?>
+					<input type="checkbox" name="multiple_entry" id="multiple_entry" <?php if($checkVal) { ?> checked <?php   } ?> />
 					</label>
 				</div>
 			</div>
