@@ -116,7 +116,8 @@ class UserController extends Controller
             'gender' => $data['gender'],
             'org_id'=>$data['org_id'],
             'role_id'=>$data['role_id'],
-            'approved'=> false
+            'approved'=> false,
+            'is_admin'=> isset($data['is_admin']) ? true : false
         ]);
    
       
@@ -182,6 +183,12 @@ class UserController extends Controller
         $user->role_id=$request->role_id;
         if($request->has('approved')){
             $user->approve_status = 'approved';  
+        }
+        //var_dump($request->all());exit;
+        if($request->has('is_admin')){
+            $user->is_admin = (bool) $request->is_admin;  
+        }else{
+            $user->is_admin = false;
         }
         $user->save();
 

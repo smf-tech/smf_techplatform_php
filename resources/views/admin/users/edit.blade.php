@@ -72,13 +72,21 @@
                                         @endif
                                     </div>
                             </div>
-                            <div class="form-check">
-                                @if($user->approve_status == 'approved')
+                            <div class="form-group">
+                                <div>
+                                <input type="checkbox" name="is_admin" @if($user->is_admin) checked @endif />
+                                <label for="is_admin" class="col-md-4 col-form-label "><b>Is Org Admin</b></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <div>
+                                    @if($user->approve_status == 'approved')
                                     <input type="checkbox" name="approved"  checked disabled/>
                                     @else
                                     <input type="checkbox" name="approved" />
                                     @endif
-                                    <label for="userActive">Is Approved</label>
+                                    <label for="userActive" class="col-md-4 col-form-label ">Is Approved</label>
+                                    </div>
                                 </div>     
                             <input type="submit" class="btn btn-primary btn-user btn-block"/>
                        
