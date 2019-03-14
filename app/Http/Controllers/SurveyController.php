@@ -171,6 +171,9 @@ class SurveyController extends Controller
         //Redirects to index function
         // return redirect($orgId . '/forms');
         return redirect($orgId . '/forms?page='.Session::get('page'));
+        
+        $url = $request->only('redirects_to');
+        return redirect()->to($url['redirects_to']);
     }
 
     public function sendResponse(Request $request)
@@ -205,10 +208,10 @@ class SurveyController extends Controller
         $uri = explode("/",$_SERVER['REQUEST_URI']);
         list($orgId, $dbName) = $this->connectTenantDatabase($uri[1]);
         $surveys=Survey::paginate(5);
-        // session_start();
         
         $uri = explode("=",$_SERVER['REQUEST_URI']);
-        Session::put('page', $uri[1]);
+        isset($uri[1])?Session::put('page', $uri[1]):Session::put('page', '1');
+
         return view('admin.surveys.survey_index',compact('surveys','orgId'));
     }
 
