@@ -12,6 +12,7 @@ use App\SurveyResult;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
+use Session;
 
 class SurveyController extends Controller
 {
@@ -168,7 +169,8 @@ class SurveyController extends Controller
                                                                     'separator'=>$separator]);
 
         //Redirects to index function
-        return redirect($orgId . '/forms');
+        // return redirect($orgId . '/forms');
+        return redirect($orgId . '/forms?page='.Session::get('page'));
     }
 
     public function sendResponse(Request $request)
@@ -203,7 +205,10 @@ class SurveyController extends Controller
         $uri = explode("/",$_SERVER['REQUEST_URI']);
         list($orgId, $dbName) = $this->connectTenantDatabase($uri[1]);
         $surveys=Survey::paginate(5);
-       
+        // session_start();
+        
+        $uri = explode("=",$_SERVER['REQUEST_URI']);
+        Session::put('page', $uri[1]);
         return view('admin.surveys.survey_index',compact('surveys','orgId'));
     }
 
