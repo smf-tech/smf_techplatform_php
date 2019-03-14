@@ -202,15 +202,17 @@ class SurveyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {   
         //getOranisation
         $uri = explode("/",$_SERVER['REQUEST_URI']);
         list($orgId, $dbName) = $this->connectTenantDatabase($uri[1]);
         $surveys=Survey::paginate(5);
         
-        $uri = explode("=",$_SERVER['REQUEST_URI']);
-        isset($uri[1])?Session::put('page', $uri[1]):Session::put('page', '1');
+        // $uri = explode("=",$_SERVER['REQUEST_URI']);
+        // isset($uri[1])?Session::put('page', $uri[1]):Session::put('page', '1');
+
+        ($request->filled('page'))?Session::put('page', $request->input('page')):Session::put('page', '1');
 
         return view('admin.surveys.survey_index',compact('surveys','orgId'));
     }
