@@ -45,6 +45,7 @@
                 </tfoot>
                 <tbody>
                 @forelse($roles as $role)
+                    @if ($role->display_name !== 'RootOrgAdmin')
                     <tr>
                         <td>{{$role->display_name}}</td>
                         <td>{{$role->description}}</td>
@@ -64,8 +65,9 @@
                             </div>
                         </td>
                     </tr>
+                    @endif
                     @empty
-                    <tr><td>no users</td></tr>
+                    <tr><td>no users</td></tr>                        
                 @endforelse
                 </tbody>
             </table>

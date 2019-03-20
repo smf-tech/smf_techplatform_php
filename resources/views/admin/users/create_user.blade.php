@@ -61,7 +61,7 @@
                       <strong>{{ $errors->first('phone') }}</strong>
                   </span>
                   @endif
-                    @if($errors->any())
+                    @if ($errors->any())
                         <b style="color:red">{{$errors->first()}}</b>
                     @endif
                   </div>
