@@ -61,6 +61,9 @@
                       <strong>{{ $errors->first('phone') }}</strong>
                   </span>
                   @endif
+                    @if($errors->any())
+                        <b style="color:red">{{$errors->first()}}</b>
+                    @endif
                   </div>
                 </div>
                 <div class="form-group row date" data-provide="datepicker">

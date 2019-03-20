@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
 use Maklad\Permission\Models\Role;
 use Maklad\Permission\Models\Permission;
 use Carbon\Carbon;
-
- 
+use Validator;
+use Redirect; 
 
 class UserController extends Controller
 {
@@ -82,6 +82,13 @@ class UserController extends Controller
     public function store(Request $request)
     {    
        
+        $validator = Validator::make($request->all(),[
+            'phone' => 'unique:users'
+        ]);
+
+        if ($validator->fails()) {            
+            return Redirect::back()->withErrors(['User already exists with the given phone number']);
+        }
         $dob = $request->dob;
         $dobCarbonObj = new Carbon($dob);
         
