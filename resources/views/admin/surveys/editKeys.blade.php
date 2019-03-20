@@ -44,6 +44,7 @@
                                     </select>
                                 </div>                                  
                                 <input type="hidden" name="surveyID" value="{{$survey_id}}" />
+                                {{-- <input type="hidden" name="redirectTo" value="{{$redirectUrl}}" /> --}}
                                 <br/>
                                 <input type="submit" class="btn btn-primary"/>
                             </form>

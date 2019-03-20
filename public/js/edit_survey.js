@@ -136,6 +136,7 @@
         				},
                 success:function(res){
                     window.location.href = "/"+orgId+"/editKeys/"+res.substr(1,res.length-2);
+                    // +"?redirectTo="+$('#previousURL').val();
                 }
               });           
         

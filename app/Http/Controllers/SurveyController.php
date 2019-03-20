@@ -98,6 +98,7 @@ class SurveyController extends Controller
     }
     public function editKeys()
     {
+        // $redirectUrl = $request->input('redirectTo');
          //Breaks up url into an array of substrings using delimiter '/'
         $uri = explode("/",$_SERVER['REQUEST_URI']);
 
@@ -170,10 +171,15 @@ class SurveyController extends Controller
 
         //Redirects to index function
         // return redirect($orgId . '/forms');
-        return redirect($orgId . '/forms?page='.Session::get('page'));
+
+
+
+        // return $request->session()->all();
+        return redirect($orgId . '/forms?page='.$request->session()->get('form.pageNumber'));
+        // return redirect($orgId . '/forms?page='.Session::get('page'));
         
-        $url = $request->only('redirects_to');
-        return redirect()->to($url['redirects_to']);
+        // $url = $request->only('redirects_to');
+        // return redirect()->to($url['redirects_to']);
     }
 
     public function sendResponse(Request $request)
@@ -212,7 +218,12 @@ class SurveyController extends Controller
         // $uri = explode("=",$_SERVER['REQUEST_URI']);
         // isset($uri[1])?Session::put('page', $uri[1]):Session::put('page', '1');
 
-        ($request->filled('page'))?Session::put('page', $request->input('page')):Session::put('page', '1');
+
+
+
+        
+        ($request->filled('page'))?$request->session()->put('form.pageNumber', $request->input('page')):$request->session()->put('form.pageNumber','1');
+        // ($request->filled('page'))?Session::put('page', $request->input('page')):Session::put('page', '1');
 
         return view('admin.surveys.survey_index',compact('surveys','orgId'));
     }

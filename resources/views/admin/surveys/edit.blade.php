@@ -179,6 +179,8 @@
 					?>
 					<input type="checkbox" name="multiple_entry" id="multiple_entry" <?php if($checkVal) { ?> checked <?php   } ?> />
 					</label>
+
+				{{-- <input type="hidden" id="previousURL" value="{{URL::previous()}}"/> --}}
 				</div>
 			</div>
 		</div>
