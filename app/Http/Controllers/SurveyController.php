@@ -87,8 +87,16 @@ class SurveyController extends Controller
             // Accessing the value of key elements to obtain the names of the questions
             foreach($page['elements'] as $element)
             {
-                $keys[] = $element['name'];
-                $numberOfKeys++;
+                if($element['type'] == 'matrixdynamic'){
+                    $columns = array_key_exists('columns',$element)? $element['columns']: [];
+                    foreach($columns as $column){
+                        $keys[] = $column['name']; 
+                        $numberOfKeys++;
+                    }
+                }else{
+                    $keys[] = $element['name'];
+                    $numberOfKeys++;
+                }
             }
         }
 
@@ -110,7 +118,6 @@ class SurveyController extends Controller
 
         //Returns fields _id,primaryKeys,json of survey having survey id=$survey_id
         $survey = Survey::where('_id','=',$survey_id)->get(['form_keys','json','title_fields','pretext_title','posttext_title','separator']);
-
         //obtains only the primary keys from $survey as an array
         $primaryKeySet = $survey[0]->form_keys;
 
@@ -131,8 +138,16 @@ class SurveyController extends Controller
              // Accessing the value of key elements to obtain the names of the questions
             foreach($page['elements'] as $element)
             {
-                $keys[] = $element['name'];
-                $numberOfKeys++;
+                if($element['type'] == 'matrixdynamic'){
+                    $columns = array_key_exists('columns',$element)? $element['columns']: [];
+                    foreach($columns as $column){
+                        $keys[] = $column['name']; 
+                        $numberOfKeys++;
+                    }
+                }else{
+                    $keys[] = $element['name'];
+                    $numberOfKeys++;
+                }
             }
         }
         $title_fields_str = '';

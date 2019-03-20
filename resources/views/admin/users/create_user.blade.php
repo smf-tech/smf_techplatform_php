@@ -126,7 +126,12 @@
                     
                     </div>
                 </div>
-
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label"><b>Is Org Admin</b></label>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="checkbox" name="is_admin" />
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary btn-user btn-block">Submit</button>
                 
                 </form>

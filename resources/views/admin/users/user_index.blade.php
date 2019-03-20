@@ -33,6 +33,7 @@
           <tr>
             <th>Name</th>
             <th>Email</th>
+			<th>Phone</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -40,6 +41,7 @@
          <tr>
             <th>Name</th>
             <th>Email</th>
+			<th>Phone</th>
             <th>Action</th>
           </tr>
         </tfoot>
@@ -48,6 +50,7 @@
         <tr>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
+			<td>{{$user->phone}}</td>
             <td>
                 <div class="actions">
                   <div style="float:left !important;padding-left:5px;">
