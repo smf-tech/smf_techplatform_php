@@ -27,10 +27,20 @@ class RoleController extends Controller
         return json_encode($roles);
     }
     
+    public function getRolesOfOrganisation(Request $request)
+    {
+        $orgId = $request->organisationId;
+        $roles = Role::where('org_id',$orgId)->get();
+
+        return json_encode($roles);
+    }
+
     public function index()
     {
-        $roles=Role::all();
-        return view('admin.roles.role_index',compact('roles'));
+        // $roles=Role::all();
+        $organisations = Organisation::all();
+
+        return view('admin.roles.role_index',compact('organisations'));
     }
 
     /**

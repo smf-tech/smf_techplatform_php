@@ -580,6 +580,76 @@ $("#assigned_projects").change(function() {
       }
     });
 }).change();
+
+$("#organisationOfUser").change(function() {
+    
+  var org_id = $(this).val();
+  $.ajax({
+    url: "/getUsersOfOrganisation",
+    type: "GET",
+    data: {organisationId : org_id},
+    success: function (data) {
+      var obj = JSON.parse(data); 
+      if (obj.length !== 0) {
+
+            $('#userTable').empty();
+
+            csrfValue = $('meta[name="csrf-token"]').attr('content');
+
+            obj.forEach((user)=>{
+
+                    $('#userTable').append('<tr>');
+                    $('#userTable').append('<td>'+user.name+'</td>');
+                    $('#userTable').append('<td>'+user.email+'</td>');
+                    $('#userTable').append('<td>'+user.phone+'</td>');
+                    $('#userTable').append('<td><div class="actions"><div style="float:left !important;padding-left:5px;"><a class="btn btn-primary btn-circle btn-sm" href="users/'+user._id+'/edit"><i class="fas fa-pen"></i></a></div><div style="float:left !important;padding-left:5px;"><form action="user/'+user._id+'" method="POST"><input type="hidden" name="_token" value="'+csrfValue+'"><input type="hidden" name="_method" value="DELETE"><button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button></form></div><div style="clear:both !important;"></div></div></td>');
+                    // $('#userTable').append('<form action="user/'+user._id+'" method="POST">{{ csrf_field() }}{{ method_field("DELETE") }}');
+                    $('#userTable').append('</tr>');
+            })
+
+      }
+    },
+    error: function (data) {
+      console.log('Error in ajax response:', data.responseText);
+    }
+  });
+})
+
+$("#organisationRoles").change(function() {
+    
+  var org_id = $(this).val();
+  $.ajax({
+    url: "/getRolesOfOrganisation",
+    type: "GET",
+    data: {organisationId : org_id},
+    success: function (data) {
+      var obj = JSON.parse(data); 
+      if (obj.length !== 0) {
+
+            $('#roleTable').empty();
+
+            csrfValue = $('meta[name="csrf-token"]').attr('content');
+
+            obj.forEach((role)=>{
+              console.log(role);
+
+                    $('#roleTable').append('<tr>');
+                    $('#roleTable').append('<td>'+role.display_name+'</td>');
+                    $('#roleTable').append('<td>'+role.description+'</td>');
+                    $('#roleTable').append(' <td><div class="actions"><div style="float:left !important;padding-left:5px;"><a class="btn btn-primary btn-circle btn-sm" href="role/'+role._id+'/edit"><i class="fas fa-pen"></i></a></div><div style="float:left !important;padding-left:5px;"><form action="role/'+role._id+'" method="POST"><input type="hidden" name="_token" value="'+csrfValue+'"><input type="hidden" name="_method" value="DELETE"><button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button></form></div><div style="clear:both !important;"></div></div></td>');
+                    // $('#roleTable').append('<form action="user/'+user._id+'" method="POST">{{ csrf_field() }}{{ method_field("DELETE") }}<button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button></form></div>');
+                    $('#roleTable').append('</tr>');
+            })
+
+      }
+    },
+    error: function (data) {
+      console.log('Error in ajax response:', data.responseText);
+    }
+  });
+})
+
+
 /**
  * Datepicker script for user DOB
  */

@@ -114,6 +114,8 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
     Route::get('/getJurisdictionTypesByProjectId','OrganisationController@getJurisdictionTypesByProjectId');
     Route::get('/getLocations', 'LocationController@get');
     Route::get('/getDetailedLocation','LocationController@getDetailedLocation');
+    Route::get('/getUsersOfOrganisation','UserController@getUsersOfOrganisation');
+    Route::get('/getRolesOfOrganisation','RoleController@getRolesOfOrganisation');
 
 });
 

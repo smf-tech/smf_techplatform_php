@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<meta name="csrf-token" content="">
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -26,6 +27,17 @@
         </a>
     </h6>
   </div>
+  <div class="col-sm-12 col-md-6">
+    <select  name="organisations" id="organisationOfUser" class="form-horizontal">
+      <option value=""></option>
+      @foreach($organisations as $organisation)
+    <option value="{{$organisation->_id}}">{{ $organisation->name }}</option>
+      @endforeach
+  </select>
+  {{-- <button type="submit" class="btn btn-primary btn-circle btn-sm" onclick="myFunction()"><i class="fas fa-trash"></i></button> --}}
+  {{-- <input type="submit" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-trash"></i></input> --}}
+  {{-- <button type="button" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-trash"></i></button> --}}
+  </div>
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -45,8 +57,8 @@
             <th>Action</th>
           </tr>
         </tfoot>
-        <tbody>
-        @forelse($users as $user)
+        <tbody id="userTable">
+        {{-- @forelse($users as $user)
         <tr>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
@@ -69,7 +81,7 @@
         </tr>
         @empty
             <tr><td>no users</td></tr>
-        @endforelse
+        @endforelse --}}
         </tbody>
       </table>
     </div>

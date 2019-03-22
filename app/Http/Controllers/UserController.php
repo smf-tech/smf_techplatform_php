@@ -47,6 +47,14 @@ class UserController extends Controller
         $response=array($levelName[0]['levelName'],$stateNames);
         return json_encode($response);
     }
+
+    public function getUsersOfOrganisation(Request $request)
+    {
+        $orgId = $request->organisationId;
+        $users = User::where('org_id',$orgId)->get();
+
+        return json_encode($users);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -54,9 +62,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::where('is_admin','<>',true)->get();
+        // $users=User::where('is_admin','<>',true)->get();
+        $organisations = Organisation::all();
         
-        return view('admin.users.user_index',compact('users'));
+        return view('admin.users.user_index',compact('organisations'));
     }
 
     /**

@@ -26,6 +26,14 @@
             </a>
         </h6>
     </div>
+    <div class="col-sm-12 col-md-6">
+        <select  name="organisations" id="organisationRoles" class="form-horizontal">
+            <option value=""></option>
+            @foreach($organisations as $organisation)
+                <option value="{{$organisation->_id}}">{{ $organisation->name }}</option>
+            @endforeach
+        </select>
+    </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -43,8 +51,8 @@
                     <th>Action</th>
                 </tr>
                 </tfoot>
-                <tbody>
-                @forelse($roles as $role)
+                <tbody id="roleTable">
+                {{-- @forelse($roles as $role)
                     @if ($role->display_name !== 'RootOrgAdmin')
                     <tr>
                         <td>{{$role->display_name}}</td>
@@ -68,7 +76,7 @@
                     @endif
                     @empty
                     <tr><td>no users</td></tr>                        
-                @endforelse
+                @endforelse --}}
                 </tbody>
             </table>
         </div>
