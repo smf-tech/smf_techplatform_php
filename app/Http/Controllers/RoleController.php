@@ -12,6 +12,8 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Maklad\Permission\Models\Role;
+use Validator;
+use Redirect; 
 // use Maklad\Permission\Models\Permission;
 
 class RoleController extends Controller
@@ -62,7 +64,31 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {  
+    {
+        $validator = Validator::make(
+            [ 
+                'name' => $request->name.'_'.$request->org_id,
+                'org_id' =>$request->org_id 
+            ] ,
+            [ 
+                'name' => 'unique:roles',
+                'org_id' => 'required'
+            ]
+        );
+
+        $errorMessage = [
+            'unique' => 'Role already exists',
+            'required' => 'Field needs to be filled'
+        ];
+        if ($validator->fails() ) {      
+            $failedRules = $validator->failed();      
+            if(isset($failedRules['name']['Unique'])) {
+                return Redirect::back()->withErrors(['name' => $errorMessage['unique']]);
+            } else {
+                return Redirect::back()->withErrors(['org_id' => $errorMessage['required']]);
+            }
+        }
+        
         $project_id = $request->project_id;
         $role = Role::create([
             'name'=>$request->name.'_'.$request->org_id,

@@ -91,12 +91,24 @@ class UserController extends Controller
     public function store(Request $request)
     {    
        
-        $validator = Validator::make($request->all(),[
-            'phone' => 'unique:users'
-        ]);
+        $validator = Validator::make($request->all(), [
+            'phone' => 'unique:users',
+            'role_id' => 'required'
+        ]
+        );
+        $errorMessage =
+        [
+            'unique' => 'User is already registered on Mobile app',
+            'required' => 'The :attribute field is required.'
+        ];
 
-        if ($validator->fails()) {            
-            return Redirect::back()->withErrors(['User already exists with the given phone number']);
+        if ($validator->fails()) {   
+            $failedRules = $validator->failed();      
+            if(isset($failedRules['phone']['Unique'])) {
+                return Redirect::back()->withErrors(['phone' => $errorMessage['unique']]);
+            } else {
+                return Redirect::back()->withErrors(['role_id' => $errorMessage['required']]);
+            }         
         }
         $dob = $request->dob;
         $dobCarbonObj = new Carbon($dob);

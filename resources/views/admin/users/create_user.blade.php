@@ -56,13 +56,13 @@
                 <label class="col-md-3"  for="phone">{{ __('Phone Number') }}</label>
                 <div class="col-sm-6 mb-3 mb-sm-0">
                 <input id="phone" type="text" class="form-control form-control-user" name="phone" value="{{ old('phone') }}" required placeholder="Phone Number">
-                  @if ($errors->has('phone'))
+                  {{-- @if ($errors->has('phone'))
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $errors->first('phone') }}</strong>
                   </span>
-                  @endif
-                    @if ($errors->any())
-                        <b style="color:red">{{$errors->first()}}</b>
+                  @endif --}}
+                    @if ($errors->has('phone'))
+                        <b style="color:red">{{$errors->first('phone')}}</b>
                     @endif
                   </div>
                 </div>
@@ -112,7 +112,6 @@
                             <strong>{{ $errors->first('org_id') }}</strong>
                         </span>
                     @endif
-                 
                   </div>
                 </div>
                 <div class="form-group row">
@@ -121,11 +120,14 @@
                 
                     <select id="role_id"  class="form-control" name="role_id" required>
                     </select>
-                    @if ($errors->has('role_id'))
+                    {{-- @if ($errors->has('role_id'))
                       <span class="help-block">
                           <strong>{{ $errors->first('role_id') }}</strong>
                       </span>
-                    @endif  
+                    @endif   --}}
+                    @if ($errors->has('role_id'))   
+                    <b style="color:red">{{$errors->first('role_id')}}</b>
+                    @endif
                     
                     </div>
                 </div>

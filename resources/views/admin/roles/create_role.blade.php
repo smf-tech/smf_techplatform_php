@@ -20,6 +20,9 @@
                              <div class="form-group">
                                  <label for="name">Role Name</label>
                                  <input type="text" name="name" placeholder="Role Name"class="form-control"/>
+                                    @if ($errors->has('name'))
+                                        <b style="color:red">{{$errors->first('name')}}</b>
+                                    @endif
                              </div>
                              <div class="form-group">
                                     <label for="display_name">Display Name</label>
@@ -39,6 +42,9 @@
                                         <option value={{$org->id}}>{{strtoupper($org->name)}}</option>
                                     @endforeach 
                                 </select>
+                                    @if ($errors->has('org_id'))   
+                                        <b style="color:red">{{$errors->first('org_id')}}</b>
+                                    @endif
                                 <br/>
                                 <label for="projects">Projects</label>
                                 

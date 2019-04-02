@@ -27,7 +27,7 @@ $(document).on('change','#org_id',function(){
             $('#role_id') .find('option')
             .remove()
             .end()
-            $('#role_id').append('<option value=0 ></option>')
+            $('#role_id').append('<option value="" ></option>')
             obj.forEach(element => {
                 console.log(element.name+' '+element._id)
                 $('#role_id').append('<option value="'+ element._id +'">'+element.name+'</option>');
