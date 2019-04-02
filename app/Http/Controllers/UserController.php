@@ -62,10 +62,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $users=User::where('is_admin','<>',true)->get();
-        $organisations = Organisation::all();
+        $users=User::where('is_admin','<>',true)->get();
+        // $organisations = Organisation::all();
         
-        return view('admin.users.user_index',compact('organisations'));
+        // return view('admin.users.user_index',compact('organisations'));
+        return view('admin.users.user_index',compact('users'));
     }
 
     /**

@@ -39,10 +39,11 @@ class RoleController extends Controller
 
     public function index()
     {
-        // $roles=Role::all();
-        $organisations = Organisation::all();
+        $roles=Role::all();
+        // $organisations = Organisation::all();
 
-        return view('admin.roles.role_index',compact('organisations'));
+        // return view('admin.roles.role_index',compact('organisations'));
+        return view('admin.roles.role_index',compact('roles'));
     }
 
     /**
