@@ -119,7 +119,7 @@ class SurveyController extends Controller
         //Returns fields _id,primaryKeys,json of survey having survey id=$survey_id
         $survey = Survey::where('_id','=',$survey_id)->get(['form_keys','json','title_fields','pretext_title','posttext_title','separator']);
         //obtains only the primary keys from $survey as an array
-        $primaryKeySet = $survey[0]->form_keys;
+        $primaryKeySet = isset($survey[0]->form_keys) ?$survey[0]->form_keys:[];
 
         $title_fields = $survey[0]->title_fields;
         $pretext_title = $survey[0]->pretext_title;
