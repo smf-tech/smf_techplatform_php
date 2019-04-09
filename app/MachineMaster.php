@@ -31,7 +31,8 @@ class MachineMaster extends \Jenssegers\Mongodb\Eloquent\Model
         'diesel_tank_capacity_in_litres',
         'mou_id',
         'date_of_signing_contract',
-        'mou_cancellation'
+        'mou_cancellation',
+		'owned_by_bjs'
     ];
 
     public function state()
