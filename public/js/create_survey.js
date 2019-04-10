@@ -61,7 +61,7 @@ Survey.JsonObject.metaData.findProperty("Survey", "storeOthersAsComment").visibl
 Survey.JsonObject.metaData.findProperty("Survey", "triggers").visible = false;
 
 Survey.JsonObject.metaData.findProperty("question", "correctAnswer").visible = false;
-Survey.JsonObject.metaData.findProperty("question", "defaultValue").visible = false;
+//Survey.JsonObject.metaData.findProperty("question", "defaultValue").visible = false;
 Survey.JsonObject.metaData.findProperty("question", "indent").visible = false;
 //Survey.JsonObject.metaData.findProperty("question", "placeHolder").visible = false;
 Survey.JsonObject.metaData.findProperty("question", "startWithNewLine").visible = false;
