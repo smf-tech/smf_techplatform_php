@@ -23,9 +23,9 @@
                     <option value='' selected disabled hidden>--Please Select--</option>
                     @foreach($categories as $category)
                         @if($survey_details[1] == $category['_id'])
-                            <option value={{$category['_id']}} selected="selected">{{ $category['name'] }}</option>
+                            <option value={{$category['_id']}} selected="selected">{{ $category['name']['default'] }}</option>
                         @else
-                            <option value={{$category['_id']}}>{{ $category['name'] }}</option>
+                            <option value={{$category['_id']}}>{{ $category['name']['default'] }}</option>
                         @endif
                     @endforeach
                 </select>

@@ -77,7 +77,7 @@
                                 <select multiple="multiple" name="default_modules[]" id="default_modules">
                                 @foreach($modules as $module)
                                 @if (!empty($module['name']))
-                                        <option value="{{$module['_id']}}" @if(in_array($module['_id'],$role_default_modules)) selected='selected'  @endif>{{$module['name']}}</option>
+                                        <option value="{{$module['_id']}}" @if(in_array($module['_id'],$role_default_modules)) selected='selected'  @endif>{{$module['name']['default']}}</option>
                                 @endif
                                 @endforeach
                                 </select>
@@ -92,7 +92,7 @@
                                 <select multiple="multiple" name="on_approve[]" id="on_approve">
                                 @foreach($modules as $module)
                                 @if (!empty($module['name']))
-                                        <option value="{{$module['_id']}}" @if(in_array($module['_id'],$role_onapprove_modules)) selected='selected'  @endif>{{$module['name']}}</option>
+                                        <option value="{{$module['_id']}}" @if(in_array($module['_id'],$role_onapprove_modules)) selected='selected'  @endif>{{$module['name']['default']}}</option>
                                 @endif
                                 @endforeach
                                 </select>

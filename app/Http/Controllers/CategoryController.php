@@ -25,25 +25,23 @@ class CategoryController extends Controller
     public function create()
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
-
-        return view('admin.categories.create_category',compact('orgId'));
-      
+		$locale = config('locale');
+        return view('admin.categories.create_category',compact('orgId', 'locale'));
     }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'Name' => 'unique:categories,name',
-        ]);
-
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors(['Category already exists']);
-        }
-
         list($orgId, $dbName) = $this->connectTenantDatabase();
+		$this->validate(
+				$request,
+				[
+					'name.default' => 'required|unique:categories,name.default'
+				],
+				$this->messages()
+		);
 
         $category = new Category;
-        $category->name = $request->categoryName;
+        $category->name = $request->name;
         $category->type = $request->categoryType;
         $category->save();
 
@@ -53,10 +51,10 @@ class CategoryController extends Controller
     public function edit($category_id)
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
-
+		$locale = config('locale');
         $category = Category::find($category_id);
 
-       return view('admin.categories.edit',compact('orgId', 'category'));
+       return view('admin.categories.edit',compact('orgId', 'locale', 'category'));
     }
 
     /**
@@ -69,8 +67,15 @@ class CategoryController extends Controller
     public function update(Request $request, $category_id)
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
+		$this->validate(
+				$request,
+				[
+					'name.default' => 'required'
+				],
+				$this->messages()
+		);
         $category = Category::find($category_id);
-        $category->name=$request->Name;
+        $category->name=$request->name;
         $category->type = $request->categoryType;
         $category->save();
 
@@ -84,4 +89,12 @@ class CategoryController extends Controller
 
         return Redirect::back()->withMessage('Entity Deleted');
     }
+
+	public function messages()
+	{
+		return [
+			'name.default.required' => 'English locale name is required.',
+			'name.default.unique' => 'English locale name has already been taken.'
+		];
+	}
 }

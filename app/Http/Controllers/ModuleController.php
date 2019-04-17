@@ -29,8 +29,8 @@ class ModuleController extends Controller
     public function create()
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
-
-        return view('admin.modules.create', compact('orgId'));
+		$locale = config('locale');
+        return view('admin.modules.create', compact('orgId', 'locale'));
     }
 
     /**
@@ -42,10 +42,18 @@ class ModuleController extends Controller
     public function store(Request $request)
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
-
-        Module::create($request->validate([
-            'name' => 'required|unique:modules'
-        ]));
+		$this->validate(
+			$request,
+			[
+				'name.default' => 'required|unique:modules'
+			], [
+				'name.default.required' => 'English locale name is required.',
+				'name.default.unique' => 'English locale name has already been taken.'
+			]
+		);
+        $module = new Module;
+		$module->name = $request->name;
+		$module->save();
         return redirect()->route(
                     'modules.index',
                     ['orgId' => $orgId]
@@ -62,9 +70,9 @@ class ModuleController extends Controller
     public function edit($orgId, $module)
     {
         list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
-
+		$locale = config('locale');
         $module = Module::find($module);
-        return view('admin.modules.edit', compact('orgId', 'module'));
+        return view('admin.modules.edit', compact('orgId', 'locale', 'module'));
     }
 
     /**
@@ -78,8 +86,17 @@ class ModuleController extends Controller
     public function update(Request $request, $orgId, $module)
     {
         list($orgId, $dbName) = $this->connectTenantDatabase($orgId);
-
-        Module::find($module)->update($request->validate(['name' => 'required']));
+		$this->validate(
+			$request,
+			[
+				'name.default' => 'required'
+			], [
+				'name.default.required' => 'English locale name is required.'
+			]
+		);
+        $module = Module::find($module);
+		$module->name = $request->name;
+		$module->update();
         return redirect()->route(
                     'modules.index',
                     ['orgId' => $orgId]

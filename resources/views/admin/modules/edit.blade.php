@@ -12,13 +12,18 @@
                     <form action="{{route('modules.update', ['orgId' => $orgId, 'module' => $module->id])}}" method="POST">
                         @csrf
                         @method('PUT')
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" placeholder="Enter name here" class="form-control" value="{{ $module->name }}" />
-                            @if($errors->any())
-                                <b style="color:red">{{$errors->first()}}</b>
-                            @endif
-                        </div>
+                        <h4>Name</h4>
+						@foreach ($locale as $localeIdentifier => $localeLabel)
+						<div class="form-group ml-4">
+							<label for="{{$localeIdentifier}}">{{$localeLabel}}</label>
+							<input type="text" name="name[{{$localeIdentifier}}]" id="{{$localeIdentifier}}" class="form-control" value="{{$module->name[$localeIdentifier]}}"/>
+						</div>
+						@endforeach
+						@if ($errors->any())
+							 <div class="alert alert-danger">
+								 {{$errors->first()}}
+							 </div>
+						@endif
                         <input type="submit" class="btn btn-primary btn-user btn-block" value="Update"/>
                     </form>
 

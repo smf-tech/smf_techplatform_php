@@ -56,7 +56,7 @@
                         {{ is_array($survey->name) ? $survey->name['default'] : $survey->name }}
                     </td>
                     <td>
-                        {{ $survey->category['name'] }}
+                        {{ $survey->category['name']['default'] }}
                     </td>
                     <td>
                        {{ $survey->project['name'] }}

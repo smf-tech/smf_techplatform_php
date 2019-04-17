@@ -16,15 +16,20 @@
                     @endif
                     <h3>Create Category</h3>
                     <form action="{{route('category.store')}}" method="post">
-                           {{csrf_field()}}     
-                        <legend></legend>
-                             <div class="form-group">
-                                 <label for="categoryName">Name</label>
-                                 <input type="text" name="categoryName" placeholder="name of the category" class="form-control"/>
-                                 @if($errors->any())
-                                 <b style="color:red">{{$errors->first()}}</b>
-                                 @endif
-                             </div>      
+                           {{csrf_field()}}
+							<h4>Name</h4>
+							@foreach ($locale as $localeIdentifier => $localeLabel)
+							<div class="form-group ml-4">
+								<label for="{{$localeIdentifier}}">{{$localeLabel}}</label>
+								<input type="text" name="name[{{$localeIdentifier}}]" id="{{$localeIdentifier}}" class="form-control" value="{{old('name.'.$localeIdentifier)}}"/>
+							</div>
+							@endforeach
+							@if ($errors->any())
+								 <div class="alert alert-danger">
+									 {{$errors->first()}}
+								 </div>
+							@endif
+                                   
                              <div class="form-group">
                                     <label for="categoryType">Type</label>
                                     <select name="categoryType" class="form-control">

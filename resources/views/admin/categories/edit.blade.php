@@ -18,11 +18,18 @@
                         {!! Form::model($category, ['route' => [ 'category.update', $category->id ], 'method'=>'PUT', 'id' => 'entity-edit-form']) !!}
                         
                         {{csrf_field()}} 
-                        <legend></legend>                            
-                            <div class="form-group">
-                                <label for="Name">Name</label>
-                                <input type="text" name="Name" placeholder="Category name" value="{{$category->name}}" class="form-control"/>
-                            </div>
+						<h4>Name</h4>
+							@foreach ($locale as $localeIdentifier => $localeLabel)
+							<div class="form-group ml-4">
+								<label for="{{$localeIdentifier}}">{{$localeLabel}}</label>
+								<input type="text" name="name[{{$localeIdentifier}}]" id="{{$localeIdentifier}}" class="form-control" value="{{$category->name[$localeIdentifier]}}"/>
+							</div>
+							@endforeach
+							@if ($errors->any())
+								<div class="alert alert-danger">
+									{{$errors->first()}}
+								</div>
+							@endif
 
                             <div class="form-group">
                                     <label for="categoryType">Type</label>

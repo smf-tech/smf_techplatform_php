@@ -55,7 +55,7 @@
                             <td>{{$report->name}}</td>
                             <td>{{$report->description}}</td>
                             <td>{{$report->url}}</td>
-                            <td>{{ $report->category['name'] }}</td>
+                            <td>{{ $report->category['name']['default'] }}</td>
                             <td>@if ($report->active == 1)
                                     {{'Active'}}
                                 @else

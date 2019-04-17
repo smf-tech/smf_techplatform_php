@@ -20,7 +20,7 @@
 				<select id='cat_id' style="max-width:100%;">
 					<option value='' selected disabled hidden>--Please Select--</option>
 					@foreach($categories as $category)
-					<option value={{$category['_id']}}>{{ $category['name'] }}</option>
+					<option value={{$category['_id']}}>{{ $category['name']['default'] }}</option>
 					@endforeach
 				</select>
 			</div>

@@ -46,7 +46,7 @@
         <tbody>
             @forelse($categories as $category)
                 <tr>
-                    <td>{{$category->name}}</td>
+                    <td>{{$category->name['default']}}</td>
                     <td>{{$category->type}}</td>
                     <td> 
                         <div class="actions">

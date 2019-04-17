@@ -47,7 +47,7 @@
                         @forelse ($modules as $module)
                         <tr>
                             <td>{{ $module->id }}</td>
-                            <td>{{ $module->name }}</td>
+                            <td>{{ $module->name['default'] }}</td>
                             <td>
                                 <div class="actions">
                                     <div style="float:left !important;padding-left:5px;">
