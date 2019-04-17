@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Organisation;
 use App\Jurisdiction;
 use App\RoleJurisdiction;
+use App\Survey;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -166,15 +167,22 @@ class RoleController extends Controller
     public function destroy($id)
     {
         $role = Role::find($id);
-        // var_dump($role);exit;
-        if(isset($role->user_ids) && !empty($role->user_ids)) {
-            foreach($role->user_ids as $role_user_id_val) {
-                $user = User::find($role_user_id_val);
-                if($user !== null && $user->hasRole($role->name)) {
-                    $user->removeRole($role->name);
-                }
-            }
+        //validation check to see is users use the role
+        $users = User::where('role_id', '=', $id)->get();
+
+        if($users->count() > 0){
+            return redirect()->route('role.index')->with('error','Users are assigned to this role');
         }
+
+        $this->connectTenantDatabase($role->org_id);
+        $surveys = Survey::where('assigned_roles','=',$id)
+                           ->where('isDeleted','=',false)
+                           ->get();
+        if($surveys->count() > 0){
+            return redirect()->route('role.index')->with('error','Forms are assigned to this role');
+        }
+
+        $config = DB::collection('role_configs')->where('role_id', $id)->get();
         $role->delete();
         return redirect()->route('role.index')->with('message','Role Deleted Successfuly!');
     }

@@ -7,10 +7,15 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Roles</h1>
     <p class="mb-4">
-    @if (session('status'))
+    @if (session('message'))
         <div class="alert alert-success">
-            {{ session('status') }}
+            {{ session('message') }}
         </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
     @endif
     </p>
 
