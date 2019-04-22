@@ -59,6 +59,11 @@
                         <span>Categories</span>
                     </a>
                 </li>
+                <li class="nav-item {{ (request()->segment(2) == 'event-types' || request()->segment(2) == 'event-type' || request()->segment(1) == 'event-type' ) ? 'active' : '' }}">
+                    <a class="nav-link" href="/{{$orgId}}/event-types">
+                        <span>Event Types</span>
+                    </a>
+                </li>                
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <li class="nav-item {{ (request()->segment(2) == 'jurisdictions' || request()->segment(2) == 'jurisdiction' || request()->segment(1) == 'jurisdictions') ? 'active' : '' }}">

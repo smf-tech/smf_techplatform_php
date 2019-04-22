@@ -79,6 +79,10 @@ Route::group(
     Route::resource('category','CategoryController');
     Route::get('{orgId}/categories','CategoryController@index');
     Route::get('{orgId}/category/create','CategoryController@create');
+    
+    Route::resource('event-type','EventTypeController');
+    Route::get('{orgId}/event-types',['as'=>'event-types.index','uses'=>'EventTypeController@index']);
+    Route::get('{orgId}/event-type/create','EventTypeController@create');
 
     Route::resource('project','ProjectController');
     Route::get('{orgId}/projects','ProjectController@index');
