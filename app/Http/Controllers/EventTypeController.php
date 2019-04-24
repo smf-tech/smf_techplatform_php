@@ -43,8 +43,8 @@ class EventTypeController extends Controller
 
         $event_type = new EventType;
         $event_type->name = $request->name;
-        $event_type->associatedForms = $request->associatedForms;
         $event_type->save();
+        $event_type->surveys()->attach($request->associatedForms);
 
         return redirect()->route('event-types.index',$orgId)->withMessage('Event Type Created');
     }
@@ -77,7 +77,8 @@ class EventTypeController extends Controller
 		);
         $event_type = EventType::find($event_type_id);
         $event_type->name=$request->name;
-        $event_type->associatedForms = $request->associatedForms;
+        $event_type->surveys()->sync($request->associatedForms);
+        #$event_type->associatedForms = $request->associatedForms;
         $event_type->save();
 
         return redirect()->route('event-types.index',$orgId)->withMessage('Event Type Updated');
@@ -86,8 +87,9 @@ class EventTypeController extends Controller
     public function destroy($id)
     {
         list($orgId, $dbName) = $this->connectTenantDatabase();
-        EventType::find($id)->delete();
-
+        $event_type = EventType::find($id);
+        $event_type->surveys()->sync([]);
+        $event_type->delete();
         return Redirect::back()->withMessage('Event Type Deleted');
     }
 

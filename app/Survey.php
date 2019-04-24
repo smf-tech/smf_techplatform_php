@@ -37,4 +37,8 @@ class Survey extends \Jenssegers\Mongodb\Eloquent\Model
     {
         return $this->belongsTo('App\Entity');
     }
+    public function eventTypes()
+    {
+        return $this->belongsToMany('App\EventType');
+    }
 }
