@@ -182,11 +182,28 @@ $(document).on('change','#jurisdictionType',function(){
 
   } );
 
-  $('#deleteRow').click( function () {
-      
+  $('#deleteRow').click( function (e) {
+	  e.preventDefault();
       var rowData = table.row( '.selected' ).data();
-      table.row('.selected').remove().draw( false );
-      $('#locationIndex').append('<input type="hidden" name="idForDelete" value="'+rowData._id+'">');
-      
+	  if (typeof rowData === 'undefined') {
+		  return false;
+	  }
+
+		$.ajaxSetup({
+		   headers: {
+			   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		   }
+	   });
+      $.ajax({
+		  type: "POST",
+		  url: "/deleteLocation",
+		  data: {'id': rowData._id},
+		  success: function(data) {
+			  table.row('.selected').remove().draw( false );
+		  },
+		  error: function(data) {
+			  console.log(data);
+		  }
+	  });
   } );
 });

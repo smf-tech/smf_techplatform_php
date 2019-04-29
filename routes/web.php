@@ -120,6 +120,7 @@ Route::group(['middleware' => [CheckAuth::class]], function () {
     Route::get('/getDetailedLocation','LocationController@getDetailedLocation');
     Route::get('/getUsersOfOrganisation','UserController@getUsersOfOrganisation');
     Route::get('/getRolesOfOrganisation','RoleController@getRolesOfOrganisation');
+	Route::post('/deleteLocation', 'LocationController@deleteLocation');
 
 });
 

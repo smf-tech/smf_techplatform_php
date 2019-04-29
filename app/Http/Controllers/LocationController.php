@@ -95,14 +95,6 @@ class LocationController extends Controller
             // return redirect()->route('locations.index',['orgId' => $orgId]);
         }
 
-        if(isset($request->idForDelete)) {
-            Location::find($request->idForDelete)->delete();
-            return Redirect::back()->withMessage('Location was deleted!');
-
-            // session()->flash('status', 'Location was deleted!');
-            // return redirect()->route('locations.index',['orgId' => $orgId]);
-        }
-        
         // {"_token":"TwSVrsiRxuNmkAHta05xRGOFpSMjCtkvtVjsyhRA","jurisdiction_type_id":"5c418fe948b671040c000e36","createdBy":"5c1cb0ce48b67128f4002ea7","location_length":"10","state_id":"5c66989ec7982d31cc6b86c3","district_id":"5c669d72c7982d31cc6b86cf","taluka_id":"5c66a53cd42f283b440013e4"}
         Location::create($data);
         return Redirect::back()->withMessage('Location was created!');
@@ -110,5 +102,12 @@ class LocationController extends Controller
         // session()->flash('status', 'Location was created!');
         // return redirect()->route('locations.index',['orgId' => $orgId]);
     }
+
+	public function deleteLocation(Request $request)
+	{
+		$this->connectTenantDatabase();
+		Location::find($request->id)->delete();
+		json_encode(['status' => 'success']);
+	}
 
 }

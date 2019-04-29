@@ -54,7 +54,7 @@
                     
                         <!--<input type="submit" class="btn btn-primary btn-icon-split" value="Delete Selected Row" id="deleteRow"> -->
 
-                        <button onclick = "this.form.submit();" type="button" class="btn btn-primary btn-icon-split" id="deleteRow">
+                        <button type="button" class="btn btn-primary btn-icon-split" id="deleteRow">
                           <span class="icon text-white-50">
                           <i class="fas fa-trash"></i>
                           </span>
