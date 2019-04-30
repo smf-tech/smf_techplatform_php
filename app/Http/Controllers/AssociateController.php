@@ -93,7 +93,7 @@ class AssociateController extends Controller
 
         Associate::where('_id',$associateId)->update(['name'=>$request->name,'type'=>$request->type,'contact_person'=>$request->contact_person,'contact_number'=>$request->contact_number]);
 
-        return redirect()->route('associates.index',['orgId' => $orgId]);   
+        return redirect()->route('associates.index',['orgId' => $orgId])->withMessage('Associate Updated');;   
     }
 
     /**

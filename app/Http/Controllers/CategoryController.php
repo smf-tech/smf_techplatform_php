@@ -87,7 +87,7 @@ class CategoryController extends Controller
         list($orgId, $dbName) = $this->connectTenantDatabase();
         Category::find($id)->delete();
 
-        return Redirect::back()->withMessage('Entity Deleted');
+        return Redirect::back()->withMessage('Category Deleted');
     }
 
 	public function messages()

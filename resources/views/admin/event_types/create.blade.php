@@ -31,7 +31,7 @@
                                     <label for="assocForms">Forms</label>
                                     <select name="associatedForms[]" class="form-control" multiple="multiple">
                                             @foreach($forms as $form)
-                                            <option value="{{$form->id}}" >{{$form->name['default']}}</option>
+                                            <option value="{{$form->id}}" >@if(is_array($form->name)){{$form->name['default']}}@else{{$form->name}} @endif</option>
                                             @endforeach                                                                                                                                        
                                     </select>                                       
                                 </div>                        

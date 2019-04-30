@@ -7,12 +7,17 @@
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Categories</h1>
 <p class="mb-4">
-@if (session('status'))
-  <div class="alert alert-success">
-      {{ session('status') }}
-  </div>
-@endif
-</p>
+    @if (session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+    </p>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">

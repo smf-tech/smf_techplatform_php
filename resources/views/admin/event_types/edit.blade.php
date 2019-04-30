@@ -32,7 +32,7 @@
                                     <label for="assocForms">Forms</label>
                                     <select name="associatedForms[]" class="form-control" multiple="multiple">
                                             @foreach($forms as $form)
-                                            <option value="{{$form->id}}" @if(in_array($form->id,$event_type->survey_ids)) selected ="selected" @endif>{{$form->name['default']}}</option>
+                                            <option value="{{$form->id}}" @if(in_array($form->id,$event_type->survey_ids)) selected ="selected" @endif>@if(is_array($form->name)){{$form->name['default']}} @else {{$form->name}} @endif</option>
                                             @endforeach                                                                                                                                                
                                     </select>                                       
                             </div>   
