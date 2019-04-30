@@ -107,7 +107,7 @@ class LocationController extends Controller
 	{
 		$this->connectTenantDatabase();
 		Location::find($request->id)->delete();
-		json_encode(['status' => 'success']);
+		return json_encode(['status' => 'success']);
 	}
 
 }

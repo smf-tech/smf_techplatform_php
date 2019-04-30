@@ -199,10 +199,13 @@ $(document).on('change','#jurisdictionType',function(){
 		  url: "/deleteLocation",
 		  data: {'id': rowData._id},
 		  success: function(data) {
-			  table.row('.selected').remove().draw( false );
+			  var response = JSON.parse(data);
+			  if (response.status === 'success') {
+				  table.row('.selected').remove().draw( false );
+			  }
 		  },
-		  error: function(data) {
-			  console.log(data);
+		  error: function(jqXHR, textStatus, errorThrown) {
+			  console.log(errorThrown);
 		  }
 	  });
   } );
