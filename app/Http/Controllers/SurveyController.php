@@ -175,9 +175,8 @@ class SurveyController extends Controller
         $separator = is_null($request->input('separator'))?'':$request->input('separator');  
 
         list($orgId, $dbName) = $this->connectTenantDatabase();
-        if (!empty($primaryKeys)) {
-            DB::collection('surveys')->where('_id',$survey_id)->update(['form_keys'=>$primaryKeys]);
-        }
+        DB::collection('surveys')->where('_id',$survey_id)->update(['form_keys'=>$primaryKeys]);
+
 
         DB::collection('surveys')->where('_id',$survey_id)->update(['pretext_title'=>$pretext_title,
                                                                     'title_fields'=>$title_fields,
