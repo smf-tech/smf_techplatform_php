@@ -19,11 +19,14 @@
                             <legend></legend>
                             <div class="form-group">
                                  <label for="name">Name</label>
-                                 <input type="text" name="name" placeholder="name"class="form-control"/>
+                                 <input type="text" name="name" placeholder="name"class="form-control" value="{{old('name')}}"/>
                             </div>
+							@if($errors->any())
+								<b style="color:red">{{$errors->first()}}</b>
+							@endif
                             <div class="form-group">
                                 <label for="service">Service</label>
-                                 <input type="text" name="service" placeholder="service"class="form-control"/>
+                                 <input type="text" name="service" placeholder="service"class="form-control" value="{{old('service')}}"/>
                             </div>
                             <input type="submit" class="btn btn-primary btn-user btn-block"/>
                         </form>

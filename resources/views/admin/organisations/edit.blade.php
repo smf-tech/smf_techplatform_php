@@ -20,7 +20,7 @@
                         <legend></legend>
                              <div class="form-group">
                                  <label for="name">Name</label>
-                                 <input type="text" name="name" placeholder="name"class="form-control" value="{{$org->name}}"/>
+                                 <input type="text" name="name" placeholder="name"class="form-control" value="{{$org->name}}" disabled="disabled"/>
                              </div>
                             
                              <div class="form-group">

@@ -51,7 +51,10 @@ class OrganisationController extends Controller
      */
     public function store(Request $request)
     {
-        $org=Organisation::create($request->except(['_token']));
+        $org=Organisation::create($request->validate([
+			'name' => 'required|unique:organisations|max:38',
+			'service' => ''
+		]));
 
        try {
             list($orgId, $dbName) = $this->connectTenantDatabase($org);
@@ -181,7 +184,6 @@ public function getProjects()
     public function destroy($id)
     {   
         $org=Organisation::find($id);
-        $dbName = $org->name . '_' . $org->id;
         list($orgId, $dbName) = $this->connectTenantDatabase($id);
         Schema::dropAllTables();
         DB::setDefaultConnection('mongodb');
