@@ -44,7 +44,12 @@ class EventTypeController extends Controller
         $event_type = new EventType;
         $event_type->name = $request->name;
         $event_type->save();
-        $event_type->surveys()->attach($request->associatedForms);
+        if (isset($request->associatedForms)){
+            $event_type->surveys()->attach($request->associatedForms);
+        }else{
+            $event_type->survey_ids=[];
+            $event_type->save();
+        }
 
         return redirect()->route('event-types.index',$orgId)->withMessage('Event Type Created');
     }
